@@ -1,0 +1,16 @@
+/.vscode
+/node_modules
+/Complete versions
+/dist
+
+/src/pages/ApiKey.js
+
+/howToSign.txt
+
+/package.json
+/package-lock.json
+
+/weather_app.code-workspace
+
+/src-cordova
+/src-electron

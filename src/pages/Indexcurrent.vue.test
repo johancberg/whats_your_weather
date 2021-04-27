@@ -1,0 +1,195 @@
+<!--<template>
+  <q-page class="flex column" :class="bgClass">
+    <div class="col q-pt-lg q-px-md">
+      <q-input
+        v-model="search"
+        @keyup.enter="getWeatherBySearch"
+        placeholder="Search for a city"
+        dark
+        borderless
+      >
+        <template v-slot:before>
+          <q-icon
+            @click="getLocation"
+            name="my_location"
+          />
+        </template>
+
+        <template v-slot:append>
+          <q-btn
+          @click="getWeatherBySearch"
+          round
+          dense
+          flat
+          icon="search"
+        />
+        </template>
+      </q-input>
+    </div>
+
+    <template v-if="weatherData">
+    <div class="col text-white text-center">
+      <div class="text-h4 text-weight-light">
+        {{ weatherData.name }}, {{ weatherData.sys.country }}
+      </div>
+      <div class="text-h6 text-weight-light">
+        {{ weatherData.weather[0].main }}
+      </div>
+      <div class="text-h1 text-weight-thin q-my-lg relative-position">
+      <span>{{ Math.round(weatherData.main.temp) }}</span>
+      <span class="text-h4 relative-position degree">&deg;C</span>
+      </div>
+      <div><span class="text-h5 text-weight-light"> {{ time }}:00 </span></div>
+      <div>
+        <template v-if="weatherData.timezone < 0">
+        <span class="text-h7 text-weight-light">GMT {{ weatherData.timezone / 3600}}:00 </span>
+        </template>
+        <template v-else>
+        <span class="text-h7 text-weight-light"> GMT +{{ weatherData.timezone / 3600}}:00 </span>
+        </template>
+      </div>
+    </div>
+
+    <div class="col text-center">
+      <img :src="`https://openweathermap.org/img/wn/${weatherData.weather[0].icon }@2x.png`">
+    </div>
+    </template>
+
+    <template v-else>
+      <div class="col column text-center text-white">
+        <div class="col text-h2 text-weight-thin">
+          What's Your<br>Weather
+        </div>
+        <q-btn
+          @click="getLocation"
+          class="col"
+          flat=""
+        >
+          <q-icon left size="3em" name="my_location" />
+          <div>Find my location</div>
+        </q-btn>
+      </div>
+    </template>
+
+    <div class="col skyline"></div>
+  </q-page>
+</template>
+
+<script>
+export default {
+  name: 'WeatherApp',
+  data () {
+    return {
+      search: '',
+      weatherData: null,
+      lat: null,
+      lon: null,
+      time: null,
+      apiUrl: 'https://api.openweathermap.org/data/2.5/weather',
+      apiKey: '11f99448beb3efdaafea5c0de1ef999b'
+    }
+  },
+  computed: {
+    bgClass () {
+      if (this.weatherData) {
+        if (this.weatherData.weather[0].icon.endsWith('n')) {
+          return 'bg-night'
+        } else {
+          return 'bg-day'
+        }
+      }
+      return 0
+    }
+  },
+  methods: {
+    getLocation () {
+      this.$q.loading.show()
+      this.cond = this.$q.platform.is.electron
+      console.log('Test 0')
+      if (this.cond === true || this.cond !== undefined) {
+        this.$axios('https://freegeoip.app/json/').then(response => {
+          this.lat = response.data.latitude
+          this.lon = response.data.longitude
+          this.time = this.calculateTimezones(response.timestamp)
+          this.getWeatherByCoords()
+        })
+      } else {
+        navigator.geolocation.getCurrentPosition(position => {
+          console.log('position: ', position)
+          this.lat = position.coords.latitude
+          this.lon = position.coords.longitude
+          this.time = this.calculateTimezones(position.timestamp)
+          this.getWeatherByCoords()
+        })
+      }
+    },
+    getWeatherByCoords () {
+      this.$q.loading.show()
+      this.$axios(`${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`).then(response => {
+        this.weatherData = response.data
+      }).catch(error => {
+        this.$q.dialog({ title: 'Error', message: 'Sorry, something unexpected happened: ' + error })
+      })
+      this.$q.loading.hide()
+    },
+    getWeatherBySearch () {
+      this.$q.loading.show()
+      this.$axios(`${this.apiUrl}?q=${this.search}&appid=${this.apiKey}&units=metric`).then(response => {
+        this.weatherData = response.data
+        // TODO: Fix timestamp!
+      }).catch(error => {
+        this.$q.dialog({
+          title: 'Error',
+          message: 'Sorry, that location could not be found: ' + error
+        })
+      })
+      this.$q.loading.hide()
+    },
+    calculateTimezones (timestamp) {
+      const date = new Date(timestamp * 1000 / 1000)
+      const timestr = date.toLocaleTimeString()
+      const timearray = timestr.split(':')
+      return timearray[0]
+    }
+  }
+}
+</script>
+
+<style lang="sass">
+  .q-page
+    background: linear-gradient(to bottom, #2980b9, #2c3e50);
+    &.bg-day
+      background-image: linear-gradient(135deg, #0ed2f7, #00b4db, #0072ff)
+      background-size: 300%
+      transition: 1s ease
+      animation: 20s ease animation-day infinite alternate
+    &.bg-night
+      background: linear-gradient(-25deg, #232526, #414345, #2c5364);
+      background-size: 300%
+      transition: 1s ease
+      animation: 20s ease animation-day infinite alternate
+  .degree
+    top: -44px;
+  .skyline
+    flex: 0 0 80px;
+    background: url(../statics/skyline.png);
+    background-size: contain;
+    background-position: center bottom;
+
+  @keyframes animation-day
+    0%
+      background-position: left
+    50%
+      background-position: right
+    100%
+      background-position: left
+
+  @keyframes animation-night
+    0%
+      background-position: left
+    50%
+      background-position: right
+    100%
+      background-position: left
+</style>
+-->
