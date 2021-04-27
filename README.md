@@ -1,4 +1,4 @@
-# Weather application (weather_app)
+# Weather application (whats_your_weather)
 
 A Quasar Framework app
 
