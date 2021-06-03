@@ -40,31 +40,31 @@
     <template v-if="weatherData">
     <div class="col text-white text-center">
       <div class="text-h4 text-weight-light">
-        {{ weatherData.name }}, {{ weatherData.sys.country }}
+        {{ weatherData.name }}
       </div>
       <div class="text-h6 text-weight-light">
-        {{ weatherData.weather[0].main }}
+        {{ weatherData.current.weather[0].main }}
       </div>
       <div class="text-h1 text-weight-thin q-my-lg relative-position">
-      <span>{{ Math.round(weatherData.main.temp) }}</span>
+      <span>{{ Math.round(weatherData.current.temp) }}</span>
       <span class="text-h4 relative-position degree">&deg;C</span>
       </div>
-      <div><span class="text-h5 text-weight-light"> {{ setDestinedTimeFormat }} {{ getTimezone( 0 - (weatherData.timezone / 3600)) }} </span></div>
+      <div><span class="text-h5 text-weight-light"> {{ setDestinedTimeFormat }} {{ getTimezone( 0 - (weatherData.timezone_offset / 3600)) }} </span></div>
       <div>
-        <template v-if="weatherData.timezone < 0 && viewUTCActive">
-          <span class="text-h7 text-weight-light"> {{ setUTCTimeFormat }} GMT {{ weatherData.timezone / 3600}}:00 </span>
+        <template v-if="weatherData.timezone_offset < 0 && viewUTCActive">
+          <span class="text-h7 text-weight-light"> {{ setUTCTimeFormat }} GMT {{ weatherData.timezone_offset / 3600}}:00 </span>
         </template>
-        <template v-else-if="weatherData.timezone > 0 && viewUTCActive">
-          <span class="text-h7 text-weight-light"> {{ setUTCTimeFormat }} GMT +{{ weatherData.timezone / 3600}}:00 </span>
+        <template v-else-if="weatherData.timezone_offset > 0 && viewUTCActive">
+          <span class="text-h7 text-weight-light"> {{ setUTCTimeFormat }} GMT +{{ weatherData.timezone_offset / 3600}}:00 </span>
         </template>
-        <div v-if="(new Date().getTimezoneOffset() / 60) != (0 - (weatherData.timezone / 3600)) && time && viewLocalActive">
+        <div v-if="(new Date().getTimezoneOffset() / 60) != (0 - (weatherData.timezone_offset / 3600)) && time && viewLocalActive">
           <span class="text-h7 text-weight-light"> {{ setTimeFormat }} {{ getTimezone(new Date().getTimezoneOffset() / 60) }} </span>
         </div>
       </div>
     </div>
 
     <div class="col text-center">
-      <img :src="`https://openweathermap.org/img/wn/${weatherData.weather[0].icon }@2x.png`">
+      <img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon }@2x.png`">
     </div>
     </template>
     <div class="col skyline"></div>
@@ -84,8 +84,8 @@ export default {
       lat: null,
       lon: null,
       time: null,
-      apiUrl: 'https://api.openweathermap.org/data/2.5/weather',
-      apiKey: returnApiKey // Stored in a secret file
+      apiUrl: 'https://api.openweathermap.org/data/2.5/onecall',
+      apiKey: returnApiKey
     }
   },
   // beforeCreate () {
@@ -96,9 +96,9 @@ export default {
     bgClass () {
       let className = ''
       if (this.weatherData && this.graphics.AN1.active) {
-        const timezone = this.weatherData.timezone / 3600
-        const sunsetTime = new Date(this.weatherData.sys.sunset * 1000)
-        const sunriseTime = new Date(this.weatherData.sys.sunrise * 1000)
+        const timezone = this.weatherData.timezone_offset / 3600
+        const sunsetTime = new Date(this.weatherData.current.sunset * 1000)
+        const sunriseTime = new Date(this.weatherData.current.sunrise * 1000)
         const currentTime = new Date()
         const currentHour = ((currentTime.getUTCHours() + timezone) % 24 + 24) % 24
         const sunsetHour = ((sunsetTime.getUTCHours() + timezone) % 24 + 24) % 24
@@ -107,9 +107,9 @@ export default {
           className += 'bg-sunset'
         } else if (Math.abs(sunriseHour - currentHour) <= 1) {
           className += 'bg-sunrise'
-        } else if (this.weatherData.weather[0].icon.endsWith('n')) {
+        } else if (this.weatherData.current.weather[0].icon.endsWith('n')) {
           className += 'bg-night'
-        } else if (this.weatherData.weather[0].main === 'Rain') {
+        } else if (this.weatherData.current.weather[0].main === 'Rain') {
           className += 'bg-rain'
         } else {
           className += 'bg-day'
@@ -153,9 +153,9 @@ export default {
       let str1 = (parseInt(str.slice(0, 2)))
       const str2 = str.slice(2)
       if (this.general.GD1.active) {
-        str1 = (str1 + (this.weatherData.timezone / 3600)) % 12
+        str1 = (str1 + (this.weatherData.timezone_offset / 3600)) % 12
       } else {
-        str1 = (str1 + (this.weatherData.timezone / 3600)) % 24
+        str1 = (str1 + (this.weatherData.timezone_offset / 3600)) % 24
       }
       if (str1.toString().length > 1) {
         return (str1.toString() + str2)
@@ -234,18 +234,16 @@ export default {
       }
     },
     exeWeather () {
-      if (this.getWeather === undefined) {
-        this.getLocation()
-      } else {
-        this.weatherData = this.getWeather
-      }
+      // if (this.getWeather === undefined) {
+      this.getLocation()
+      // } else {
+      //  this.weatherData = this.getWeather
+      // }
     },
     stdTimeZoneOffset () {
       const fullYear = new Date().getFullYear()
       const jan = new Date(fullYear, 0, 1)
       const jul = new Date(fullYear, 6, 1)
-      console.log(jan)
-      console.log(jul)
       return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset())
     },
     getDST () {
@@ -273,6 +271,7 @@ export default {
     getWeatherByCoords () {
       this.$q.loading.show()
       this.$axios(`${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`).then(response => {
+        console.log(response)
         this.weatherData = response.data
         this.switchWeather({ updates: { weatherStorage: this.weatherData } })
       }).catch(error => {
