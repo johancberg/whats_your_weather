@@ -37,10 +37,10 @@
       </q-input>
     </div>
 
-    <template v-if="weatherData">
+    <template v-if="weatherData && cityData">
     <div class="col text-white text-center">
       <div class="text-h4 text-weight-light">
-        {{ weatherData.name }}
+        {{ cityData.name }}, {{ cityData.country }}
       </div>
       <div class="text-h6 text-weight-light">
         {{ weatherData.current.weather[0].main }}
@@ -81,10 +81,12 @@ export default {
     return {
       search: '',
       weatherData: this.exeWeather(),
+      cityData: null,
       lat: null,
       lon: null,
       time: null,
       apiUrl: 'https://api.openweathermap.org/data/2.5/onecall',
+      cityUrl: 'https://api.openweathermap.org/geo/1.0/reverse',
       apiKey: returnApiKey
     }
   },
@@ -268,11 +270,20 @@ export default {
         })
       }
     },
+    getCityData () {
+      this.$axios(`${this.cityUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}`).then(response => {
+        console.log(response.data[0])
+        this.cityData = response.data[0]
+      }).catch(error => {
+        this.$q.dialog({ title: 'Error', message: 'The inserted location could not be found: ' + error })
+      })
+    },
     getWeatherByCoords () {
       this.$q.loading.show()
       this.$axios(`${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`).then(response => {
         console.log(response)
         this.weatherData = response.data
+        this.getCityData()
         this.switchWeather({ updates: { weatherStorage: this.weatherData } })
       }).catch(error => {
         this.$q.dialog({ title: 'Error', message: 'Something unexpected happened: ' + error })
@@ -281,8 +292,10 @@ export default {
     },
     getWeatherBySearch () {
       this.$q.loading.show()
-      this.$axios(`${this.apiUrl}?q=${this.search}&appid=${this.apiKey}&units=metric`).then(response => {
-        this.weatherData = response.data
+      this.$axios(`https://api.openweathermap.org/geo/1.0/direct?q=${this.search}&appid=${this.apiKey}&units=metric`).then(response => {
+        this.lat = response.data[0].lat
+        this.lon = response.data[0].lon
+        this.getWeatherByCoords()
         this.switchWeather({ updates: { weatherStorage: this.weatherData } })
       }).catch(error => {
         this.$q.dialog({ title: 'Error', message: 'The inserted location could not be found: ' + error })
