@@ -302,9 +302,9 @@ export default {
 <style lang="sass">
   .q-page
     &.blue
-      background: linear-gradient(to bottom, #2980b9, #2c3e50);
+      background: linear-gradient(to bottom, #2980b9, #2c3e50)
     &.maroon
-      background: linear-gradient(to bottom, #b00a0a, #431f11);
+      background: linear-gradient(to bottom, #b00a0a, #431f11)
     &.bg-day
       background: linear-gradient(135deg, #0ed2f7, #00b4db, #0072ff)
       background-size: 300%
@@ -312,38 +312,38 @@ export default {
       &.bg-animation
         animation: 20s ease animation-bg infinite alternate
     &.bg-sunset
-      background: linear-gradient(135deg, rgb(247,81,255) 0%, rgb(255,209,24) 65%, rgb(255,159,80)100%);
+      background: linear-gradient(135deg, rgb(247,81,255) 0%, rgb(255,209,24) 65%, rgb(255,159,80)100%)
       background-size: 300%
       transition: 1s ease
       &.bg-animation
         animation: 20s ease animation-bg infinite alternate
     &.bg-sunrise
-      background: linear-gradient(155deg, rgba(82,216,255,1) 0%, rgba(150,254,255,1) 50%, rgba(242,255,105,1) 100%);
+      background: linear-gradient(155deg, rgba(82,216,255,1) 0%, rgba(150,254,255,1) 50%, rgba(242,255,105,1) 100%)
       background-size: 300%
       transition: 1s ease
       &.bg-animation
         animation: 20s ease animation-bg infinite alternate
     &.bg-rain
-      background: linear-gradient(135deg, rgba(139,164,168,1) 0%, rgba(50,126,144,1) 65%, rgba(0,131,176,1) 100%);
+      background: linear-gradient(135deg, rgba(139,164,168,1) 0%, rgba(50,126,144,1) 65%, rgba(0,131,176,1) 100%)
       background-size: 300%
       transition: 1s ease
       &.bg-animation
         animation: 20s ease animation-bg infinite alternate
     &.bg-night
-      background: linear-gradient(-25deg, #232526, #414345, #2c5364);
+      background: linear-gradient(-25deg, #232526, #414345, #2c5364)
       background-size: 300%
       transition: 1s ease
       &.bg-animation
         animation: 20s ease animation-bg infinite alternate
   .degree
-    top: -44px;
+    top: -44px
   .skyline
-    flex: 0 0 80px;
-    background: url(../statics/skyline.png);
-    background-size: contain;
-    background-position: center bottom;
+    flex: 0 0 80px
+    background: url(../statics/skyline.png)
+    background-size: contain
+    background-position: center bottom
   .settings-content
-    background-color: white;
+    background-color: white
 
   @keyframes animation-bg
     0%

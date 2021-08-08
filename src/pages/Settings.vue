@@ -75,21 +75,21 @@ export default {
 </script>
 <style lang="sass">
   .q-page
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    min-height: 100vh
+    display: flex
+    flex-direction: column
     &.blue
-      background: linear-gradient(to bottom, #2980b9, #2c3e50);
+      background: linear-gradient(to bottom, #2980b9, #2c3e50)
     &.maroon
-      background: linear-gradient(to bottom, #b00a0a, #431f11);
+      background: linear-gradient(to bottom, #b00a0a, #431f11)
   .degree
-    top: -44px;
+    top: -44px
   .skyline
-    flex: auto;
-    background: url(../statics/skyline.png);
-    background-size: contain;
-    background-repeat-y: no-repeat;
-    background-position: center bottom;
+    flex: auto
+    background: url(../statics/skyline.png)
+    background-size: contain
+    background-repeat-y: no-repeat
+    background-position: center bottom
     margin-top: auto
   .settings-content
     background-color: white
