@@ -49,7 +49,7 @@
       <span>{{ Math.round(weatherData.current.temp) }}</span>
       <span class="text-h4 relative-position degree">&deg;C</span>
       </div>
-      <div><span class="text-h5 text-weight-light"> {{ setDestinedTimeFormat }} {{ getTimezone( 0 - (weatherData.timezone_offset / 3600)) }} </span></div>
+      <div><span class="text-h5 text-weight-light"> {{ setDestinedTimeFormat(0) }} {{ getTimezone( 0 - (weatherData.timezone_offset / 3600)) }} </span></div>
       <div>
         <template v-if="weatherData.timezone_offset < 0 && viewUTCActive">
           <span class="text-h7 text-weight-light"> {{ setUTCTimeFormat }} GMT {{ weatherData.timezone_offset / 3600}}:00 </span>
@@ -63,12 +63,17 @@
       </div>
     </div>
 
-    <div class="col text-center">
+    <div class="text-center">
       <img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon }@2x.png`">
     </div>
 
-    <div class="col text-center" v-for="(hourData, hourIndex) in weatherData.hourly" :key="hourIndex">
-      <span>{{ setDestinedTimeFormat }}  {{ Math.round(hourData.temp) }} &deg;C</span>
+    <div class="col text-center hour-content">
+      <div v-for="i in 12" :key="i" class="hour-outer">
+        <div class="text-white text-weight-light hour-inner">
+        <span class="text-weight-bold">{{ Math.round(weatherData.hourly[i].temp) }} &deg;C</span>
+        <span>{{ setDestinedTimeFormat(i) }}</span>
+        </div>
+      </div>
     </div>
     </template>
     <div class="col skyline"></div>
@@ -154,24 +159,9 @@ export default {
         return ('0' + str1.toString() + str2)
       }
     },
-    setDestinedTimeFormat () {
-      const str = this.setUTCTimeFormat
-      let str1 = (parseInt(str.slice(0, 2)))
-      const str2 = str.slice(2)
-      if (this.general.GD1.active) {
-        str1 = (str1 + (this.weatherData.timezone_offset / 3600)) % 12
-      } else {
-        str1 = (str1 + (this.weatherData.timezone_offset / 3600)) % 24
-      }
-      if (str1.toString().length > 1) {
-        return (str1.toString() + str2)
-      } else {
-        return ('0' + str1.toString() + str2)
-      }
-    },
     getAMPM () {
       if (this.general.GD1.active) {
-        if (((this.setDestinedTimeFormat + this.weatherData.timezone / 3600) % 24) < 12) {
+        if (((this.setDestinedTimeFormat(0) + this.weatherData.timezone / 3600) % 24) < 12) {
           return 'AM'
         } else {
           return 'PM'
@@ -188,6 +178,21 @@ export default {
   },
   methods: {
     ...mapActions('data', ['switchWeather']),
+    setDestinedTimeFormat (hour) {
+      const str = this.setUTCTimeFormat
+      let str1 = (parseInt(str.slice(0, 2)))
+      const str2 = str.slice(2)
+      if (this.general.GD1.active) {
+        str1 = (str1 + hour + (this.weatherData.timezone_offset / 3600)) % 12
+      } else {
+        str1 = (str1 + hour + (this.weatherData.timezone_offset / 3600)) % 24
+      }
+      if (str1.toString().length > 1) {
+        return (str1.toString() + str2)
+      } else {
+        return ('0' + str1.toString() + str2)
+      }
+    },
     getTimezone (localTimezone) {
       const isDST = this.getDST() ? 1 : 0
       const timezone = localTimezone + isDST
@@ -361,6 +366,16 @@ export default {
     background-position: center bottom
   .settings-content
     background-color: white
+  .hour-content
+    display: flex
+    justify-content: space-evenly
+  .hour-outer
+    display: flex
+    flex-direction: row
+  .hour-inner
+    display: flex
+    flex-direction: column
+    justify-content: space-evenly
 
   @keyframes animation-bg
     0%
