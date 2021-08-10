@@ -38,14 +38,14 @@
     </div>
 
     <template v-if="weatherData && cityData">
-    <div class="col text-white text-center">
+    <div class="text-white text-center">
       <div class="text-h4 text-weight-light">
         {{ cityData.name }}, {{ cityData.country }}
       </div>
       <div class="text-h6 text-weight-light">
         {{ weatherData.current.weather[0].main }}
       </div>
-      <div class="text-h1 text-weight-thin q-my-lg relative-position">
+      <div class="text-h1 text-weight-thin q-my-md relative-position">
       <span>{{ Math.round(weatherData.current.temp) }}</span>
       <span class="text-h4 relative-position degree">&deg;C</span>
       </div>
@@ -65,6 +65,10 @@
 
     <div class="col text-center">
       <img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon }@2x.png`">
+    </div>
+
+    <div class="col text-center" v-for="(hourData, hourIndex) in weatherData.hourly" :key="hourIndex">
+      <span>{{ setDestinedTimeFormat }}  {{ Math.round(hourData.temp) }} &deg;C</span>
     </div>
     </template>
     <div class="col skyline"></div>
