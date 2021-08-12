@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex column" :class="bgClass">
+  <q-page v-if="!twentyFourPage" class="flex column" :class="bgClass">
     <div class="col q-pt-lg q-px-md">
       <q-input
         v-model="search"
@@ -66,6 +66,55 @@
     <div class="text-center">
       <img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon }@2x.png`">
     </div>
+  </template>
+        <q-btn
+          class="col"
+          v-on:click="twentyFourPage=true"
+          flat=""
+        >
+          <q-icon left size="3em" name="cloud_queue" />
+          <div>24 hours</div>
+        </q-btn>
+    <div class="col skyline"></div>
+  </q-page>
+
+  <q-page v-else  class="flex column" :class="bgClass">
+    <div class="col q-pt-lg q-px-md">
+      <q-input
+        v-model="search"
+        @keyup.enter="getWeatherBySearch"
+        placeholder="Search for a city"
+        dark
+        borderless
+      >
+        <template v-slot:before>
+          <q-btn
+            round
+            dense
+            flat
+            @click="getLocation"
+            icon="my_location"
+          />
+        </template>
+
+        <template v-slot:append>
+          <q-btn v-if="search"
+          @click="getWeatherBySearch"
+          round
+          dense
+          flat
+          icon="search"
+        />
+          <q-btn v-if="weatherData"
+          to="/settings"
+          round
+          dense
+          flat
+          icon="settings"
+          />
+        </template>
+      </q-input>
+    </div>
 
     <div class="col text-center hour-content">
       <div v-for="i in 12" :key="i" class="hour-outer">
@@ -75,7 +124,15 @@
         </div>
       </div>
     </div>
-    </template>
+    <q-btn
+      class="col"
+      v-on:click="twentyFourPage=false"
+      flat=""
+    >
+    <q-icon left size="3em" name="cloud_queue" />
+    <div>To main page</div>
+  </q-btn>
+
     <div class="col skyline"></div>
   </q-page>
 </template>
@@ -88,6 +145,7 @@ export default {
   name: 'WeatherApp',
   data () {
     return {
+      twentyFourPage: false,
       search: '',
       weatherData: this.exeWeather(),
       cityData: null,
