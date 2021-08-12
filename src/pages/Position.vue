@@ -1,41 +1,6 @@
 <template>
   <q-page v-if="!twentyFourPage" class="flex column" :class="bgClass">
-    <div class="col q-pt-lg q-px-md">
-      <q-input
-        v-model="search"
-        @keyup.enter="getWeatherBySearch"
-        placeholder="Search for a city"
-        dark
-        borderless
-      >
-        <template v-slot:before>
-          <q-btn
-            round
-            dense
-            flat
-            @click="getLocation"
-            icon="my_location"
-          />
-        </template>
-
-        <template v-slot:append>
-          <q-btn v-if="search"
-          @click="getWeatherBySearch"
-          round
-          dense
-          flat
-          icon="search"
-        />
-          <q-btn v-if="weatherData"
-          to="/settings"
-          round
-          dense
-          flat
-          icon="settings"
-          />
-        </template>
-      </q-input>
-    </div>
+    <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
     <template v-if="weatherData && cityData">
     <div class="text-white text-center">
@@ -79,42 +44,7 @@
   </q-page>
 
   <q-page v-else  class="flex column" :class="bgClass">
-    <div class="col q-pt-lg q-px-md">
-      <q-input
-        v-model="search"
-        @keyup.enter="getWeatherBySearch"
-        placeholder="Search for a city"
-        dark
-        borderless
-      >
-        <template v-slot:before>
-          <q-btn
-            round
-            dense
-            flat
-            @click="getLocation"
-            icon="my_location"
-          />
-        </template>
-
-        <template v-slot:append>
-          <q-btn v-if="search"
-          @click="getWeatherBySearch"
-          round
-          dense
-          flat
-          icon="search"
-        />
-          <q-btn v-if="weatherData"
-          to="/settings"
-          round
-          dense
-          flat
-          icon="settings"
-          />
-        </template>
-      </q-input>
-    </div>
+    <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
     <div class="col text-center hour-content">
       <div v-for="i in 12" :key="i" class="hour-outer">
@@ -138,6 +68,7 @@
 </template>
 
 <script>
+import Header from 'components/Header.vue'
 import { date } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { returnApiKey } from './ApiKey'
@@ -146,7 +77,6 @@ export default {
   data () {
     return {
       twentyFourPage: false,
-      search: '',
       weatherData: this.exeWeather(),
       cityData: null,
       lat: null,
@@ -157,9 +87,9 @@ export default {
       apiKey: returnApiKey
     }
   },
-  // beforeCreate () {
-  //  this.weatherData = exeWeather()
-  // },
+  components: {
+    Header
+  },
   computed: {
     ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather']),
     bgClass () {
@@ -357,9 +287,9 @@ export default {
       })
       this.$q.loading.hide()
     },
-    getWeatherBySearch () {
+    getWeatherBySearch (search) {
       this.$q.loading.show()
-      this.$axios(`https://api.openweathermap.org/geo/1.0/direct?q=${this.search}&appid=${this.apiKey}&units=metric`).then(response => {
+      this.$axios(`https://api.openweathermap.org/geo/1.0/direct?q=${search}&appid=${this.apiKey}&units=metric`).then(response => {
         this.lat = response.data[0].lat
         this.lon = response.data[0].lon
         this.getWeatherByCoords()
