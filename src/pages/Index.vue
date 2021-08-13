@@ -1,39 +1,6 @@
 <template>
   <q-page class="flex column" :class="bgClass">
-    <div class="col q-pt-lg q-px-md">
-      <q-input
-        v-model="search"
-        placeholder="Search for a city"
-        dark
-        borderless
-      >
-        <template v-slot:before>
-          <q-btn
-            round
-            dense
-            flat
-            to="/position"
-            icon="my_location"
-          />
-        </template>
-
-        <template v-slot:append>
-          <q-btn v-if="search"
-          round
-          dense
-          flat
-          icon="search"
-        />
-          <q-btn v-if="weatherData"
-          to="/settings"
-          round
-          dense
-          flat
-          icon="settings"
-          />
-        </template>
-      </q-input>
-    </div>
+    <Header :weatherData="weatherData" :route="route" @getLocation="getLocation"/>
 
     <template>
       <div class="col column text-center text-white">
@@ -57,18 +24,18 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import Header from 'components/Header.vue'
 export default {
   name: 'WeatherApp',
   data () {
     return {
       search: '',
       weatherData: null,
-      lat: null,
-      lon: null,
-      time: null,
-      apiUrl: 'https://api.openweathermap.org/data/2.5/weather',
-      apiKey: '11f99448beb3efdaafea5c0de1ef999b'
+      route: 'index'
     }
+  },
+  components: {
+    Header
   },
   computed: {
     ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather']),
@@ -84,6 +51,9 @@ export default {
         className = 'blue'
       }
       return className
+    },
+    getLocation () {
+      return 0
     }
   }
 }

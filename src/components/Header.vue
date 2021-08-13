@@ -8,13 +8,21 @@
       borderless
     >
       <template v-slot:before>
-        <q-btn
+        <q-btn v-if="checkRoute"
+          round
+          dense
+          flat
+          to="/position"
+          icon="my_location"
+        />
+        <q-btn v-else
           round
           dense
           flat
           @click="getLocation"
           icon="my_location"
         />
+
       </template>
 
       <template v-slot:append>
@@ -45,7 +53,13 @@ export default {
     }
   },
   props: {
-    weatherData: Object
+    weatherData: Object,
+    route: String
+  },
+  computed: {
+    checkRoute () {
+      return this.route === 'index'
+    }
   },
   methods: {
     getWeatherBySearch () {
