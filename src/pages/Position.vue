@@ -2,12 +2,12 @@
   <q-page v-if="page.twentyFourHours"  class="flex column" :class="bgClass">
     <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
-    <div class="text-white text-center">
+    <div class="text-white text-center q-mb-lg">
       <div class="text-h4 text-weight-light">
         {{ cityData.name }}, {{ cityData.country }}
       </div>
     </div>
-    <div class="col text-center hour-content">
+    <div class="text-center hour-content">
       <div v-for="i in 12" :key="i" class="hour-outer">
         <div class="text-white text-weight-light hour-inner">
           <div class="hour-time">
@@ -26,8 +26,10 @@
       v-on:click="page.twentyFourHours=false"
       flat=""
     >
-    <q-icon left size="3em" name="cloud_queue" />
-    <div>To main page</div>
+    <div class="hour-inner">
+      <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+      <div class="text-white">To main page</div>
+    </div>
   </q-btn>
 
     <div class="col skyline"></div>
@@ -36,17 +38,18 @@
     <q-page v-else-if="page.sevenDays"  class="flex column" :class="bgClass">
     <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
-    <div class="text-white text-center">
+    <div class="text-white text-center q-mb-lg">
       <div class="text-h4 text-weight-light">
         {{ cityData.name }}, {{ cityData.country }}
       </div>
     </div>
-    <div class="col text-center hour-content">
+    <div class="text-center hour-content">
       <div v-for="i in 7" :key="i" class="hour-outer">
         <div class="text-white text-weight-light hour-inner">
           <div class="hour-time">
-          <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.daily[i].weather[0].icon }@2x.png`">
-          <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.day) }} &deg;C</span>
+            <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.daily[i].weather[0].icon }@2x.png`">
+            <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.max) }} &deg;C</span>
+            <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.min) }} &deg;C</span>
           </div>
           <div class="hour-time">
             <span>{{ getDateName(i) }}</span>
@@ -60,8 +63,10 @@
       v-on:click="page.sevenDays=false"
       flat=""
     >
-    <q-icon left size="3em" name="cloud_queue" />
-    <div>To main page</div>
+    <div class="hour-inner">
+      <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+      <div class="text-white">To main page</div>
+    </div>
   </q-btn>
 
     <div class="col skyline"></div>
@@ -106,16 +111,20 @@
           v-on:click="page.twentyFourHours=true"
           flat=""
         >
-          <q-icon left size="3em" name="cloud_queue" />
-          <div>24 hours</div>
+          <div class="hour-inner">
+            <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+            <div class="text-white">24 hours</div>
+          </div>
         </q-btn>
         <q-btn
           class="col"
           v-on:click="page.sevenDays=true"
           flat=""
         >
-          <q-icon left size="3em" name="cloud_queue" />
-          <div>10 days</div>
+          <div class="hour-inner">
+            <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+            <div class="text-white">10 days</div>
+          </div>
         </q-btn>
     </div>
     <div class="col skyline"></div>
@@ -417,6 +426,7 @@ export default {
   .settings-content
     background-color: white
   .hour-content
+    height: 12em
     display: flex
     justify-content: space-evenly
   .hour-outer
@@ -432,6 +442,8 @@ export default {
   .hour-icon
     width: 4em
     height: 4em
+  .icon-auto
+    margin: 0 auto
 
   @keyframes animation-bg
     0%
