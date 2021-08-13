@@ -46,11 +46,22 @@
   <q-page v-else  class="flex column" :class="bgClass">
     <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
+    <div class="text-white text-center">
+      <div class="text-h4 text-weight-light">
+        {{ cityData.name }}, {{ cityData.country }}
+      </div>
+    </div>
     <div class="col text-center hour-content">
       <div v-for="i in 12" :key="i" class="hour-outer">
         <div class="text-white text-weight-light hour-inner">
-        <span class="text-weight-bold">{{ Math.round(weatherData.hourly[i].temp) }} &deg;C</span>
-        <span>{{ setDestinedTimeFormat(i) }}</span>
+          <div class="hour-time">
+          <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon }@2x.png`">
+          <span class="text-weight-bold">{{ Math.round(weatherData.hourly[i].temp) }} &deg;C</span>
+          </div>
+          <div class="hour-time">
+            <span>{{ setDestinedTimeFormat(i) }}</span>
+            <span>{{ getTimezone( 0 - (weatherData.timezone_offset / 3600)) }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -364,6 +375,12 @@ export default {
     display: flex
     flex-direction: column
     justify-content: space-evenly
+  .hour-time
+    display: flex
+    flex-direction: column
+  .hour-icon
+    width: 4em
+    height: 4em
 
   @keyframes animation-bg
     0%
