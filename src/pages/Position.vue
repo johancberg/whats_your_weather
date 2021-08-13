@@ -33,7 +33,7 @@
     <div class="col skyline"></div>
   </q-page>
 
-    <q-page v-else-if="page.tenDays"  class="flex column" :class="bgClass">
+    <q-page v-else-if="page.sevenDays"  class="flex column" :class="bgClass">
     <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
     <div class="text-white text-center">
@@ -57,7 +57,7 @@
     </div>
     <q-btn
       class="col"
-      v-on:click="page.twentyFourHours=false"
+      v-on:click="page.sevenDays=false"
       flat=""
     >
     <q-icon left size="3em" name="cloud_queue" />
@@ -111,7 +111,7 @@
         </q-btn>
         <q-btn
           class="col"
-          v-on:click="page.tenDays=true"
+          v-on:click="page.sevenDays=true"
           flat=""
         >
           <q-icon left size="3em" name="cloud_queue" />
@@ -131,7 +131,7 @@ export default {
   name: 'WeatherApp',
   data () {
     return {
-      page: { twentyFourHours: false, tenDays: false },
+      page: { twentyFourHours: false, sevenDays: false },
       weatherData: this.exeWeather(),
       cityData: null,
       lat: null,
