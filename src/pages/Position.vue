@@ -1,5 +1,73 @@
 <template>
-  <q-page v-if="!twentyFourPage" class="flex column" :class="bgClass">
+  <q-page v-if="page.twentyFourHours"  class="flex column" :class="bgClass">
+    <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
+
+    <div class="text-white text-center">
+      <div class="text-h4 text-weight-light">
+        {{ cityData.name }}, {{ cityData.country }}
+      </div>
+    </div>
+    <div class="col text-center hour-content">
+      <div v-for="i in 12" :key="i" class="hour-outer">
+        <div class="text-white text-weight-light hour-inner">
+          <div class="hour-time">
+          <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon }@2x.png`">
+          <span class="text-weight-bold">{{ Math.round(weatherData.hourly[i].temp) }} &deg;C</span>
+          </div>
+          <div class="hour-time">
+            <span>{{ setDestinedTimeFormat(i) }}</span>
+            <span>{{ getTimezone( 0 - (weatherData.timezone_offset / 3600)) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <q-btn
+      class="col"
+      v-on:click="page.twentyFourHours=false"
+      flat=""
+    >
+    <q-icon left size="3em" name="cloud_queue" />
+    <div>To main page</div>
+  </q-btn>
+
+    <div class="col skyline"></div>
+  </q-page>
+
+    <q-page v-else-if="page.tenDays"  class="flex column" :class="bgClass">
+    <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
+
+    <div class="text-white text-center">
+      <div class="text-h4 text-weight-light">
+        {{ cityData.name }}, {{ cityData.country }}
+      </div>
+    </div>
+    <div class="col text-center hour-content">
+      <div v-for="i in 7" :key="i" class="hour-outer">
+        <div class="text-white text-weight-light hour-inner">
+          <div class="hour-time">
+          <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.daily[i].weather[0].icon }@2x.png`">
+          <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.day) }} &deg;C</span>
+          </div>
+          <div class="hour-time">
+            <span>{{ getDateName(i) }}</span>
+            <span>{{ getDateFormat(i) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <q-btn
+      class="col"
+      v-on:click="page.twentyFourHours=false"
+      flat=""
+    >
+    <q-icon left size="3em" name="cloud_queue" />
+    <div>To main page</div>
+  </q-btn>
+
+    <div class="col skyline"></div>
+  </q-page>
+
+  <q-page v-else class="flex column" :class="bgClass">
     <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
     <template v-if="weatherData && cityData">
@@ -32,48 +100,24 @@
       <img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon }@2x.png`">
     </div>
   </template>
+  <div class="col row">
         <q-btn
           class="col"
-          v-on:click="twentyFourPage=true"
+          v-on:click="page.twentyFourHours=true"
           flat=""
         >
           <q-icon left size="3em" name="cloud_queue" />
           <div>24 hours</div>
         </q-btn>
-    <div class="col skyline"></div>
-  </q-page>
-
-  <q-page v-else  class="flex column" :class="bgClass">
-    <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
-
-    <div class="text-white text-center">
-      <div class="text-h4 text-weight-light">
-        {{ cityData.name }}, {{ cityData.country }}
-      </div>
+        <q-btn
+          class="col"
+          v-on:click="page.tenDays=true"
+          flat=""
+        >
+          <q-icon left size="3em" name="cloud_queue" />
+          <div>10 days</div>
+        </q-btn>
     </div>
-    <div class="col text-center hour-content">
-      <div v-for="i in 12" :key="i" class="hour-outer">
-        <div class="text-white text-weight-light hour-inner">
-          <div class="hour-time">
-          <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon }@2x.png`">
-          <span class="text-weight-bold">{{ Math.round(weatherData.hourly[i].temp) }} &deg;C</span>
-          </div>
-          <div class="hour-time">
-            <span>{{ setDestinedTimeFormat(i) }}</span>
-            <span>{{ getTimezone( 0 - (weatherData.timezone_offset / 3600)) }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <q-btn
-      class="col"
-      v-on:click="twentyFourPage=false"
-      flat=""
-    >
-    <q-icon left size="3em" name="cloud_queue" />
-    <div>To main page</div>
-  </q-btn>
-
     <div class="col skyline"></div>
   </q-page>
 </template>
@@ -87,7 +131,7 @@ export default {
   name: 'WeatherApp',
   data () {
     return {
-      twentyFourPage: false,
+      page: { twentyFourHours: false, tenDays: false },
       weatherData: this.exeWeather(),
       cityData: null,
       lat: null,
@@ -277,6 +321,13 @@ export default {
           this.getWeatherByCoords()
         })
       }
+    },
+    getDateName (timeToAdd) {
+      console.log(Date.now())
+      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'dddd')
+    },
+    getDateFormat (timeToAdd) {
+      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'D MMM  YY')
     },
     getCityData () {
       this.$axios(`${this.cityUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}`).then(response => {
