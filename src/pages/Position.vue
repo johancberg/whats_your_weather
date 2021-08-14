@@ -236,9 +236,20 @@ export default {
         return ('0' + str1.toString() + str2)
       }
     },
+    getUTCTimeFormat () {
+      const str = date.formatDate(Date.now(), 'HH:00')
+      let str1 = str.slice(0, 2)
+      const str2 = str.slice(2)
+      str1 = ((parseInt(str1) + new Date().getTimezoneOffset() / 60) + 24) % 24
+      if (str1.toString().length > 1) {
+        return (str1.toString() + str2)
+      } else {
+        return ('0' + str1.toString() + str2)
+      }
+    },
     getAMPM () {
       if (this.general.GD1.active) {
-        if (((this.setDestinedTimeFormat(0) + this.weatherData.timezone / 3600) % 24) < 12) {
+        if (((this.setDestinedTimeFormat(0) + this.weatherData.timezone_offset / 3600) % 24) < 12) {
           return 'AM'
         } else {
           return 'PM'
@@ -256,11 +267,18 @@ export default {
   methods: {
     ...mapActions('data', ['switchWeather']),
     setDestinedTimeFormat (hour) {
-      const str = this.setUTCTimeFormat
-      let str1 = (parseInt(str.slice(0, 2)))
-      const str2 = str.slice(2)
+      const str = this.getUTCTimeFormat
+      let str1 = parseInt(str.slice(0, 2))
+      let str2 = str.slice(2)
       if (this.general.GD1.active) {
+        console.log(str1 + ' ' + hour + ' ' + this.weatherData.timezone_offset / 3600 + ' ' + ((str1 + hour + this.weatherData.timezone_offset / 3600) % 24))
+        if (((str1 + hour + this.weatherData.timezone_offset / 3600) % 24) < 12) {
+          str2 = str2.slice(0, 4) + ' AM'
+        } else {
+          str2 = str2.slice(0, 4) + ' PM'
+        }
         str1 = (str1 + hour + (this.weatherData.timezone_offset / 3600)) % 12
+        if (str1 === 0) { str1 = 12 }
       } else {
         str1 = (str1 + hour + (this.weatherData.timezone_offset / 3600)) % 24
       }
