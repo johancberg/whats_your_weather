@@ -8,7 +8,10 @@
       </div>
     </div>
     <div class="text-center hour-content">
-      <q-scroll-area :visible="visibleBar" style="max-height: 400px; width: 100%;">
+      <q-scroll-area :visible="visibleBar"
+      :thumb-style="thumbStyle"
+      :bar-style="barStyle"
+      style="max-height: 400px; width: 100%;">
         <div v-for="i in 24" :key="i" class="q-py-xs">
           <div class="text-white text-weight-light hour-inner">
             <div class="hour-time">
@@ -46,7 +49,10 @@
       </div>
     </div>
     <div class="text-center hour-content">
-      <q-scroll-area :visible="visibleBar" style="max-height: 400px; width: 100%;">
+      <q-scroll-area :visible="visibleBar"
+      :thumb-style="thumbStyle"
+      :bar-style="barStyle"
+      style="max-height: 400px; width: 100%;">
         <div v-for="i in 7" :key="i">
           <div class="text-white text-weight-light hour-inner">
             <div class="hour-time">
@@ -153,7 +159,21 @@ export default {
       apiUrl: 'https://api.openweathermap.org/data/2.5/onecall',
       cityUrl: 'https://api.openweathermap.org/geo/1.0/reverse',
       apiKey: returnApiKey,
-      visibleBar: true
+      visibleBar: true,
+      thumbStyle: {
+        right: '2px',
+        borderRadius: '4px',
+        backgroundColor: 'rgb(20, 56, 156)',
+        width: '5px',
+        opacity: 0.75
+      },
+      barStyle: {
+        right: '2px',
+        borderRadius: '4px',
+        backgroundColor: 'rgb(20, 56, 156)',
+        width: '7px',
+        opacity: 0.2
+      }
     }
   },
   components: {
