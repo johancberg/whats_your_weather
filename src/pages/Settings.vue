@@ -85,7 +85,7 @@ export default {
   .degree
     top: -44px
   .skyline
-    flex: auto
+    flex: 0 0 80px
     background: url(../statics/skyline.png)
     background-size: contain
     background-repeat-y: no-repeat
