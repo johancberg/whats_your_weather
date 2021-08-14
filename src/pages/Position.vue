@@ -26,16 +26,28 @@
         </div>
       </q-scroll-area>
     </div>
-    <q-btn
-      class="col"
-      v-on:click="page.twentyFourHours=false"
-      flat=""
-    >
-    <div class="sub-menu">
-      <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
-      <div class="text-white">To main page</div>
+    <div class="col row">
+      <q-btn
+        class="col"
+        v-on:click="page.twentyFourHours=false"
+        flat=""
+      >
+        <div class="sub-menu">
+          <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+          <div class="text-white">To main page</div>
+        </div>
+      </q-btn>
+      <q-btn
+        class="col"
+        v-on:click="page.twentyFourHours=false;page.sevenDays=true"
+        flat=""
+      >
+        <div class="sub-menu">
+          <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+          <div class="text-white">10 days</div>
+        </div>
+      </q-btn>
     </div>
-  </q-btn>
 
     <div class="col skyline"></div>
   </q-page>
@@ -68,16 +80,28 @@
         </div>
       </q-scroll-area>
     </div>
-    <q-btn
-      class="col"
-      v-on:click="page.sevenDays=false"
-      flat=""
-    >
-    <div class="sub-menu">
-      <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
-      <div class="text-white">To main page</div>
+    <div class="col row">
+      <q-btn
+        class="col"
+        v-on:click="page.sevenDays=false;page.twentyFourHours=true"
+        flat=""
+      >
+        <div class="sub-menu">
+          <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+          <div class="text-white">24 hours</div>
+        </div>
+      </q-btn>
+      <q-btn
+        class="col"
+        v-on:click="page.sevenDays=false"
+        flat=""
+      >
+        <div class="sub-menu">
+          <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+          <div class="text-white">To main page</div>
+        </div>
+      </q-btn>
     </div>
-  </q-btn>
 
     <div class="col skyline"></div>
   </q-page>
@@ -271,7 +295,6 @@ export default {
       let str1 = parseInt(str.slice(0, 2))
       let str2 = str.slice(2)
       if (this.general.GD1.active) {
-        console.log(str1 + ' ' + hour + ' ' + this.weatherData.timezone_offset / 3600 + ' ' + ((str1 + hour + this.weatherData.timezone_offset / 3600) % 24))
         if (((str1 + hour + this.weatherData.timezone_offset / 3600) % 24) < 12) {
           str2 = str2.slice(0, 4) + ' AM'
         } else {
