@@ -405,7 +405,6 @@ export default {
     },
     getCityData () {
       this.$axios(`${this.cityUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}`).then(response => {
-        console.log(response.data[0])
         this.cityData = response.data[0]
       }).catch(error => {
         this.$q.dialog({ title: 'Error', message: 'The inserted location could not be found: ' + error })
@@ -414,7 +413,6 @@ export default {
     getWeatherByCoords () {
       this.$q.loading.show()
       this.$axios(`${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`).then(response => {
-        console.log(response)
         this.weatherData = response.data
         this.getCityData()
         this.switchWeather({ updates: { weatherStorage: this.weatherData } })
