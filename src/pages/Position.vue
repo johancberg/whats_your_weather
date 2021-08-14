@@ -8,25 +8,27 @@
       </div>
     </div>
     <div class="text-center hour-content">
-      <div v-for="i in 12" :key="i" class="hour-outer">
-        <div class="text-white text-weight-light hour-inner">
-          <div class="hour-time">
-          <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon }@2x.png`">
-          <span class="text-weight-bold">{{ Math.round(weatherData.hourly[i].temp) }} &deg;C</span>
-          </div>
-          <div class="hour-time">
-            <span>{{ setDestinedTimeFormat(i) }}</span>
-            <span>{{ getTimezone( 0 - (weatherData.timezone_offset / 3600)) }}</span>
+      <q-scroll-area :visible="visibleBar" style="max-height: 400px; width: 100%;">
+        <div v-for="i in 24" :key="i" class="q-py-xs">
+          <div class="text-white text-weight-light hour-inner">
+            <div class="hour-time">
+              <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon }@2x.png`">
+              <span class="text-weight-bold">{{ Math.round(weatherData.hourly[i].temp) }} &deg;C</span>
+            </div>
+            <div class="hour-time">
+              <span>{{ setDestinedTimeFormat(i) }} </span>
+              <span> {{ getTimezone( 0 - (weatherData.timezone_offset / 3600)) }}</span>
+            </div>
           </div>
         </div>
-      </div>
+      </q-scroll-area>
     </div>
     <q-btn
       class="col"
       v-on:click="page.twentyFourHours=false"
       flat=""
     >
-    <div class="hour-inner">
+    <div class="sub-menu">
       <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
       <div class="text-white">To main page</div>
     </div>
@@ -44,26 +46,28 @@
       </div>
     </div>
     <div class="text-center hour-content">
-      <div v-for="i in 7" :key="i" class="hour-outer">
-        <div class="text-white text-weight-light hour-inner">
-          <div class="hour-time">
-            <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.daily[i].weather[0].icon }@2x.png`">
-            <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.max) }} &deg;C</span>
-            <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.min) }} &deg;C</span>
-          </div>
-          <div class="hour-time">
-            <span>{{ getDateName(i) }}</span>
-            <span>{{ getDateFormat(i) }}</span>
+      <q-scroll-area :visible="visibleBar" style="max-height: 400px; width: 100%;">
+        <div v-for="i in 7" :key="i">
+          <div class="text-white text-weight-light hour-inner">
+            <div class="hour-time">
+              <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.daily[i].weather[0].icon }@2x.png`">
+              <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.min) }} &deg;C</span>
+              <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.max) }} &deg;C</span>
+            </div>
+            <div class="hour-time">
+              <span>{{ getDateName(i) }}</span>
+              <span>{{ getDateFormat(i) }}</span>
+            </div>
           </div>
         </div>
-      </div>
+      </q-scroll-area>
     </div>
     <q-btn
       class="col"
       v-on:click="page.sevenDays=false"
       flat=""
     >
-    <div class="hour-inner">
+    <div class="sub-menu">
       <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
       <div class="text-white">To main page</div>
     </div>
@@ -111,7 +115,7 @@
           v-on:click="page.twentyFourHours=true"
           flat=""
         >
-          <div class="hour-inner">
+          <div class="sub-menu">
             <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
             <div class="text-white">24 hours</div>
           </div>
@@ -121,7 +125,7 @@
           v-on:click="page.sevenDays=true"
           flat=""
         >
-          <div class="hour-inner">
+          <div class="sub-menu">
             <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
             <div class="text-white">10 days</div>
           </div>
@@ -148,7 +152,8 @@ export default {
       time: null,
       apiUrl: 'https://api.openweathermap.org/data/2.5/onecall',
       cityUrl: 'https://api.openweathermap.org/geo/1.0/reverse',
-      apiKey: returnApiKey
+      apiKey: returnApiKey,
+      visibleBar: true
     }
   },
   components: {
@@ -332,7 +337,6 @@ export default {
       }
     },
     getDateName (timeToAdd) {
-      console.log(Date.now())
       return date.formatDate(Date.now() + 86400000 * timeToAdd, 'dddd')
     },
     getDateFormat (timeToAdd) {
@@ -425,6 +429,9 @@ export default {
     background-position: center bottom
   .settings-content
     background-color: white
+  .sub-menu
+    display: flex
+    flex-direction: column
   .hour-content
     height: 12em
     display: flex
@@ -432,13 +439,18 @@ export default {
   .hour-outer
     display: flex
     flex-direction: row
+    justify-content: space-evenly
   .hour-inner
     display: flex
-    flex-direction: column
+    flex-direction: row
     justify-content: space-evenly
+    align-items: center
   .hour-time
     display: flex
-    flex-direction: column
+    flex-direction: row
+    align-items: center
+  .hour-time span
+    margin-left: 0.4em
   .hour-icon
     width: 4em
     height: 4em
