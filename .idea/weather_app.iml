@@ -5,10 +5,10 @@
       <configuration>
         <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/../../weather_app/gen" />
         <option name="GEN_FOLDER_RELATIVE_PATH_AIDL" value="/../../weather_app/gen" />
-        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/../../weather_app/AndroidManifest.xml" />
-        <option name="RES_FOLDER_RELATIVE_PATH" value="/../../weather_app/res" />
-        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/../../weather_app/assets" />
-        <option name="LIBS_FOLDER_RELATIVE_PATH" value="/../../weather_app/libs" />
+        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/../src-cordova/platforms/android/app/src/main/AndroidManifest.xml" />
+        <option name="RES_FOLDER_RELATIVE_PATH" value="/../src-cordova/res" />
+        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/../src-cordova/platforms/android/app/src/main/assets" />
+        <option name="LIBS_FOLDER_RELATIVE_PATH" value="/../src-cordova/node_modules" />
         <option name="PROGUARD_LOGS_FOLDER_RELATIVE_PATH" value="/../../weather_app/proguard_logs" />
       </configuration>
     </facet>
