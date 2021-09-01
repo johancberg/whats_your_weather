@@ -11,8 +11,9 @@
       <q-scroll-area :visible="visibleBar"
       :thumb-style="thumbStyle"
       :bar-style="barStyle"
-      style="max-height: 400px; width: 100%;">
+      style="max-height: 90%; width: 100%;">
         <div v-for="i in 24" :key="i" class="q-py-xs">
+          <div v-if="isMidnight(i)" class="text-white">{{ getDateName(1) }} {{ getDateFormat(1) }}</div>
           <div class="text-white text-weight-light hour-inner">
             <div class="hour-time">
               <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon }@2x.png`">
@@ -64,7 +65,7 @@
       <q-scroll-area :visible="visibleBar"
       :thumb-style="thumbStyle"
       :bar-style="barStyle"
-      style="max-height: 400px; width: 100%;">
+      style="max-height: 90%; width: 100%;">
         <div v-for="i in 7" :key="i">
           <div class="text-white text-weight-light hour-inner">
             <div class="hour-time">
@@ -138,7 +139,6 @@
     <div class="text-center">
       <img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon }@2x.png`">
     </div>
-  </template>
   <div class="col row">
         <q-btn
           class="col"
@@ -161,6 +161,7 @@
           </div>
         </q-btn>
     </div>
+  </template>
     <div class="col skyline"></div>
   </q-page>
 </template>
@@ -369,6 +370,11 @@ export default {
       //  this.weatherData = this.getWeather
       // }
     },
+    isMidnight (hour) {
+      const str = this.getUTCTimeFormat
+      const str1 = parseInt(str.slice(0, 2))
+      return ((str1 + hour + this.weatherData.timezone_offset / 3600) % 24 === 0)
+    },
     stdTimeZoneOffset () {
       const fullYear = new Date().getFullYear()
       const jan = new Date(fullYear, 0, 1)
@@ -492,7 +498,7 @@ export default {
     display: flex
     flex-direction: column
   .hour-content
-    height: 12em
+    min-height: 24em
     display: flex
     justify-content: space-evenly
   .hour-outer
