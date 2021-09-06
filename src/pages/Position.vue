@@ -12,8 +12,8 @@
       :thumb-style="thumbStyle"
       :bar-style="barStyle"
       style="max-height: 90%; width: 100%;">
-        <div v-for="i in 24" :key="i" class="q-py-xs">
-          <div v-if="isMidnight(i)" class="text-white">{{ getDateName(1) }} {{ getDateFormat(1) }}</div>
+        <div v-for="i in 24" :key="i" class="q-py-xs hour-row">
+          <div v-if="isMidnight(i)" class="text-h6 text-weight-light text-white">{{ getDateName(1) }} {{ getDateFormat(1) }}</div>
           <div class="text-white text-weight-light hour-inner">
             <div class="hour-time">
               <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon }@2x.png`">
@@ -66,12 +66,14 @@
       :thumb-style="thumbStyle"
       :bar-style="barStyle"
       style="max-height: 90%; width: 100%;">
-        <div v-for="i in 7" :key="i">
+        <div class="day-row" v-for="i in 7" :key="i">
           <div class="text-white text-weight-light hour-inner">
             <div class="hour-time">
               <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.daily[i].weather[0].icon }@2x.png`">
-              <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.min) }} &deg;C</span>
-              <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.max) }} &deg;C</span>
+              <div class="day-temp">
+                <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.min) }} &deg;C</span>
+                <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.max) }} &deg;C</span>
+              </div>
             </div>
             <div class="hour-time">
               <span>{{ getDateName(i) }}</span>
@@ -508,7 +510,14 @@ export default {
   .hour-inner
     display: flex
     flex-direction: row
-    justify-content: space-evenly
+    justify-content: space-between
+    align-items: center
+  .day-row, .hour-row
+    width: calc(50vw + 6em)
+    margin: 0 auto
+  .day-temp
+    display: flex
+    flex-direction: column
     align-items: center
   .hour-time
     display: flex
