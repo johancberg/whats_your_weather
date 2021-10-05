@@ -513,7 +513,7 @@ export default {
     justify-content: space-between
     align-items: center
   .day-row, .hour-row
-    width: calc(50vw + 6em)
+    width: calc(60vw + 6em)
     margin: 0 auto
   .day-temp
     display: flex
