@@ -71,8 +71,8 @@
             <div class="hour-time">
               <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.daily[i].weather[0].icon }@2x.png`">
               <div class="day-temp">
-                <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.min) }} &deg;C</span>
                 <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.max) }} &deg;C</span>
+                <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.min) }} &deg;C</span>
               </div>
             </div>
             <div class="hour-time">
