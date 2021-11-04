@@ -141,6 +141,14 @@
     <div class="text-center">
       <img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon }@2x.png`">
     </div>
+    <div v-if="weatherData.current.rain" class="text-center rain-wind">
+      <span class="text-h6 text-white text-weight-light"> {{ weatherData.current.rain['1h'] || 0 }} mm </span>
+      <span class="text-h6 text-white text-weight-light"> {{ weatherData.current.wind_speed || 0 }} m/s </span>
+    </div>
+    <div v-else class="text-center rain-wind">
+      <span class="text-h6 text-white text-weight-light">0 mm</span>
+      <span class="text-h6 text-white text-weight-light"> {{ weatherData.current.wind_speed || 0 }} m/s </span>
+    </div>
   <div class="col row">
         <q-btn
           class="col"
@@ -423,6 +431,7 @@ export default {
       this.$axios(`${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`).then(response => {
         this.weatherData = response.data
         this.getCityData()
+        console.log(this.weatherData)
         this.switchWeather({ updates: { weatherStorage: this.weatherData } })
       }).catch(error => {
         this.$q.dialog({ title: 'Error', message: 'Something unexpected happened: ' + error })
@@ -496,6 +505,10 @@ export default {
     background-position: center bottom
   .settings-content
     background-color: white
+  .rain-wind span:nth-child(1)
+    margin-right: .5em
+  .rain-wind span:nth-child(2)
+    margin-left: .5em
   .sub-menu
     display: flex
     flex-direction: column
