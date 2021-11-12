@@ -142,12 +142,12 @@
       <img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon }@2x.png`">
     </div>
     <div v-if="weatherData.current.rain" class="text-center rain-wind">
-      <span class="text-h6 text-white text-weight-light"> {{ weatherData.current.rain['1h'] || 0 }} mm </span>
-      <span class="text-h6 text-white text-weight-light"> {{ weatherData.current.wind_speed || 0 }} m/s </span>
+      <span v-if="viewWindActive" class="text-h6 text-white text-weight-light"> {{ weatherData.current.wind_speed || 0 }} m/s</span>
+      <span v-if="viewRainActive" class="text-h6 text-white text-weight-light"> {{ weatherData.current.rain['1h'] || 0 }} mm</span>
     </div>
     <div v-else class="text-center rain-wind">
-      <span class="text-h6 text-white text-weight-light">0 mm</span>
-      <span class="text-h6 text-white text-weight-light"> {{ weatherData.current.wind_speed || 0 }} m/s </span>
+      <span v-if="viewWindActive" class="text-h6 text-white text-weight-light"> {{ weatherData.current.wind_speed || 0 }} m/s</span>
+      <span v-if="viewRainActive" class="text-h6 text-white text-weight-light">0 mm</span>
     </div>
   <div class="col row">
         <q-btn
@@ -297,6 +297,12 @@ export default {
     },
     viewUTCActive () {
       return this.view.VW2.active
+    },
+    viewRainActive () {
+      return this.view.VW3.active
+    },
+    viewWindActive () {
+      return this.view.VW4.active
     }
   },
   methods: {
@@ -506,9 +512,9 @@ export default {
   .settings-content
     background-color: white
   .rain-wind span:nth-child(1)
-    margin-right: .5em
+    margin-right: 0
   .rain-wind span:nth-child(2)
-    margin-left: .5em
+    margin-left: 2em
   .sub-menu
     display: flex
     flex-direction: column

@@ -25,13 +25,13 @@ const state = {
     },
     VW3: {
       name: 'Rain',
-      description: 'Feauture to be released',
-      active: false
+      description: 'Show the amount of rain in mm',
+      active: true
     },
     VW4: {
       name: 'Wind',
-      description: 'Feauture to be released',
-      active: false
+      description: 'Show the wind in meter per second',
+      active: true
     },
     VW5: {
       name: 'Feels like',
