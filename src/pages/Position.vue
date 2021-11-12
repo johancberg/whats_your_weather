@@ -18,6 +18,11 @@
             <div class="hour-time">
               <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon }@2x.png`">
               <span class="text-weight-bold">{{ Math.round(weatherData.hourly[i].temp) }} &deg;C</span>
+              <div class="hour-data">
+                <span v-if="viewWindActive"> {{ weatherData.hourly[i].wind_speed || 0 }} m/s</span>
+                <span v-if="viewRainActive && weatherData.hourly[i].rain"> {{ weatherData.hourly[i].rain['1h'] || 0 }} mm</span>
+                <span v-else-if="viewRainActive">0 mm</span>
+              </div>
             </div>
             <div class="hour-time">
               <span>{{ setDestinedTimeFormat(i) }} </span>
@@ -437,7 +442,6 @@ export default {
       this.$axios(`${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`).then(response => {
         this.weatherData = response.data
         this.getCityData()
-        console.log(this.weatherData)
         this.switchWeather({ updates: { weatherStorage: this.weatherData } })
       }).catch(error => {
         this.$q.dialog({ title: 'Error', message: 'Something unexpected happened: ' + error })
@@ -534,10 +538,13 @@ export default {
   .day-row, .hour-row
     width: calc(60vw + 6em)
     margin: 0 auto
-  .day-temp
+  .day-temp, .hour-data
     display: flex
     flex-direction: column
     align-items: center
+  .hour-data
+    font-size: .8rem
+    margin-left: .5em
   .hour-time
     display: flex
     flex-direction: row
