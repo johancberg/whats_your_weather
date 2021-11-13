@@ -79,6 +79,11 @@
                 <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.max) }} &deg;C</span>
                 <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.min) }} &deg;C</span>
               </div>
+              <div class="hour-data">
+                <span v-if="viewWindActive"> {{ weatherData.daily[i].wind_speed || 0 }} m/s</span>
+                <span v-if="viewRainActive && weatherData.daily[i].rain"> {{ weatherData.daily[i].rain['1h'] || 0 }} mm</span>
+                <span v-else-if="viewRainActive">0 mm</span>
+              </div>
             </div>
             <div class="hour-time">
               <span>{{ getDateName(i) }}</span>
