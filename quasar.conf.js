@@ -76,6 +76,7 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: true,
+      host: '192.168.1.18',
       port: 8080,
       open: true // opens browser window automatically
     },
@@ -116,7 +117,7 @@ module.exports = function (/* ctx */) {
         description: 'A Quasar Framework app',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#ffffff',
+        background_color: '#027be3',
         theme_color: '#027be3',
         icons: [
           {
