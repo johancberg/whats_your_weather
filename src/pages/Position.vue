@@ -50,7 +50,7 @@
       >
         <div class="sub-menu">
           <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
-          <div class="text-white">10 days</div>
+          <div class="text-white">7 days</div>
         </div>
       </q-btn>
     </div>
@@ -177,7 +177,7 @@
         >
           <div class="sub-menu">
             <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
-            <div class="text-white">10 days</div>
+            <div class="text-white">7 days</div>
           </div>
         </q-btn>
     </div>
