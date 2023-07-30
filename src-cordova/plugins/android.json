@@ -13,9 +13,15 @@
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "se.johancberg.whatsyourweather"
     },
-    "cordova-plugin-whitelist": {
+    "cordova-plugin-file-transfer": {
+      "ANDROIDX_WEBKIT_VERSION": "1.4.0",
       "PACKAGE_NAME": "se.johancberg.whatsyourweather"
     }
   },
-  "dependent_plugins": {}
+  "dependent_plugins": {
+    "cordova-plugin-file": {
+      "ANDROIDX_WEBKIT_VERSION": "1.4.0",
+      "PACKAGE_NAME": "se.johancberg.whatsyourweather"
+    }
+  }
 }
