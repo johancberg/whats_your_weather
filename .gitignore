@@ -9,5 +9,5 @@
 
 /weather_app.code-workspace
 
-/src-cordova
+/src-cordova/node_modules
 /src-electron
