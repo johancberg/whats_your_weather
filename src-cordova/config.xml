@@ -12,7 +12,7 @@
     <allow-intent href="https://*/*" />
     <platform name="android">
         <preference name="Fullscreen" value="true" />
-        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res\android\hdpi.png" />
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res\mipmap-xxxhdpi\ic_launcher.png" />
         <preference name="AndroidWindowSplashScreenBackground" value="#00314A" />
     </platform>
     <allow-navigation href="about:*" />
