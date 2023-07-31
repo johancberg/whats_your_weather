@@ -1,0 +1,1 @@
+.q-page.blue{background:linear-gradient(180deg,#2980b9,#2c3e50)}.q-page.maroon{background:linear-gradient(180deg,#b00a0a,#431f11)}.q-page.maroon.bg-animation{animation:animation-bg 20s ease infinite alternate}@keyframes animation-bg{0%{background-position:0}50%{background-position:100%}to{background-position:0}}
