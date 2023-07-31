@@ -10,4 +10,6 @@
 /weather_app.code-workspace
 
 /src-cordova/node_modules
+/src-cordova/www
+
 /src-electron
