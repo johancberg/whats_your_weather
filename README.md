@@ -1,6 +1,6 @@
-# Weather application (whats_your_weather)
+# What's Your Weather (whats_your_weather)
 
-A Quasar Framework app
+A weather app made by the Quasar Framework
 
 ## Install the dependencies
 ```bash

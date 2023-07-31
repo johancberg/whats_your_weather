@@ -2,7 +2,7 @@
     "name": "whats_your_weather",
     "version": "2.2.2",
     "description": "This is a simple and stylish application that helps you find out information about the current weather.",
-    "productName": "Weather application",
+    "productName": "What's Your Weather",
     "author": "johancberg (johan94berg@gmail.com)",
     "private": true,
     "scripts": {

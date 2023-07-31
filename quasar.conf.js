@@ -112,9 +112,9 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Weather application',
-        short_name: 'Weather application',
-        description: 'A Quasar Framework app',
+        name: 'Whats\'s Your Weather',
+        short_name: 'Whats\'s Your Weather',
+        description: 'This is a simple and stylish application that helps you find out information about the current weather.',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#027be3',
@@ -152,7 +152,7 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
-      version: '2.2'
+      version: '2.2.2'
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
