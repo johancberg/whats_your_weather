@@ -500,7 +500,7 @@ export default {
       &.bg-animation
         animation: 20s ease animation-bg infinite alternate
     &.bg-sunset
-      background: linear-gradient(135deg, rgb(247,81,255) 0%, rgb(255,209,24) 65%, rgb(255,159,80)100%)
+      background: linear-gradient(135deg, rgb(247,81,255) 0%, rgb(255,209,24) 35%, rgb(255,159,80)100%)
       background-size: 300%
       transition: 1s ease
       &.bg-animation
