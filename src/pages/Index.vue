@@ -40,9 +40,6 @@ export default {
   computed: {
     ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather']),
     ...mapActions('data', ['switchWeather']),
-    canGeolocate () {
-      return !!navigator.geolocation
-    },
     bgClass () {
       let className = ''
       if (this.graphics.AN3.active) {
@@ -55,6 +52,13 @@ export default {
     getLocation () {
       return 0
     }
+  },
+  mounted () {
+    navigator.permissions.query({ name: 'geolocation' }).then(status => {
+      if (status.state === 'granted') {
+        this.$router.push('/position')
+      }
+    })
   }
 }
 </script>
