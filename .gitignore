@@ -1,4 +1,5 @@
 /.vscode
+/.quasar
 /node_modules
 /Complete versions
 /dist
