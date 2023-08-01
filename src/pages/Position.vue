@@ -1,5 +1,5 @@
 <template>
-  <q-page v-if="page.twentyFourHours"  class="flex column" :class="bgClass">
+  <q-page v-if="page.twentyfourHours"  class="flex column" :class="bgClass">
     <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
     <div class="text-white text-center q-mb-lg">
@@ -35,7 +35,7 @@
     <div class="col row">
       <q-btn
         class="col"
-        v-on:click="page.twentyFourHours=false"
+        v-on:click="page.twentyfourHours=false"
         flat=""
       >
         <div class="sub-menu">
@@ -45,7 +45,7 @@
       </q-btn>
       <q-btn
         class="col"
-        v-on:click="page.twentyFourHours=false;page.sevenDays=true"
+        v-on:click="page.twentyfourHours=false;page.sevenDays=true"
         flat=""
       >
         <div class="sub-menu">
@@ -96,7 +96,7 @@
     <div class="col row">
       <q-btn
         class="col"
-        v-on:click="page.sevenDays=false;page.twentyFourHours=true"
+        v-on:click="page.sevenDays=false;page.twentyfourHours=true"
         flat=""
       >
         <div class="sub-menu">
@@ -162,7 +162,7 @@
   <div class="col row">
         <q-btn
           class="col"
-          v-on:click="page.twentyFourHours=true"
+          v-on:click="page.twentyfourHours=true"
           flat=""
         >
           <div class="sub-menu">
@@ -192,10 +192,10 @@ import { date } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { returnApiKey } from './ApiKey'
 export default {
-  name: 'WeatherApp',
+  name: 'WhatsYourWeather',
   data () {
     return {
-      page: { twentyFourHours: false, sevenDays: false },
+      page: { twentyfourHours: false, sevenDays: false },
       weatherData: this.exeWeather(),
       cityData: null,
       lat: null,
