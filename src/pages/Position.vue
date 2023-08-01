@@ -421,12 +421,21 @@ export default {
           this.getWeatherByCoords()
         })
       } else {
-        navigator.geolocation.getCurrentPosition(position => {
-          this.lat = position.coords.latitude
-          this.lon = position.coords.longitude
-          this.time = this.calculateTimezones(position.timestamp)
-          this.getWeatherByCoords()
-        })
+        if ('geolocation' in navigator) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              this.lat = position.coords.latitude
+              this.lon = position.coords.longitude
+              this.time = this.calculateTimezones(position.timestamp)
+              this.getWeatherByCoords()
+            },
+            (error) => {
+              console.error('Error getting location:', error)
+            }
+          )
+        } else {
+          console.error('Geolocation not available')
+        }
       }
     },
     getDateName (timeToAdd) {

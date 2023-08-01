@@ -6,6 +6,11 @@
   "config_munge": {
     "files": {}
   },
-  "installed_plugins": {},
+  "installed_plugins": {
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
+      "PACKAGE_NAME": "se.johancberg.whatsyourweather"
+    }
+  },
   "dependent_plugins": {}
 }
