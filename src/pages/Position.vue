@@ -13,7 +13,7 @@
       :bar-style="barStyle"
       style="max-height: 90%; width: 100%;">
         <div v-for="i in 24" :key="i" class="q-py-xs hour-row">
-          <div v-if="isMidnight(i)" class="text-h6 text-weight-light text-white">{{ getDateName(1) }} {{ getDateFormat(1) }}</div>
+          <div v-if="isMidnight(i)" class="text-h6 text-weight-light text-white">{{ getFullDateName(1) }} {{ getDateFormat(1) }}</div>
           <div class="text-white text-weight-light hour-inner">
             <div class="hour-time">
               <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon }@2x.png`">
@@ -438,11 +438,14 @@ export default {
         }
       }
     },
-    getDateName (timeToAdd) {
+    getFullDateName (timeToAdd) {
       return date.formatDate(Date.now() + 86400000 * timeToAdd, 'dddd')
     },
+    getDateName (timeToAdd) {
+      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'ddd')
+    },
     getDateFormat (timeToAdd) {
-      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'D MMM  YY')
+      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'D MMM')
     },
     getCityData () {
       this.$axios(`${this.cityUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}`).then(response => {
