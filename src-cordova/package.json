@@ -1,7 +1,7 @@
 {
   "name": "se.johancberg.whatsyourweather",
   "displayName": "What's Your Weather",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "This is a simple and stylish application that helps you find out information about the current weather.",
   "main": "index.js",
   "scripts": {
