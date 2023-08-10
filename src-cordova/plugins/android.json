@@ -10,6 +10,9 @@
     "cordova-plugin-geolocation": {
       "GPS_REQUIRED": "true",
       "PACKAGE_NAME": "se.johancberg.whatsyourweather"
+    },
+    "cordova-plugin-proguard": {
+      "PACKAGE_NAME": "se.johancberg.whatsyourweather"
     }
   },
   "dependent_plugins": {}
