@@ -10,8 +10,4 @@
 
 /weather_app.code-workspace
 
-/src-cordova/node_modules
-/src-cordova/www
-/src-cordova/platforms/android/CordovaLib/
-
 /src-electron
