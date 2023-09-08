@@ -99,7 +99,6 @@ const actions = {
   },
   getSettings ({ commit }) {
     const memory = LocalStorage.getItem('settings')
-    console.log(memory)
     if (memory) {
       commit('loadStorage', memory)
     }
