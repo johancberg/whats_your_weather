@@ -77,6 +77,7 @@ module.exports = function (/* ctx */) {
     devServer: {
       https: true,
       disableHostCheck: true,
+      host: "0.0.0.0",
       port: 8080,
       open: true // opens browser window automatically
     },
@@ -152,7 +153,7 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
-      version: '2.2.6'
+      version: '2.2.7'
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
