@@ -6,8 +6,6 @@
         Johan C Berg
     </author>
     <content src="index.html" />
-    <content original-src="https://192.168.1.18:8080" />
-    <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <platform name="android">
