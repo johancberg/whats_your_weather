@@ -201,7 +201,7 @@ export default {
       lat: null,
       lon: null,
       time: null,
-      apiUrl: 'https://api.openweathermap.org/data/2.5/onecall',
+      apiUrl: 'https://api.openweathermap.org/data/3.0/onecall',
       cityUrl: 'https://api.openweathermap.org/geo/1.0/reverse',
       apiKey: returnApiKey,
       visibleBar: true,
