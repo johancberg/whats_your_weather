@@ -61,7 +61,7 @@ export default {
   computed: {
     ...mapGetters('data', ['general', 'view', 'graphics']),
     bgTheme () {
-      if (this.graphics.AN3.active) {
+      if (this.graphics?.AN3?.active) {
         return 'maroon'
       } else {
         return 'blue'
@@ -69,36 +69,36 @@ export default {
     }
   },
   components: {
-    setting: require('components/SettingsMap/Option.vue').default
+    setting: () => import('components/SettingsMap/Option.vue')
   }
 }
 </script>
 <style lang="sass">
-  .q-page
-    min-height: 100vh
-    display: flex
-    flex-direction: column
-    &.blue
-      background: linear-gradient(to bottom, #2980b9, #2c3e50)
-    &.maroon
-      background: linear-gradient(to bottom, #b00a0a, #431f11)
-  .degree
-    top: -44px
-  .skyline
-    flex: 0 0 80px
-    background: url(../statics/skyline.png)
-    background-size: contain
-    background-repeat-y: no-repeat
-    background-position: center bottom
-    margin-top: auto
-  .settings-content
-    background-color: white
+.q-page
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  &.blue
+    background: linear-gradient(to bottom, #2980b9, #2c3e50)
+  &.maroon
+    background: linear-gradient(to bottom, #b00a0a, #431f11)
+.degree
+  top: -44px
+.skyline
+  flex: 0 0 80px
+  background: url(../statics/skyline.png)
+  background-size: contain
+  background-repeat-y: no-repeat
+  background-position: center bottom
+  margin-top: auto
+.settings-content
+  background-color: white
 
-  @keyframes animation-bg
-    0%
-      background-position: left
-    50%
-      background-position: right
-    100%
-      background-position: left
+@keyframes animation-bg
+  0%
+    background-position: left
+  50%
+    background-position: right
+  100%
+    background-position: left
 </style>

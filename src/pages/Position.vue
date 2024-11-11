@@ -1,6 +1,6 @@
 <template>
   <q-page v-if="page.twentyfourHours"  class="flex column" :class="bgClass">
-    <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
+    <VueHeader :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
     <div class="text-white text-center q-mb-lg">
       <div class="text-h4 text-weight-light">
@@ -59,7 +59,7 @@
   </q-page>
 
     <q-page v-else-if="page.sevenDays"  class="flex column" :class="bgClass">
-    <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
+    <VueHeader :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
     <div class="text-white text-center q-mb-lg">
       <div class="text-h4 text-weight-light">
@@ -120,7 +120,7 @@
   </q-page>
 
   <q-page v-else class="flex column" :class="bgClass">
-    <Header :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
+    <VueHeader :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
 
     <template v-if="weatherData && cityData">
     <div class="text-white text-center">
@@ -187,12 +187,13 @@
 </template>
 
 <script>
-import Header from 'components/Header.vue'
+import VueHeader from 'components/VueHeader.vue'
 import { date } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { returnApiKey } from './ApiKey'
+
 export default {
-  name: 'WhatsYourWeather',
+  name: 'WeatherApp',
   data () {
     return {
       page: { twentyfourHours: false, sevenDays: false },
@@ -222,13 +223,13 @@ export default {
     }
   },
   components: {
-    Header
+    VueHeader
   },
   computed: {
     ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather']),
     bgClass () {
       let className = ''
-      if (this.weatherData && this.graphics.AN1.active) {
+      if (this.weatherData && this.graphics?.AN1?.active) {
         const timezone = this.weatherData.timezone_offset / 3600
         const sunsetTime = new Date(this.weatherData.current.sunset * 1000)
         const sunriseTime = new Date(this.weatherData.current.sunrise * 1000)
@@ -247,11 +248,11 @@ export default {
         } else {
           className += 'bg-day'
         }
-        if (!this.graphics.AN2.active) {
+        if (!this.graphics?.AN2?.active) {
           className += ' bg-animation'
         }
         return className
-      } else if (this.graphics.AN3.active) {
+      } else if (this.graphics?.AN3?.active) {
         className = 'maroon'
       } else {
         className = 'blue'
@@ -260,7 +261,7 @@ export default {
     },
     setTimeFormat () {
       const timeStamp = Date.now()
-      if (this.general.GD1.active) {
+      if (this.general?.GD1?.active) {
         return date.formatDate(timeStamp, 'hh:00 A')
       } else {
         return date.formatDate(timeStamp, 'HH:00')
@@ -270,7 +271,7 @@ export default {
       const str = this.setTimeFormat.toString()
       let str1 = str.slice(0, 2)
       const str2 = str.slice(2)
-      if (this.general.GD1.active) {
+      if (this.general?.GD1?.active) {
         str1 = ((parseInt(str1) + new Date().getTimezoneOffset() / 60) + 12) % 12
       } else {
         str1 = ((parseInt(str1) + new Date().getTimezoneOffset() / 60) + 24) % 24
@@ -293,7 +294,7 @@ export default {
       }
     },
     getAMPM () {
-      if (this.general.GD1.active) {
+      if (this.general?.GD1?.active) {
         if (((this.setDestinedTimeFormat(0) + this.weatherData.timezone_offset / 3600) % 24) < 12) {
           return 'AM'
         } else {
@@ -303,16 +304,16 @@ export default {
       return ''
     },
     viewLocalActive () {
-      return this.view.VW1.active
+      return this.view?.VW1?.active
     },
     viewUTCActive () {
-      return this.view.VW2.active
+      return this.view?.VW2?.active
     },
     viewRainActive () {
-      return this.view.VW3.active
+      return this.view?.VW3?.active
     },
     viewWindActive () {
-      return this.view.VW4.active
+      return this.view?.VW4?.active
     }
   },
   methods: {
@@ -321,7 +322,7 @@ export default {
       const str = this.getUTCTimeFormat
       let str1 = parseInt(str.slice(0, 2))
       let str2 = str.slice(2)
-      if (this.general.GD1.active) {
+      if (this.general?.GD1?.active) {
         if (((str1 + hour + this.weatherData.timezone_offset / 3600) % 24) < 12) {
           str2 = str2.slice(0, 4) + ' AM'
         } else {
@@ -411,8 +412,8 @@ export default {
       return new Date().getTimezoneOffset() < this.stdTimeZoneOffset()
     },
     getLocation () {
-      this.$q.loading.show()
-      this.cond = this.$q.platform.is.electron
+      this.$q.loading?.show()
+      this.cond = undefined //this.$q.platform.is.electron
       if (this.cond === true || this.cond !== undefined) {
         this.$axios('https://freegeoip.app/json/').then(response => {
           this.lat = response.data.latitude
@@ -455,7 +456,7 @@ export default {
       })
     },
     getWeatherByCoords () {
-      this.$q.loading.show()
+      this.$q.loading?.show()
       this.$axios(`${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`).then(response => {
         this.weatherData = response.data
         this.getCityData()
@@ -463,10 +464,10 @@ export default {
       }).catch(error => {
         this.$q.dialog({ title: 'Error', message: 'Something unexpected happened: ' + error })
       })
-      this.$q.loading.hide()
+      this.$q.loading?.hide()
     },
     getWeatherBySearch (search) {
-      this.$q.loading.show()
+      this.$q.loading?.show()
       this.$axios(`https://api.openweathermap.org/geo/1.0/direct?q=${search}&appid=${this.apiKey}&units=metric`).then(response => {
         this.lat = response.data[0].lat
         this.lon = response.data[0].lon
@@ -475,7 +476,7 @@ export default {
       }).catch(error => {
         this.$q.dialog({ title: 'Error', message: 'The inserted location could not be found: ' + error })
       })
-      this.$q.loading.hide()
+      this.$q.loading?.hide()
     },
     calculateTimezones (timestamp) {
       const date = new Date(timestamp * 1000 / 1000)
@@ -488,97 +489,97 @@ export default {
 </script>
 
 <style lang="sass">
-  .q-page
-    &.blue
-      background: linear-gradient(to bottom, #2980b9, #2c3e50)
-    &.maroon
-      background: linear-gradient(to bottom, #b00a0a, #431f11)
-    &.bg-day
-      background: linear-gradient(135deg, #0ed2f7, #00b4db, #0072ff)
-      background-size: 300%
-      transition: 1s ease
-      &.bg-animation
-        animation: 20s ease animation-bg infinite alternate
-    &.bg-sunset
-      background: linear-gradient(135deg, rgb(247,81,255) 0%, rgb(255,209,24) 35%, rgb(255,159,80)100%)
-      background-size: 300%
-      transition: 1s ease
-      &.bg-animation
-        animation: 20s ease animation-bg infinite alternate
-    &.bg-sunrise
-      background: linear-gradient(155deg, rgba(82,216,255,1) 0%, rgba(150,254,255,1) 50%, rgba(242,255,105,1) 100%)
-      background-size: 300%
-      transition: 1s ease
-      &.bg-animation
-        animation: 20s ease animation-bg infinite alternate
-    &.bg-rain
-      background: linear-gradient(135deg, rgba(139,164,168,1) 0%, rgba(50,126,144,1) 65%, rgba(0,131,176,1) 100%)
-      background-size: 300%
-      transition: 1s ease
-      &.bg-animation
-        animation: 20s ease animation-bg infinite alternate
-    &.bg-night
-      background: linear-gradient(-25deg, #232526, #414345, #2c5364)
-      background-size: 300%
-      transition: 1s ease
-      &.bg-animation
-        animation: 20s ease animation-bg infinite alternate
-  .degree
-    top: -44px
-  .skyline
-    flex: 0 0 80px
-    background: url(../statics/skyline.png)
-    background-size: contain
-    background-position: center bottom
-  .settings-content
-    background-color: white
-  .rain-wind span:nth-child(1)
-    margin-right: 0
-  .rain-wind span:nth-child(2)
-    margin-left: 2em
-  .sub-menu
-    display: flex
-    flex-direction: column
-  .hour-content
-    min-height: 24em
-    display: flex
-    justify-content: space-evenly
-  .hour-outer
-    display: flex
-    flex-direction: row
-    justify-content: space-evenly
-  .hour-inner
-    display: flex
-    flex-direction: row
-    justify-content: space-between
-    align-items: center
-  .day-row, .hour-row
-    width: calc(60vw + 6em)
-    margin: 0 auto
-  .day-temp, .hour-data
-    display: flex
-    flex-direction: column
-    align-items: center
-  .hour-data
-    font-size: .8rem
-    margin-left: .5em
-  .hour-time
-    display: flex
-    flex-direction: row
-    align-items: center
-  .hour-time span
-    margin-left: 0.4em
-  .hour-icon
-    width: 4em
-    height: 4em
-  .icon-auto
-    margin: 0 auto
+.q-page
+  &.blue
+    background: linear-gradient(to bottom, #2980b9, #2c3e50)
+  &.maroon
+    background: linear-gradient(to bottom, #b00a0a, #431f11)
+  &.bg-day
+    background: linear-gradient(135deg, #0ed2f7, #00b4db, #0072ff)
+    background-size: 300%
+    transition: 1s ease
+    &.bg-animation
+      animation: 20s ease animation-bg infinite alternate
+  &.bg-sunset
+    background: linear-gradient(135deg, rgb(247,81,255) 0%, rgb(255,209,24) 35%, rgb(255,159,80)100%)
+    background-size: 300%
+    transition: 1s ease
+    &.bg-animation
+      animation: 20s ease animation-bg infinite alternate
+  &.bg-sunrise
+    background: linear-gradient(155deg, rgba(82,216,255,1) 0%, rgba(150,254,255,1) 50%, rgba(242,255,105,1) 100%)
+    background-size: 300%
+    transition: 1s ease
+    &.bg-animation
+      animation: 20s ease animation-bg infinite alternate
+  &.bg-rain
+    background: linear-gradient(135deg, rgba(139,164,168,1) 0%, rgba(50,126,144,1) 65%, rgba(0,131,176,1) 100%)
+    background-size: 300%
+    transition: 1s ease
+    &.bg-animation
+      animation: 20s ease animation-bg infinite alternate
+  &.bg-night
+    background: linear-gradient(-25deg, #232526, #414345, #2c5364)
+    background-size: 300%
+    transition: 1s ease
+    &.bg-animation
+      animation: 20s ease animation-bg infinite alternate
+.degree
+  top: -44px
+.skyline
+  flex: 0 0 80px
+  background: url(../statics/skyline.png)
+  background-size: contain
+  background-position: center bottom
+.settings-content
+  background-color: white
+.rain-wind span:nth-child(1)
+  margin-right: 0
+.rain-wind span:nth-child(2)
+  margin-left: 2em
+.sub-menu
+  display: flex
+  flex-direction: column
+.hour-content
+  min-height: 24em
+  display: flex
+  justify-content: space-evenly
+.hour-outer
+  display: flex
+  flex-direction: row
+  justify-content: space-evenly
+.hour-inner
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+.day-row, .hour-row
+  width: calc(60vw + 6em)
+  margin: 0 auto
+.day-temp, .hour-data
+  display: flex
+  flex-direction: column
+  align-items: center
+.hour-data
+  font-size: .8rem
+  margin-left: .5em
+.hour-time
+  display: flex
+  flex-direction: row
+  align-items: center
+.hour-time span
+  margin-left: 0.4em
+.hour-icon
+  width: 4em
+  height: 4em
+.icon-auto
+  margin: 0 auto
 
-  @keyframes animation-bg
-    0%
-      background-position: left
-    50%
-      background-position: right
-    100%
-      background-position: left
+@keyframes animation-bg
+  0%
+    background-position: left
+  50%
+    background-position: right
+  100%
+    background-position: left
 </style>

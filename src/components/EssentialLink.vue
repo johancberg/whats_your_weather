@@ -14,36 +14,26 @@
 
     <q-item-section>
       <q-item-label>{{ title }}</q-item-label>
-      <q-item-label caption>
-        {{ caption }}
-      </q-item-label>
+      <q-item-label caption>{{ caption }}</q-item-label>
     </q-item-section>
   </q-item>
 </template>
 
-<script>
-export default {
-  name: 'EssentialLink',
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
+<script setup lang="ts">
+defineOptions({
+  name: 'EssentialLink'
+});
 
-    caption: {
-      type: String,
-      default: ''
-    },
+export interface EssentialLinkProps {
+  title: string;
+  caption?: string;
+  link?: string;
+  icon?: string;
+};
 
-    link: {
-      type: String,
-      default: '#'
-    },
-
-    icon: {
-      type: String,
-      default: ''
-    }
-  }
-}
+withDefaults(defineProps<EssentialLinkProps>(), {
+  caption: '',
+  link: '#',
+  icon: '',
+});
 </script>

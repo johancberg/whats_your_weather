@@ -4,15 +4,15 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { mapActions } from 'vuex'
 
-export default {
+defineOptions({
   methods: {
     ...mapActions('data', ['getSettings'])
   },
   mounted () {
     this.getSettings()
   }
-}
+})
 </script>

@@ -1,14 +1,22 @@
+/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
  *
  * You are probably looking on adding startup/initialization code.
  * Use "quasar new boot <name>" and add it there.
- * One boot file per concern. Then reference the file(s) in quasar.conf.js > boot:
+ * One boot file per concern. Then reference the file(s) in quasar.config.js > boot:
  * boot: ['file', ...] // do not add ".js" extension to it.
  *
  * Boot files are your "main.js"
  **/
+
+
+import { createApp } from 'vue'
+
+
+
+
 
 
 
@@ -25,67 +33,64 @@ import 'quasar/dist/quasar.sass'
 
 
 
-import 'src/css/app.sass'
+import 'src/css/app.scss'
 
 
-import Vue from 'vue'
-import createApp from './app.js'
-
-
-
-
-import qboot_Bootaxios from 'boot/axios'
+import createQuasarApp from './app.js'
+import quasarUserOptions from './quasar-user-options.js'
 
 
 
 
 
 
-
-Vue.config.devtools = true
-Vue.config.productionTip = false
+console.info('[Quasar] Running SPA.')
 
 
+const publicPath = `/`
 
-console.info('[Quasar] Running CORDOVA.')
-
-
-
-
-
-const publicPath = ``
-
-
-async function start () {
-  const { app, store, router } = await createApp()
-
+async function start ({
+  app,
+  router
+  , store, storeKey
+}, bootFiles) {
   
 
   
   let hasRedirected = false
+  const getRedirectUrl = url => {
+    try { return router.resolve(url).href }
+    catch (err) {}
+
+    return Object(url) === url
+      ? null
+      : url
+  }
   const redirect = url => {
     hasRedirected = true
-    const normalized = Object(url) === url
-      ? router.resolve(url).route.fullPath
-      : url
 
-    window.location.href = normalized
+    if (typeof url === 'string' && /^https?:\/\//.test(url)) {
+      window.location.href = url
+      return
+    }
+
+    const href = getRedirectUrl(url)
+
+    // continue if we didn't fail to resolve the url
+    if (href !== null) {
+      window.location.href = href
+      window.location.reload()
+    }
   }
 
   const urlPath = window.location.href.replace(window.location.origin, '')
-  const bootFiles = [qboot_Bootaxios]
 
   for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
-    if (typeof bootFiles[i] !== 'function') {
-      continue
-    }
-
     try {
       await bootFiles[i]({
         app,
         router,
         store,
-        Vue,
         ssrContext: null,
         redirect,
         urlPath,
@@ -94,7 +99,7 @@ async function start () {
     }
     catch (err) {
       if (err && err.url) {
-        window.location.href = err.url
+        redirect(err.url)
         return
       }
 
@@ -108,21 +113,15 @@ async function start () {
   }
   
 
+  app.use(router)
+  app.use(store, storeKey)
+
   
 
     
 
     
-    document.addEventListener('deviceready', () => {
-    Vue.prototype.$q.cordova = window.cordova
-    
-
-    
-      new Vue(app)
-    
-
-    
-    }, false) // on deviceready
+      app.mount('#q-app')
     
 
     
@@ -131,4 +130,33 @@ async function start () {
 
 }
 
-start()
+createQuasarApp(createApp, quasarUserOptions)
+
+  .then(app => {
+    // eventually remove this when Cordova/Capacitor/Electron support becomes old
+    const [ method, mapFn ] = Promise.allSettled !== void 0
+      ? [
+        'allSettled',
+        bootFiles => bootFiles.map(result => {
+          if (result.status === 'rejected') {
+            console.error('[Quasar] boot error:', result.reason)
+            return
+          }
+          return result.value.default
+        })
+      ]
+      : [
+        'all',
+        bootFiles => bootFiles.map(entry => entry.default)
+      ]
+
+    return Promise[ method ]([
+      
+      import('boot/axios')
+      
+    ]).then(bootFiles => {
+      const boot = mapFn(bootFiles).filter(entry => typeof entry === 'function')
+      start(app, boot)
+    })
+  })
+

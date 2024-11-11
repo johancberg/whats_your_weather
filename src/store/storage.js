@@ -1,8 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 import { LocalStorage } from 'quasar'
-
-Vue.use(Vuex)
 
 const state = {
   general: {
@@ -94,7 +91,7 @@ const actions = {
   switchWeather ({ commit }, payload) {
     commit('mutateWeather', payload)
   },
-  saveSettings ({ state, dispatch }) {
+  saveSettings ({ state }) {
     LocalStorage.set('settings', state)
   },
   getSettings ({ commit }) {
@@ -105,28 +102,23 @@ const actions = {
   }
 }
 
-const getters = {
-  general: (state) => {
-    return state.general
-  },
-  view: (state) => {
-    return state.view
-  },
-  graphics: (state) => {
-    return state.graphics
-  },
-  getWeather: (state) => {
-    if (state.weatherStorage === {}) {
-      return undefined
-    }
-    return state.weatherStorage
-  }
-}
-
-export default {
+export default createStore({
   namespaced: true,
   state,
   mutations,
   actions,
-  getters
-}
+  getters(){
+    return {
+      general: (state) => state.general,
+      view: (state) => state.view,
+      graphics: (state) => state.graphics,
+      getWeather: (state) => {
+        //if (state.weatherStorage === {}) {
+        //  return undefined
+        //}
+        return state.weatherStorage
+      }
+    }
+  }
+
+})

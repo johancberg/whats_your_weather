@@ -5,7 +5,7 @@
     clickable
     v-ripple>
       <q-item-section side top>
-        <q-checkbox :value="setting.active" class="no-pointer-events"/> <!-- Should be setting.active -->
+        <q-checkbox :value="setting.active" class="no-pointer-events"/>
       </q-item-section>
 
       <q-item-section>
