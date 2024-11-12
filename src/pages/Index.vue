@@ -2,21 +2,19 @@
   <q-page class="flex column" :class="bgClass">
     <VueHeader :weatherData="weatherData" :route="route" @getLocation="getLocation"/>
 
-    <template>
-      <div class="col column text-center text-white">
-        <div class="col text-h2 text-weight-thin">
-          What's Your<br>Weather
-        </div>
-        <q-btn
-          to="/position"
-          class="col"
-          flat=""
-        >
-          <q-icon left size="3em" name="my_location" />
-          <div>Find my location</div>
-        </q-btn>
+    <div class="col column text-center text-white">
+      <div class="col text-h2 text-weight-thin">
+        What's Your<br>Weather
       </div>
-    </template>
+      <q-btn
+        to="/position"
+        class="col"
+        flat=""
+      >
+        <q-icon left size="3em" name="my_location" />
+        <div>Find my location</div>
+      </q-btn>
+    </div>
 
     <div class="col skyline"></div>
   </q-page>
