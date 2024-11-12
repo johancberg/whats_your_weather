@@ -64,7 +64,7 @@ const mutations = {
     } else if (payload.id.slice(0, 2) === 'AN') {
       Object.assign(state.graphics[payload.id], payload.updates)
     }
-    // state.settings[payload.id].active = payload.updates.active
+    state.settings[payload.id].active = payload.updates.active
   },
   mutateWeather (state, payload) {
     Object.assign(state.weatherStorage, payload.updates)

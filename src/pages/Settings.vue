@@ -22,35 +22,68 @@
           name="Back"
         />
         <q-item-label header>General</q-item-label>
-        <setting
-          v-for="(setting, key) in general"
+        <q-item v-for="(setting, key) in general"
           :key="key"
-          :setting="setting"
-          :id="key">
-        </setting>
+          @click="switchActive({ id: key, updates: { active: !setting.active }})"
+          tag="label"
+          clickable
+          v-ripple>
+          <q-item-section side top>
+            <q-checkbox model-value="setting.active" class="no-pointer-events"/>
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>{{ setting.name }}</q-item-label>
+            <q-item-label caption>
+              {{ setting.description }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
 
         <q-item-label header>View</q-item-label>
-        <setting
-          v-for="(setting, key) in view"
+        <q-item v-for="(setting, key) in view"
           :key="key"
-          :setting="setting"
-          :id="key">
-        </setting>
+          @click="switchActive({ id: key, updates: { active: !setting.active }})"
+          tag="label"
+          clickable
+          v-ripple>
+          <q-item-section side top>
+            <q-checkbox model-value="setting.active" class="no-pointer-events"/>
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>{{ setting.name }}</q-item-label>
+            <q-item-label caption>
+              {{ setting.description }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
 
         <q-item-label header>Graphics</q-item-label>
-        <setting
-          v-for="(setting, key) in graphics"
+        <q-item v-for="(setting, key) in graphics"
           :key="key"
-          :setting="setting"
-          :id="key">
-        </setting>
+          @click="switchActive({ id: key, updates: { active: !setting.active }})"
+          tag="label"
+          clickable
+          v-ripple>
+          <q-item-section side top>
+            <q-checkbox model-value="setting.active" class="no-pointer-events"/>
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>{{ setting.name }}</q-item-label>
+            <q-item-label caption>
+              {{ setting.description }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
       <div class="skyline settings-content"></div>
   </q-page>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'WeatherApp',
@@ -59,6 +92,7 @@ export default {
     }
   },
   computed: {
+    ...mapActions('data', ['switchActive']),
     ...mapGetters('data', ['general', 'view', 'graphics']),
     bgTheme () {
       if (this.graphics?.AN3?.active) {
@@ -67,9 +101,6 @@ export default {
         return 'blue'
       }
     }
-  },
-  components: {
-    setting: () => import('components/SettingsMap/Option.vue')
   }
 }
 </script>
