@@ -1,4 +1,3 @@
-import { createStore } from 'vuex'
 import { LocalStorage } from 'quasar'
 
 const state = {
@@ -102,23 +101,18 @@ const actions = {
   }
 }
 
-export default createStore({
+const data = {
   namespaced: true,
   state,
   mutations,
   actions,
-  getters(){
-    return {
-      general: (state) => state.general,
-      view: (state) => state.view,
-      graphics: (state) => state.graphics,
-      getWeather: (state) => {
-        //if (state.weatherStorage === {}) {
-        //  return undefined
-        //}
-        return state.weatherStorage
-      }
-    }
+  getters: {
+    general: (state) => state.general,
+    view: (state) => state.view,
+    graphics: (state) => state.graphics,
+    getWeather: (state) => state.weatherStorage
   }
 
-})
+}
+
+export default data;
