@@ -391,11 +391,11 @@ export default {
       }
     },
     exeWeather () {
-      // if (this.getWeather === undefined) {
-      this.getLocation()
-      // } else {
-      //  this.weatherData = this.getWeather
-      // }
+       if (this.getWeather === undefined) {
+        this.getLocation()
+       } else {
+        this.weatherData = this.getWeather
+       }
     },
     isMidnight (hour) {
       const str = this.getUTCTimeFormat
