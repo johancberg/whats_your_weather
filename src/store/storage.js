@@ -56,27 +56,27 @@ const state = {
 }
 
 const mutations = {
-  mutateActive (state, payload) {
-    if (payload.id.slice(0, 2) === 'GD') {
-      Object.assign(state.general[payload.id], payload.updates)
-    } else if (payload.id.slice(0, 2) === 'VW') {
-      Object.assign(state.view[payload.id], payload.updates)
-    } else if (payload.id.slice(0, 2) === 'AN') {
-      Object.assign(state.graphics[payload.id], payload.updates)
+  mutateActive (state, { id, updates }) {
+    if (id.slice(0, 2) === 'GD') {
+      Object.assign(state.general[id], updates)
+    } else if (id.slice(0, 2) === 'VW') {
+      Object.assign(state.view[id], updates)
+    } else if (id.slice(0, 2) === 'AN') {
+      Object.assign(state.graphics[id], updates)
     }
-    state.settings[payload.id].active = payload.updates.active
+    //state.settings[id].active = updates.active
   },
-  mutateWeather (state, payload) {
-    Object.assign(state.weatherStorage, payload.updates)
+  mutateWeather (state, { updates }) {
+    Object.assign(state.weatherStorage, updates)
   },
-  loadStorage (state, memory) {
+  loadStorage (state,  {general, view, graphics}) {
     // Check if states/the app have been updted. If it has don't load from storage.
-    if (Object.keys(state.general).length === Object.keys(memory.general).length) {
-      Object.assign(state.general, memory.general)
-    } if (Object.keys(state.view).length === Object.keys(memory.view).length) {
-      Object.assign(state.view, memory.view)
-    } if (Object.keys(state.graphics).length === Object.keys(memory.graphics).length) {
-      Object.assign(state.graphics, memory.graphics)
+    if (Object.keys(state.general).length === Object.keys(general).length) {
+      Object.assign(state.general, general)
+    } if (Object.keys(state.view).length === Object.keys(view).length) {
+      Object.assign(state.view, view)
+    } if (Object.keys(state.graphics).length === Object.keys(graphics).length) {
+      Object.assign(state.graphics, graphics)
     }
     // }
   }
@@ -101,18 +101,19 @@ const actions = {
   }
 }
 
+const getters = {
+  general: (state) => state.general,
+  view: (state) => state.view,
+  graphics: (state) => state.graphics,
+  getWeather: (state) => state.weatherStorage
+}
+
 const data = {
   namespaced: true,
   state,
   mutations,
   actions,
-  getters: {
-    general: (state) => state.general,
-    view: (state) => state.view,
-    graphics: (state) => state.graphics,
-    getWeather: (state) => state.weatherStorage
-  }
-
+  getters
 }
 
 export default data;
