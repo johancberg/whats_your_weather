@@ -340,7 +340,7 @@ export default {
       }
     },
     getTimezone (localTimezone) {
-      const isDST = this.getDST() ? 1 : 0
+      const isDST = this.getDST()
       const timezone = localTimezone + isDST
       if (timezone === 10) {
         return 'HST'
