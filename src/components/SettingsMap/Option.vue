@@ -5,7 +5,7 @@
     clickable
     v-ripple>
       <q-item-section side top>
-        <q-checkbox :value="setting.active" class="no-pointer-events"/>
+        <q-checkbox :model-value="setting.active" class="no-pointer-events"/>
       </q-item-section>
 
       <q-item-section>
@@ -25,7 +25,16 @@ export default {
     return {
     }
   },
-  props: ['setting', 'id', 'value'],
+  props: {
+    setting: {
+      type: Object,
+      required: true
+    },
+    id: {
+      type: [String, Number],
+      required: true
+    }
+  },
   methods: {
     ...mapActions('data', ['switchActive']),
     toggleActive(payload) {
