@@ -1,6 +1,6 @@
 <template>
   <q-item
-    @click="switchActive({ id: id, updates: { active: !setting.active }})"
+    @click="toggleActive({ id: id, updates: { active: !setting.active }})"
     tag="label"
     clickable
     v-ripple>
@@ -23,12 +23,14 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
-      check1: false
     }
   },
-  props: ['setting', 'id'],
+  props: ['setting', 'id', 'value'],
   methods: {
-    ...mapActions('data', ['switchActive'])
+    ...mapActions('data', ['switchActive']),
+    toggleActive(payload) {
+      this.$store.dispatch('data/switchActive', payload);
+    }
   }
 }
 </script>
