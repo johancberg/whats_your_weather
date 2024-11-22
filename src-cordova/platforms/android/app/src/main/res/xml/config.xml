@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="se.johancberg.whatsyourweather" version="2.3.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="se.johancberg.whatsyourweather" version="2.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
@@ -8,10 +8,10 @@
     <author email="johan94berg@gmail.com" href="http://johancberg.se">
         Johan C Berg
     </author>
-    <content src="index.html" />
+    <content src="http://192.168.96.236:9400" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-navigation href="about:*" />
-    <allow-navigation href="index.html" />
+    <allow-navigation href="http://192.168.96.236:9400" />
     <preference name="loglevel" value="DEBUG" />
 </widget>
