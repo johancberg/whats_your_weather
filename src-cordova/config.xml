@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="se.johancberg.whatsyourweather" version="2.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>What's Your Weather</name>
-    <description>This is a simple and stylish application that helps you find out information about the current weather.</description>
+    <description>A weather app</description>
     <author email="johan94berg@gmail.com" href="http://johancberg.se">
         Johan C Berg
     </author>

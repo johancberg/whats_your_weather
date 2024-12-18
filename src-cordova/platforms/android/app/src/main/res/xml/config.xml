@@ -4,14 +4,14 @@
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
     <name>What's Your Weather</name>
-    <description>This is a simple and stylish application that helps you find out information about the current weather.</description>
+    <description>A weather app</description>
     <author email="johan94berg@gmail.com" href="http://johancberg.se">
         Johan C Berg
     </author>
-    <content src="http://192.168.96.236:9400" />
+    <content src="http://192.168.0.122:9400" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-navigation href="about:*" />
-    <allow-navigation href="http://192.168.96.236:9400" />
+    <allow-navigation href="http://192.168.0.122:9400" />
     <preference name="loglevel" value="DEBUG" />
 </widget>

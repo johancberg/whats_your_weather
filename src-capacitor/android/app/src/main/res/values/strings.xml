@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">What\'s your weather</string>
+    <string name="title_activity_main">What\'s your weather</string>
+    <string name="package_name">se.capacitor.johancberg.whatsyourweather</string>
+    <string name="custom_url_scheme">se.capacitor.johancberg.whatsyourweather</string>
+</resources>
