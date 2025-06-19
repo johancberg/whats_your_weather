@@ -1,16 +1,14 @@
 <template>
   <q-page class="flex column" :class="bgClass">
-    <VueHeader :weatherData="weatherData" :route="route" @getLocation="getLocation"/>
+    <VueHeader
+      :weatherData="weatherData"
+      :route="route"
+      @getLocation="getLocation"
+    />
 
     <div class="col column text-center text-white">
-      <div class="col text-h2 text-weight-thin">
-        What's Your<br>Weather
-      </div>
-      <q-btn
-        to="/position"
-        class="col"
-        flat=""
-      >
+      <div class="col text-h2 text-weight-thin">What's Your<br />Weather</div>
+      <q-btn to="/position" class="col" flat="">
         <q-icon left size="3em" name="my_location" />
         <div>Find my location</div>
       </q-btn>
@@ -21,44 +19,44 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import VueHeader from 'components/VueHeader.vue'
+import { mapActions, mapGetters } from 'vuex';
+import VueHeader from 'components/VueHeader.vue';
 export default {
   name: 'WeatherApp',
-  data () {
+  data() {
     return {
       search: '',
       weatherData: null,
-      route: 'index'
-    }
+      route: 'index',
+    };
   },
   components: {
-    VueHeader
+    VueHeader,
   },
   computed: {
     ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather']),
     ...mapActions('data', ['switchWeather']),
-    bgClass () {
-      let className = ''
+    bgClass() {
+      let className = '';
       if (this.graphics?.AN3?.active) {
-        className = 'maroon'
+        className = 'maroon';
       } else {
-        className = 'blue'
+        className = 'blue';
       }
-      return className
+      return className;
     },
-    getLocation () {
-      return 0
-    }
+    getLocation() {
+      return 0;
+    },
   },
-  mounted () {
-    navigator.permissions.query({ name: 'geolocation' }).then(status => {
+  mounted() {
+    navigator.permissions.query({ name: 'geolocation' }).then((status) => {
       if (status.state === 'granted') {
-        this.$router.push('/position')
+        this.$router.push('/position');
       }
-    })
-  }
-}
+    });
+  },
+};
 </script>
 
 <style lang="sass">

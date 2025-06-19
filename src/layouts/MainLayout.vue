@@ -1,6 +1,5 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -8,16 +7,13 @@
 </template>
 
 <script>
-
 export default {
   name: 'MainLayout',
 
-  components: {
-  },
+  components: {},
 
-  data () {
-    return {
-    }
-  }
-}
+  data() {
+    return {};
+  },
+};
 </script>

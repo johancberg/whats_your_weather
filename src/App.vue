@@ -3,14 +3,14 @@
 </template>
 
 <script setup lang="ts">
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
 
 defineOptions({
   methods: {
-    ...mapActions('data', ['getSettings'])
+    ...mapActions('data', ['getSettings']),
   },
-  mounted () {
-    this.getSettings()
-  }
-})
+  mounted() {
+    this.getSettings();
+  },
+});
 </script>

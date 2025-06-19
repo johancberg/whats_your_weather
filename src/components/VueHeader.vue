@@ -8,32 +8,35 @@
       borderless
     >
       <template v-slot:before>
-        <q-btn v-if="checkRoute"
+        <q-btn
+          v-if="checkRoute"
           round
           dense
           flat
           to="/position"
           icon="my_location"
         />
-        <q-btn v-else
+        <q-btn
+          v-else
           round
           dense
           flat
           @click="getLocation"
           icon="my_location"
         />
-
       </template>
 
       <template v-slot:append>
-        <q-btn v-if="search"
+        <q-btn
+          v-if="search"
           @click="getWeatherBySearch"
           round
           dense
           flat
           icon="search"
         />
-        <q-btn v-if="weatherData"
+        <q-btn
+          v-if="weatherData"
           to="/settings"
           round
           dense
@@ -47,27 +50,27 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      search: ''
-    }
+      search: '',
+    };
   },
   props: {
     weatherData: Object,
-    route: String
+    route: String,
   },
   computed: {
-    checkRoute () {
-      return this.route === 'index'
-    }
+    checkRoute() {
+      return this.route === 'index';
+    },
   },
   methods: {
-    getWeatherBySearch () {
-      this.$emit('getWeatherBySearch', this.search)
+    getWeatherBySearch() {
+      this.$emit('getWeatherBySearch', this.search);
     },
-    getLocation () {
-      this.$emit('getLocation')
-    }
-  }
-}
+    getLocation() {
+      this.$emit('getLocation');
+    },
+  },
+};
 </script>

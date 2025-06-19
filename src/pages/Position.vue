@@ -1,6 +1,10 @@
 <template>
-  <q-page v-if="page.twentyfourHours"  class="flex column" :class="bgClass">
-    <VueHeader :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
+  <q-page v-if="page.twentyfourHours" class="flex column" :class="bgClass">
+    <VueHeader
+      :weatherData="weatherData"
+      @getWeatherBySearch="getWeatherBySearch($event)"
+      @getLocation="getLocation"
+    />
 
     <div class="text-white text-center q-mb-lg">
       <div class="text-h4 text-weight-light">
@@ -8,48 +12,75 @@
       </div>
     </div>
     <div class="text-center hour-content">
-      <q-scroll-area :visible="visibleBar"
-      :thumb-style="thumbStyle"
-      :bar-style="barStyle"
-      style="max-height: 90%; width: 100%;">
+      <q-scroll-area
+        :visible="visibleBar"
+        :thumb-style="thumbStyle"
+        :bar-style="barStyle"
+        style="max-height: 90%; width: 100%"
+      >
         <div v-for="i in 24" :key="i" class="q-py-xs hour-row">
-          <div v-if="isMidnight(i)" class="text-h6 text-weight-light text-white">{{ getFullDateName(1) }} {{ getDateFormat(1) }}</div>
+          <div
+            v-if="isMidnight(i)"
+            class="text-h6 text-weight-light text-white"
+          >
+            {{ getFullDateName(1) }} {{ getDateFormat(1) }}
+          </div>
           <div class="text-white text-weight-light hour-inner">
             <div class="hour-time">
-              <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon }@2x.png`">
-              <span class="text-weight-bold">{{ Math.round(weatherData.hourly[i].temp) }} &deg;C</span>
+              <img
+                class="hour-icon"
+                :src="`https://openweathermap.org/img/wn/${weatherData.hourly[i].weather[0].icon}@2x.png`"
+              />
+              <span class="text-weight-bold"
+                >{{ Math.round(weatherData.hourly[i].temp) }} &deg;C</span
+              >
               <div class="hour-data">
-                <span v-if="viewWindActive"> {{ weatherData.hourly[i].wind_speed || 0 }} m/s</span>
-                <span v-if="viewRainActive && weatherData.hourly[i].rain"> {{ weatherData.hourly[i].rain['1h'] || 0 }} mm</span>
+                <span v-if="viewWindActive">
+                  {{ weatherData.hourly[i].wind_speed || 0 }} m/s</span
+                >
+                <span v-if="viewRainActive && weatherData.hourly[i].rain">
+                  {{ weatherData.hourly[i].rain['1h'] || 0 }} mm</span
+                >
                 <span v-else-if="viewRainActive">0 mm</span>
               </div>
             </div>
             <div class="hour-time">
               <span>{{ setDestinedTimeFormat(i) }} </span>
-              <span> {{ getTimezone( 0 - (weatherData.timezone_offset / 3600)) }}</span>
+              <span>
+                {{ getTimezone(0 - weatherData.timezone_offset / 3600) }}</span
+              >
             </div>
           </div>
         </div>
       </q-scroll-area>
     </div>
     <div class="col row">
-      <q-btn
-        class="col"
-        v-on:click="page.twentyfourHours=false"
-        flat=""
-      >
+      <q-btn class="col" v-on:click="page.twentyfourHours = false" flat="">
         <div class="sub-menu">
-          <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+          <q-icon
+            class="text-white icon-auto"
+            left
+            size="3em"
+            name="cloud_queue"
+          />
           <div class="text-white">To main page</div>
         </div>
       </q-btn>
       <q-btn
         class="col"
-        v-on:click="page.twentyfourHours=false;page.sevenDays=true"
+        v-on:click="
+          page.twentyfourHours = false;
+          page.sevenDays = true;
+        "
         flat=""
       >
         <div class="sub-menu">
-          <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+          <q-icon
+            class="text-white icon-auto"
+            left
+            size="3em"
+            name="cloud_queue"
+          />
           <div class="text-white">7 days</div>
         </div>
       </q-btn>
@@ -58,8 +89,12 @@
     <div class="col skyline"></div>
   </q-page>
 
-    <q-page v-else-if="page.sevenDays"  class="flex column" :class="bgClass">
-    <VueHeader :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
+  <q-page v-else-if="page.sevenDays" class="flex column" :class="bgClass">
+    <VueHeader
+      :weatherData="weatherData"
+      @getWeatherBySearch="getWeatherBySearch($event)"
+      @getLocation="getLocation"
+    />
 
     <div class="text-white text-center q-mb-lg">
       <div class="text-h4 text-weight-light">
@@ -67,21 +102,34 @@
       </div>
     </div>
     <div class="text-center hour-content">
-      <q-scroll-area :visible="visibleBar"
-      :thumb-style="thumbStyle"
-      :bar-style="barStyle"
-      style="max-height: 90%; width: 100%;">
+      <q-scroll-area
+        :visible="visibleBar"
+        :thumb-style="thumbStyle"
+        :bar-style="barStyle"
+        style="max-height: 90%; width: 100%"
+      >
         <div class="day-row" v-for="i in 7" :key="i">
           <div class="text-white text-weight-light hour-inner">
             <div class="hour-time">
-              <img class="hour-icon" :src="`https://openweathermap.org/img/wn/${weatherData.daily[i].weather[0].icon }@2x.png`">
+              <img
+                class="hour-icon"
+                :src="`https://openweathermap.org/img/wn/${weatherData.daily[i].weather[0].icon}@2x.png`"
+              />
               <div class="day-temp">
-                <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.max) }} &deg;C</span>
-                <span class="text-weight-bold">{{ Math.round(weatherData.daily[i].temp.min) }} &deg;C</span>
+                <span class="text-weight-bold"
+                  >{{ Math.round(weatherData.daily[i].temp.max) }} &deg;C</span
+                >
+                <span class="text-weight-bold"
+                  >{{ Math.round(weatherData.daily[i].temp.min) }} &deg;C</span
+                >
               </div>
               <div class="hour-data">
-                <span v-if="viewWindActive"> {{ weatherData.daily[i].wind_speed || 0 }} m/s</span>
-                <span v-if="viewRainActive && weatherData.daily[i].rain"> {{ weatherData.daily[i].rain || 0 }} mm</span>
+                <span v-if="viewWindActive">
+                  {{ weatherData.daily[i].wind_speed || 0 }} m/s</span
+                >
+                <span v-if="viewRainActive && weatherData.daily[i].rain">
+                  {{ weatherData.daily[i].rain || 0 }} mm</span
+                >
                 <span v-else-if="viewRainActive">0 mm</span>
               </div>
             </div>
@@ -96,21 +144,30 @@
     <div class="col row">
       <q-btn
         class="col"
-        v-on:click="page.sevenDays=false;page.twentyfourHours=true"
+        v-on:click="
+          page.sevenDays = false;
+          page.twentyfourHours = true;
+        "
         flat=""
       >
         <div class="sub-menu">
-          <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+          <q-icon
+            class="text-white icon-auto"
+            left
+            size="3em"
+            name="cloud_queue"
+          />
           <div class="text-white">24 hours</div>
         </div>
       </q-btn>
-      <q-btn
-        class="col"
-        v-on:click="page.sevenDays=false"
-        flat=""
-      >
+      <q-btn class="col" v-on:click="page.sevenDays = false" flat="">
         <div class="sub-menu">
-          <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+          <q-icon
+            class="text-white icon-auto"
+            left
+            size="3em"
+            name="cloud_queue"
+          />
           <div class="text-white">To main page</div>
         </div>
       </q-btn>
@@ -120,81 +177,130 @@
   </q-page>
 
   <q-page v-else class="flex column" :class="bgClass">
-    <VueHeader :weatherData="weatherData" @getWeatherBySearch="getWeatherBySearch($event)" @getLocation="getLocation"/>
+    <VueHeader
+      :weatherData="weatherData"
+      @getWeatherBySearch="getWeatherBySearch($event)"
+      @getLocation="getLocation"
+    />
 
     <template v-if="weatherData && cityData">
-    <div class="text-white text-center">
-      <div class="text-h4 text-weight-light">
-        {{ cityData.name }}, {{ cityData.country }}
-      </div>
-      <div class="text-h6 text-weight-light">
-        {{ weatherData.current.weather[0].main }}
-      </div>
-      <div class="text-h1 text-weight-thin q-my-md relative-position">
-      <span>{{ Math.round(weatherData.current.temp) }}</span>
-      <span class="text-h4 relative-position degree">&deg;C</span>
-      </div>
-      <div><span class="text-h5 text-weight-light"> {{ setDestinedTimeFormat(0) }} {{ getTimezone( 0 - (weatherData.timezone_offset / 3600)) }} </span></div>
-      <div>
-        <template v-if="weatherData.timezone_offset < 0 && viewUTCActive">
-          <span class="text-h7 text-weight-light"> {{ setUTCTimeFormat }} GMT {{ weatherData.timezone_offset / 3600}}:00 </span>
-        </template>
-        <template v-else-if="weatherData.timezone_offset > 0 && viewUTCActive">
-          <span class="text-h7 text-weight-light"> {{ setUTCTimeFormat }} GMT +{{ weatherData.timezone_offset / 3600}}:00 </span>
-        </template>
-        <div v-if="(new Date().getTimezoneOffset() / 60) != (0 - (weatherData.timezone_offset / 3600)) && time && viewLocalActive">
-          <span class="text-h7 text-weight-light"> {{ setTimeFormat }} {{ getTimezone(new Date().getTimezoneOffset() / 60) }} </span>
+      <div class="text-white text-center">
+        <div class="text-h4 text-weight-light">
+          {{ cityData.name }}, {{ cityData.country }}
+        </div>
+        <div class="text-h6 text-weight-light">
+          {{ weatherData.current.weather[0].main }}
+        </div>
+        <div class="text-h1 text-weight-thin q-my-md relative-position">
+          <span>{{ Math.round(weatherData.current.temp) }}</span>
+          <span class="text-h4 relative-position degree">&deg;C</span>
+        </div>
+        <div>
+          <span class="text-h5 text-weight-light">
+            {{ setDestinedTimeFormat(0) }}
+            {{ getTimezone(0 - weatherData.timezone_offset / 3600) }}
+          </span>
+        </div>
+        <div>
+          <template v-if="weatherData.timezone_offset < 0 && viewUTCActive">
+            <span class="text-h7 text-weight-light">
+              {{ setUTCTimeFormat }} GMT
+              {{ weatherData.timezone_offset / 3600 }}:00
+            </span>
+          </template>
+          <template
+            v-else-if="weatherData.timezone_offset > 0 && viewUTCActive"
+          >
+            <span class="text-h7 text-weight-light">
+              {{ setUTCTimeFormat }} GMT +{{
+                weatherData.timezone_offset / 3600
+              }}:00
+            </span>
+          </template>
+          <div
+            v-if="
+              new Date().getTimezoneOffset() / 60 !=
+                0 - weatherData.timezone_offset / 3600 &&
+              time &&
+              viewLocalActive
+            "
+          >
+            <span class="text-h7 text-weight-light">
+              {{ setTimeFormat }}
+              {{ getTimezone(new Date().getTimezoneOffset() / 60) }}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="text-center">
-      <img :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon }@2x.png`">
-    </div>
-    <div v-if="weatherData.current.rain" class="text-center rain-wind">
-      <span v-if="viewWindActive" class="text-h6 text-white text-weight-light"> {{ weatherData.current.wind_speed || 0 }} m/s</span>
-      <span v-if="viewRainActive" class="text-h6 text-white text-weight-light"> {{ weatherData.current.rain['1h'] || 0 }} mm</span>
-    </div>
-    <div v-else class="text-center rain-wind">
-      <span v-if="viewWindActive" class="text-h6 text-white text-weight-light"> {{ weatherData.current.wind_speed || 0 }} m/s</span>
-      <span v-if="viewRainActive" class="text-h6 text-white text-weight-light">0 mm</span>
-    </div>
-  <div class="col row">
-        <q-btn
-          class="col"
-          v-on:click="page.twentyfourHours=true"
-          flat=""
+      <div class="text-center">
+        <img
+          :src="`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`"
+        />
+      </div>
+      <div v-if="weatherData.current.rain" class="text-center rain-wind">
+        <span
+          v-if="viewWindActive"
+          class="text-h6 text-white text-weight-light"
         >
+          {{ weatherData.current.wind_speed || 0 }} m/s</span
+        >
+        <span
+          v-if="viewRainActive"
+          class="text-h6 text-white text-weight-light"
+        >
+          {{ weatherData.current.rain['1h'] || 0 }} mm</span
+        >
+      </div>
+      <div v-else class="text-center rain-wind">
+        <span
+          v-if="viewWindActive"
+          class="text-h6 text-white text-weight-light"
+        >
+          {{ weatherData.current.wind_speed || 0 }} m/s</span
+        >
+        <span v-if="viewRainActive" class="text-h6 text-white text-weight-light"
+          >0 mm</span
+        >
+      </div>
+      <div class="col row">
+        <q-btn class="col" v-on:click="page.twentyfourHours = true" flat="">
           <div class="sub-menu">
-            <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+            <q-icon
+              class="text-white icon-auto"
+              left
+              size="3em"
+              name="cloud_queue"
+            />
             <div class="text-white">24 hours</div>
           </div>
         </q-btn>
-        <q-btn
-          class="col"
-          v-on:click="page.sevenDays=true"
-          flat=""
-        >
+        <q-btn class="col" v-on:click="page.sevenDays = true" flat="">
           <div class="sub-menu">
-            <q-icon class="text-white icon-auto" left size="3em" name="cloud_queue" />
+            <q-icon
+              class="text-white icon-auto"
+              left
+              size="3em"
+              name="cloud_queue"
+            />
             <div class="text-white">7 days</div>
           </div>
         </q-btn>
-    </div>
-  </template>
+      </div>
+    </template>
     <div class="col skyline"></div>
   </q-page>
 </template>
 
 <script>
-import VueHeader from 'components/VueHeader.vue'
-import { date } from 'quasar'
-import { mapActions, mapGetters } from 'vuex'
-import { returnApiKey } from './ApiKey'
+import VueHeader from 'components/VueHeader.vue';
+import { date } from 'quasar';
+import { mapActions, mapGetters } from 'vuex';
+import { returnApiKey } from './ApiKey';
 
 export default {
   name: 'WeatherApp',
-  data () {
+  data() {
     return {
       page: { twentyfourHours: false, sevenDays: false },
       weatherData: this.exeWeather(),
@@ -211,281 +317,324 @@ export default {
         borderRadius: '4px',
         backgroundColor: 'rgb(20, 56, 156)',
         width: '5px',
-        opacity: 0.75
+        opacity: 0.75,
       },
       barStyle: {
         right: '2px',
         borderRadius: '4px',
         backgroundColor: 'rgb(20, 56, 156)',
         width: '7px',
-        opacity: 0.2
-      }
-    }
+        opacity: 0.2,
+      },
+    };
   },
   components: {
-    VueHeader
+    VueHeader,
   },
   computed: {
     ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather']),
-    bgClass () {
-      let className = ''
+    bgClass() {
+      let className = '';
       if (this.weatherData && this.graphics?.AN1?.active) {
-        const timezone = this.weatherData.timezone_offset / 3600
-        const sunsetTime = new Date(this.weatherData.current.sunset * 1000)
-        const sunriseTime = new Date(this.weatherData.current.sunrise * 1000)
-        const currentTime = new Date()
-        const currentHour = ((currentTime.getUTCHours() + timezone) % 24 + 24) % 24
-        const sunsetHour = ((sunsetTime.getUTCHours() + timezone) % 24 + 24) % 24
-        const sunriseHour = ((sunriseTime.getUTCHours() + timezone) % 24 + 24) % 24
+        const timezone = this.weatherData.timezone_offset / 3600;
+        const sunsetTime = new Date(this.weatherData.current.sunset * 1000);
+        const sunriseTime = new Date(this.weatherData.current.sunrise * 1000);
+        const currentTime = new Date();
+        const currentHour =
+          (((currentTime.getUTCHours() + timezone) % 24) + 24) % 24;
+        const sunsetHour =
+          (((sunsetTime.getUTCHours() + timezone) % 24) + 24) % 24;
+        const sunriseHour =
+          (((sunriseTime.getUTCHours() + timezone) % 24) + 24) % 24;
         if (Math.abs(sunsetHour - currentHour) <= 1) {
-          className += 'bg-sunset'
+          className += 'bg-sunset';
         } else if (Math.abs(sunriseHour - currentHour) <= 1) {
-          className += 'bg-sunrise'
+          className += 'bg-sunrise';
         } else if (this.weatherData.current.weather[0].icon.endsWith('n')) {
-          className += 'bg-night'
+          className += 'bg-night';
         } else if (this.weatherData.current.weather[0].main === 'Rain') {
-          className += 'bg-rain'
+          className += 'bg-rain';
         } else {
-          className += 'bg-day'
+          className += 'bg-day';
         }
         if (!this.graphics?.AN2?.active) {
-          className += ' bg-animation'
+          className += ' bg-animation';
         }
-        return className
+        return className;
       } else if (this.graphics?.AN3?.active) {
-        className = 'maroon'
+        className = 'maroon';
       } else {
-        className = 'blue'
+        className = 'blue';
       }
-      return className
+      return className;
     },
-    setTimeFormat () {
-      const timeStamp = Date.now()
+    setTimeFormat() {
+      const timeStamp = Date.now();
       if (this.general?.GD1?.active) {
-        return date.formatDate(timeStamp, 'hh:00 A')
+        return date.formatDate(timeStamp, 'hh:00 A');
       } else {
-        return date.formatDate(timeStamp, 'HH:00')
+        return date.formatDate(timeStamp, 'HH:00');
       }
     },
-    setUTCTimeFormat () {
-      const str = this.setTimeFormat.toString()
-      let str1 = str.slice(0, 2)
-      const str2 = str.slice(2)
+    setUTCTimeFormat() {
+      const str = this.setTimeFormat.toString();
+      let str1 = str.slice(0, 2);
+      const str2 = str.slice(2);
       if (this.general?.GD1?.active) {
-        str1 = ((parseInt(str1) + new Date().getTimezoneOffset() / 60) + 12) % 12
+        str1 = (parseInt(str1) + new Date().getTimezoneOffset() / 60 + 12) % 12;
       } else {
-        str1 = ((parseInt(str1) + new Date().getTimezoneOffset() / 60) + 24) % 24
+        str1 = (parseInt(str1) + new Date().getTimezoneOffset() / 60 + 24) % 24;
       }
       if (str1.toString().length > 1) {
-        return (str1.toString() + str2)
+        return str1.toString() + str2;
       } else {
-        return ('0' + str1.toString() + str2)
+        return '0' + str1.toString() + str2;
       }
     },
-    getUTCTimeFormat () {
-      const str = date.formatDate(Date.now(), 'HH:00')
-      let str1 = str.slice(0, 2)
-      const str2 = str.slice(2)
-      str1 = ((parseInt(str1) + new Date().getTimezoneOffset() / 60) + 24) % 24
+    getUTCTimeFormat() {
+      const str = date.formatDate(Date.now(), 'HH:00');
+      let str1 = str.slice(0, 2);
+      const str2 = str.slice(2);
+      str1 = (parseInt(str1) + new Date().getTimezoneOffset() / 60 + 24) % 24;
       if (str1.toString().length > 1) {
-        return (str1.toString() + str2)
+        return str1.toString() + str2;
       } else {
-        return ('0' + str1.toString() + str2)
+        return '0' + str1.toString() + str2;
       }
     },
-    getAMPM () {
+    getAMPM() {
       if (this.general?.GD1?.active) {
-        if (((this.setDestinedTimeFormat(0) + this.weatherData.timezone_offset / 3600) % 24) < 12) {
-          return 'AM'
+        if (
+          (this.setDestinedTimeFormat(0) +
+            this.weatherData.timezone_offset / 3600) %
+            24 <
+          12
+        ) {
+          return 'AM';
         } else {
-          return 'PM'
+          return 'PM';
         }
       }
-      return ''
+      return '';
     },
-    viewLocalActive () {
-      return this.view?.VW1?.active
+    viewLocalActive() {
+      return this.view?.VW1?.active;
     },
-    viewUTCActive () {
-      return this.view?.VW2?.active
+    viewUTCActive() {
+      return this.view?.VW2?.active;
     },
-    viewRainActive () {
-      return this.view?.VW3?.active
+    viewRainActive() {
+      return this.view?.VW3?.active;
     },
-    viewWindActive () {
-      return this.view?.VW4?.active
-    }
+    viewWindActive() {
+      return this.view?.VW4?.active;
+    },
   },
   methods: {
     ...mapActions('data', ['switchWeather']),
-    setDestinedTimeFormat (hour) {
-      const str = this.getUTCTimeFormat
-      let str1 = parseInt(str.slice(0, 2))
-      let str2 = str.slice(2)
+    setDestinedTimeFormat(hour) {
+      const str = this.getUTCTimeFormat;
+      let str1 = parseInt(str.slice(0, 2));
+      let str2 = str.slice(2);
       if (this.general?.GD1?.active) {
-        if (((str1 + hour + this.weatherData.timezone_offset / 3600) % 24) < 12) {
-          str2 = str2.slice(0, 4) + ' AM'
+        if ((str1 + hour + this.weatherData.timezone_offset / 3600) % 24 < 12) {
+          str2 = str2.slice(0, 4) + ' AM';
         } else {
-          str2 = str2.slice(0, 4) + ' PM'
+          str2 = str2.slice(0, 4) + ' PM';
         }
-        str1 = (str1 + hour + (this.weatherData.timezone_offset / 3600)) % 12
-        if (str1 === 0) { str1 = 12 }
+        str1 = (str1 + hour + this.weatherData.timezone_offset / 3600) % 12;
+        if (str1 === 0) {
+          str1 = 12;
+        }
       } else {
-        str1 = (str1 + hour + (this.weatherData.timezone_offset / 3600)) % 24
+        str1 = (str1 + hour + this.weatherData.timezone_offset / 3600) % 24;
       }
       if (str1.toString().length > 1) {
-        return (str1.toString() + str2)
+        return str1.toString() + str2;
       } else {
-        return ('0' + str1.toString() + str2)
+        return '0' + str1.toString() + str2;
       }
     },
-    getTimezone (localTimezone) {
-      const isDST = this.getDST() ? 1 : 0
-      const timezone = localTimezone + isDST
+    getTimezone(localTimezone) {
+      const isDST = this.getDST() ? 1 : 0;
+      const timezone = localTimezone + isDST;
       if (timezone === 10) {
-        return 'HST'
+        return 'HST';
       } else if (timezone === 9) {
-        return 'AKST'
+        return 'AKST';
       } else if (timezone === 8) {
-        return 'PST'
+        return 'PST';
       } else if (timezone === 7) {
-        return 'PDT'
+        return 'PDT';
       } else if (timezone === 6) {
-        return 'CST'
+        return 'CST';
       } else if (timezone === 5) {
-        return 'EST'
+        return 'EST';
       } else if (timezone === 4) {
-        return 'EDT'
+        return 'EDT';
       } else if (timezone === 3) {
-        return 'ADT'
+        return 'ADT';
       } else if (timezone === 2) {
-        return 'AT'
+        return 'AT';
       } else if (timezone === 1) {
-        return 'WAT'
+        return 'WAT';
       } else if (timezone === 0) {
-        if (isDST) { return 'BST' } else { return 'GMT' }
+        if (isDST) {
+          return 'BST';
+        } else {
+          return 'GMT';
+        }
       } else if (timezone === -1) {
-        if (isDST) { return 'CEST' } else { return 'CET' }
+        if (isDST) {
+          return 'CEST';
+        } else {
+          return 'CET';
+        }
       } else if (timezone === -2) {
-        if (isDST) { return 'EEST' } else { return 'EET' }
+        if (isDST) {
+          return 'EEST';
+        } else {
+          return 'EET';
+        }
       } else if (timezone === -3) {
-        return 'MSK'
+        return 'MSK';
       } else if (timezone === -5) {
-        return 'PKT'
+        return 'PKT';
       } else if (timezone === -6) {
-        return 'OMSK'
+        return 'OMSK';
       } else if (timezone === -7) {
-        return 'KRAT'
+        return 'KRAT';
       } else if (timezone === -8) {
-        return 'CST'
+        return 'CST';
       } else if (timezone === -9) {
-        return 'AWST'
+        return 'AWST';
       } else if (timezone === -9.5) {
-        return 'ACST'
+        return 'ACST';
       } else if (timezone === -10) {
-        return 'AEST'
+        return 'AEST';
       } else if (timezone === -12) {
-        return 'NZST'
+        return 'NZST';
       } else {
-        return ''
+        return '';
       }
     },
-    exeWeather () {
-       if (this.getWeather === undefined) {
-        this.getLocation()
-       } else {
-        this.weatherData = this.getWeather
-       }
+    exeWeather() {
+      if (this.getWeather === undefined) {
+        this.getLocation();
+      } else {
+        this.weatherData = this.getWeather;
+      }
     },
-    isMidnight (hour) {
-      const str = this.getUTCTimeFormat
-      const str1 = parseInt(str.slice(0, 2))
-      return ((str1 + hour + this.weatherData.timezone_offset / 3600) % 24 === 0)
+    isMidnight(hour) {
+      const str = this.getUTCTimeFormat;
+      const str1 = parseInt(str.slice(0, 2));
+      return (str1 + hour + this.weatherData.timezone_offset / 3600) % 24 === 0;
     },
-    stdTimeZoneOffset () {
-      const fullYear = new Date().getFullYear()
-      const jan = new Date(fullYear, 0, 1)
-      const jul = new Date(fullYear, 6, 1)
-      return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset())
+    stdTimeZoneOffset() {
+      const fullYear = new Date().getFullYear();
+      const jan = new Date(fullYear, 0, 1);
+      const jul = new Date(fullYear, 6, 1);
+      return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
     },
-    getDST () {
-      return new Date().getTimezoneOffset() < this.stdTimeZoneOffset()
+    getDST() {
+      return new Date().getTimezoneOffset() < this.stdTimeZoneOffset();
     },
-    getLocation () {
-      this.$q.loading?.show()
-      this.cond = undefined //this.$q.platform.is.electron
+    getLocation() {
+      this.$q.loading?.show();
+      this.cond = undefined; //this.$q.platform.is.electron
       if (this.cond === true || this.cond !== undefined) {
-        this.$axios('https://freegeoip.app/json/').then(response => {
-          this.lat = response.data.latitude
-          this.lon = response.data.longitude
-          this.time = this.calculateTimezones(response.timestamp)
-          this.getWeatherByCoords()
-        })
+        this.$axios('https://freegeoip.app/json/').then((response) => {
+          this.lat = response.data.latitude;
+          this.lon = response.data.longitude;
+          this.time = this.calculateTimezones(response.timestamp);
+          this.getWeatherByCoords();
+        });
       } else {
         if ('geolocation' in navigator) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
-              this.lat = position.coords.latitude
-              this.lon = position.coords.longitude
-              this.time = this.calculateTimezones(position.timestamp)
-              this.getWeatherByCoords()
+              this.lat = position.coords.latitude;
+              this.lon = position.coords.longitude;
+              this.time = this.calculateTimezones(position.timestamp);
+              this.getWeatherByCoords();
             },
             (error) => {
-              console.error('Error getting location:', error)
+              console.error('Error getting location:', error);
             }
-          )
+          );
         } else {
-          console.error('Geolocation not available')
+          console.error('Geolocation not available');
         }
       }
     },
-    getFullDateName (timeToAdd) {
-      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'dddd')
+    getFullDateName(timeToAdd) {
+      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'dddd');
     },
-    getDateName (timeToAdd) {
-      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'ddd')
+    getDateName(timeToAdd) {
+      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'ddd');
     },
-    getDateFormat (timeToAdd) {
-      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'D MMM')
+    getDateFormat(timeToAdd) {
+      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'D MMM');
     },
-    getCityData () {
-      this.$axios(`${this.cityUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}`).then(response => {
-        this.cityData = response.data[0]
-      }).catch(error => {
-        this.$q.dialog({ title: 'Error', message: 'The inserted location could not be found: ' + error })
-      })
+    getCityData() {
+      this.$axios(
+        `${this.cityUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}`
+      )
+        .then((response) => {
+          this.cityData = response.data[0];
+        })
+        .catch((error) => {
+          this.$q.dialog({
+            title: 'Error',
+            message: 'The inserted location could not be found: ' + error,
+          });
+        });
     },
-    getWeatherByCoords () {
-      this.$q.loading?.show()
-      this.$axios(`${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`).then(response => {
-        this.weatherData = response.data
-        this.getCityData()
-        this.switchWeather({ updates: { weatherStorage: this.weatherData } })
-      }).catch(error => {
-        this.$q.dialog({ title: 'Error', message: 'Something unexpected happened: ' + error })
-      })
-      this.$q.loading?.hide()
+    getWeatherByCoords() {
+      this.$q.loading?.show();
+      this.$axios(
+        `${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`
+      )
+        .then((response) => {
+          this.weatherData = response.data;
+          this.getCityData();
+          this.switchWeather({ updates: { weatherStorage: this.weatherData } });
+        })
+        .catch((error) => {
+          this.$q.dialog({
+            title: 'Error',
+            message: 'Something unexpected happened: ' + error,
+          });
+        });
+      this.$q.loading?.hide();
     },
-    getWeatherBySearch (search) {
-      this.$q.loading?.show()
-      this.$axios(`https://api.openweathermap.org/geo/1.0/direct?q=${search}&appid=${this.apiKey}&units=metric`).then(response => {
-        this.lat = response.data[0].lat
-        this.lon = response.data[0].lon
-        this.getWeatherByCoords()
-        this.switchWeather({ updates: { weatherStorage: this.weatherData } })
-      }).catch(error => {
-        this.$q.dialog({ title: 'Error', message: 'The inserted location could not be found: ' + error })
-      })
-      this.$q.loading?.hide()
+    getWeatherBySearch(search) {
+      this.$q.loading?.show();
+      this.$axios(
+        `https://api.openweathermap.org/geo/1.0/direct?q=${search}&appid=${this.apiKey}&units=metric`
+      )
+        .then((response) => {
+          this.lat = response.data[0].lat;
+          this.lon = response.data[0].lon;
+          this.getWeatherByCoords();
+          this.switchWeather({ updates: { weatherStorage: this.weatherData } });
+        })
+        .catch((error) => {
+          this.$q.dialog({
+            title: 'Error',
+            message: 'The inserted location could not be found: ' + error,
+          });
+        });
+      this.$q.loading?.hide();
     },
-    calculateTimezones (timestamp) {
-      const date = new Date(timestamp * 1000 / 1000)
-      const timestr = date.toLocaleTimeString()
-      const timearray = timestr.split(':')
-      return timearray[0]
-    }
-  }
-}
+    calculateTimezones(timestamp) {
+      const date = new Date((timestamp * 1000) / 1000);
+      const timestr = date.toLocaleTimeString();
+      const timearray = timestr.split(':');
+      return timearray[0];
+    },
+  },
+};
 </script>
 
 <style lang="sass">
