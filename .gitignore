@@ -14,11 +14,6 @@ Complete versions
 /src-cordova/plugins
 /src-cordova/www
 
-# Capacitor related directories and files
-/src-capacitor/node_modules
-/src-capacitor/platforms
-/src-capacitor/plugins
-/src-capacitor/www
 
 # BEX related directories and files
 /src-bex/www
