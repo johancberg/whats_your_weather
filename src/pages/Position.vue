@@ -668,7 +668,7 @@ export default {
     &.bg-animation
       animation: 20s ease animation-bg infinite alternate
   &.bg-night
-    background: linear-gradient(-25deg, #232526, #414345, #2c5364)
+    background: linear-gradient(-25deg, #232526, #414345, #263840)
     background-size: 300%
     transition: 1s ease
     &.bg-animation
