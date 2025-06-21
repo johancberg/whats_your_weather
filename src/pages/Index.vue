@@ -22,7 +22,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import VueHeader from 'components/VueHeader.vue';
 export default {
-  name: 'WeatherApp',
+  name: 'WhatsYourWeather',
   data() {
     return {
       search: '',

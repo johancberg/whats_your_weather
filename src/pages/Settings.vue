@@ -46,7 +46,7 @@ import { mapGetters } from 'vuex';
 import * as option from 'components/SettingsMap/Option.vue';
 
 export default {
-  name: 'WeatherApp',
+  name: 'WhatsYourWeather',
   data() {
     return {};
   },

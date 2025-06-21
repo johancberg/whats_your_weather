@@ -299,7 +299,7 @@ import { mapActions, mapGetters } from 'vuex';
 import { returnApiKey } from './ApiKey';
 
 export default {
-  name: 'WeatherApp',
+  name: 'WhatsYourWeather',
   data() {
     return {
       page: { twentyfourHours: false, sevenDays: false },
