@@ -1,2 +1,2 @@
 background: rgb(0,49,74) / #00314a
-stripes: rgb(86,143,159)
+stripes: rgb(86,143,159) / #568f9f
