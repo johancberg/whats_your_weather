@@ -6,6 +6,8 @@
         Johan C Berg
     </author>
     <content src="index.html" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#00314a" />
+    <preference name="AndroidWindowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</preference>
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-navigation href="about:*" />

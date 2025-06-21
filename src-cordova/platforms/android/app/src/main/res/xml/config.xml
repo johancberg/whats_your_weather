@@ -8,10 +8,11 @@
     <author email="johan94berg@gmail.com" href="http://johancberg.se">
         Johan C Berg
     </author>
-    <content src="http://192.168.0.122:9400" />
+    <content src="index.html" />
+    <preference name="AndroidWindowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</preference>
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-navigation href="about:*" />
-    <allow-navigation href="http://192.168.0.122:9400" />
     <preference name="loglevel" value="DEBUG" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#00314a" />
 </widget>
