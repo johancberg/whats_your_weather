@@ -29,24 +29,24 @@ export default async function (createAppFn, quasarUserOptions) {
   // Here we inject into it the Quasar UI, the router & possibly the store.
   const app = createAppFn(RootComponent)
 
-  
+
   app.config.performance = true
-  
+
 
   app.use(Quasar, quasarUserOptions)
 
-  
 
-  
+
+
     const store = typeof createStore === 'function'
       ? await createStore({})
       : createStore
 
-    
+
       // obtain Vuex injection key in case we use TypeScript
       const { storeKey } = await import('app/src/store/index')
-    
-  
+
+
 
   const router = markRaw(
     typeof createRouter === 'function'
@@ -54,12 +54,12 @@ export default async function (createAppFn, quasarUserOptions) {
       : createRouter
   )
 
-  
+
     // make router instance available in store
-    
+
       store.$router = router
-    
-  
+
+
 
   // Expose the app, the router and the store.
   // Note that we are not mounting the app here, since bootstrapping will be
