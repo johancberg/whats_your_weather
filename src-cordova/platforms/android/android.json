@@ -36,11 +36,11 @@
     }
   },
   "installed_plugins": {
-    "cordova-plugin-geolocation": {
-      "GPS_REQUIRED": "true",
+    "cordova-plugin-proguard": {
       "PACKAGE_NAME": "se.johancberg.whatsyourweather"
     },
-    "cordova-plugin-proguard": {
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
       "PACKAGE_NAME": "se.johancberg.whatsyourweather"
     }
   },
@@ -62,7 +62,7 @@
     }
   ],
   "plugin_metadata": {
-    "cordova-plugin-geolocation": "5.0.0",
-    "cordova-plugin-proguard": "2.2.0"
+    "cordova-plugin-proguard": "2.2.0",
+    "cordova-plugin-geolocation": "5.0.0"
   }
 }
