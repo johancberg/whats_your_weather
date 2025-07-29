@@ -8,9 +8,9 @@
     <content src="index.html" />
     <preference name="AndroidWindowSplashScreenBackground" value="#00314a" />
     <preference name="AndroidWindowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</preference>
-    <preference name="android-minSdkVersion" value="24" />
-    <preference name="android-targetSdkVersion" value="35" />
-    <preference name="android-compileSdkVersion" value="35" />
+    <preference name="android-minSdkVersion" value="30" />
+    <preference name="android-targetSdkVersion" value="36" />
+    <preference name="android-compileSdkVersion" value="36" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-navigation href="about:*" />
