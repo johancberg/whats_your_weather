@@ -48,13 +48,41 @@ export default {
     getLocation() {
       return 0;
     },
+    detectPreferredLanguage() {
+      const lang = navigator.language || navigator.userLanguage;
+      const isSwedishLang = lang.startsWith('sv');
+
+      if (isSwedishLang) {
+        return 'sv';
+      }
+
+      // Fallback to geolocation/IP
+      fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+          if (data.country === 'SV') {
+            setAppLanguage('sv');
+          } else {
+            setAppLanguage('en');
+          }
+        })
+        .catch(() => {
+          setAppLanguage('en'); // default fallback
+        });
+    },
+    setAppLanguage(langCode) {
+      // Replace with your i18n setup
+      console.log('Setting language to:', langCode);
+      i18next.changeLanguage(langCode);
+    },
   },
   mounted() {
     navigator.permissions.query({ name: 'geolocation' }).then((status) => {
       if (status.state === 'granted') {
         this.$router.push('/position');
       }
-    });
+    }),
+    detectPreferredLanguage();
   },
 };
 </script>
