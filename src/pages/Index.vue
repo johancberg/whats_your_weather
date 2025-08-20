@@ -25,7 +25,6 @@ export default {
   name: 'WhatsYourWeather',
   data() {
     return {
-      search: '',
       weatherData: null,
       route: 'index',
     };
@@ -34,8 +33,8 @@ export default {
     VueHeader,
   },
   computed: {
-    ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather']),
-    ...mapActions('data', ['switchWeather']),
+    ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather', 'lang']),
+    ...mapActions('data', ['setLang, switchWeather']),
     bgClass() {
       let className = '';
       if (this.graphics?.AN3?.active) {
@@ -50,31 +49,28 @@ export default {
     },
   },
   methods: {
-    setAppLanguage(langCode) {
-      // Replace with your i18n setup
-      console.log('Setting language to:', langCode);
-      return i18next.changeLanguage(langCode);
-    },
-    detectPreferredLanguage() {
+    async detectPreferredLanguage() {
       const lang = navigator.language || navigator.userLanguage;
       const isSwedishLang = lang.startsWith('sv');
 
+      let detectedLang = 'en';
       if (isSwedishLang) {
-        return 'sv';
-      }
-
-      // Fallback to geolocation/IP
-      const res = fetch('https://ipapi.co/json/')
-      if (!res.ok) {
-        return 'en'; // Default to English if the request fails
-      }
-      const data = res.json();
-
-      if (data.country === 'SV') {
-        return setAppLanguage('sv');
+        detectedLang = 'sv';
       } else {
-        return setAppLanguage('en');
+        try {
+          const res = await fetch('https://ipapi.co/json/');
+          if (res.ok) {
+            const data = await res.json();
+            if (data.country === 'SV') {
+              detectedLang = 'sv';
+            }
+          }
+        } catch (e) {
+          // fallback to 'en'
+        }
       }
+      this.$store.dispatch('data/setLang', detectedLang);
+      return detectedLang;
     }
   },
   mounted() {

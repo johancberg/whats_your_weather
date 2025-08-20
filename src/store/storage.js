@@ -52,6 +52,7 @@ const state = {
       active: false,
     },
   },
+  lang: 'en', // Default language
   weatherStorage: {},
 };
 
@@ -69,7 +70,7 @@ const mutations = {
   mutateWeather(state, { updates }) {
     Object.assign(state.weatherStorage, updates);
   },
-  loadStorage(state, { general, view, graphics }) {
+  loadStorage(state, { general, view, graphics, lang }) {
     // Check if states/the app have been updted. If it has don't load from storage.
     if (Object.keys(state.general).length === Object.keys(general).length) {
       Object.assign(state.general, general);
@@ -80,7 +81,13 @@ const mutations = {
     if (Object.keys(state.graphics).length === Object.keys(graphics).length) {
       Object.assign(state.graphics, graphics);
     }
+    if (lang) {
+      state.lang = lang;
+    }
     // }
+  },
+  setLang(state, lang) {
+    state.lang = lang;
   },
 };
 
@@ -91,6 +98,10 @@ const actions = {
   },
   switchWeather({ commit }, payload) {
     commit('mutateWeather', payload);
+  },
+  setLang({ commit, dispatch }, lang) {
+    commit('setLang', lang);
+    dispatch('saveSettings');
   },
   saveSettings({ state }) {
     LocalStorage.set('settings', state);
@@ -108,6 +119,7 @@ const getters = {
   view: (state) => state.view,
   graphics: (state) => state.graphics,
   getWeather: (state) => state.weatherStorage,
+  lang: (state) => state.lang,
 };
 
 const data = {
