@@ -67,6 +67,7 @@ export default {
           }
         } catch (e) {
           // fallback to 'en'
+          console.log(e);
         }
       }
       this.$store.dispatch('data/setLang', detectedLang);

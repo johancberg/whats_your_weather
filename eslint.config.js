@@ -1,16 +1,19 @@
-const {
+import {
   defineConfig,
   globalIgnores,
-} = require("eslint/config");
+} from "eslint/config";
 
-const globals = require("globals");
-const typescriptEslint = require("@typescript-eslint/eslint-plugin");
-const vue = require("eslint-plugin-vue");
-const js = require("@eslint/js");
+import globals from "globals";
+import typescriptEslint from "@typescript-eslint/eslint-plugin";
+import vue from "eslint-plugin-vue";
+import js from "@eslint/js";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const {
-  FlatCompat,
-} = require("@eslint/eslintrc");
+import { FlatCompat } from "@eslint/eslintrc";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -18,10 +21,10 @@ const compat = new FlatCompat({
   allConfig: js.configs.all
 });
 
-module.exports = defineConfig([{
+export default defineConfig([{
   languageOptions: {
     parserOptions: {
-      parser: require.resolve("@typescript-eslint/parser"),
+      parser: await import("@typescript-eslint/parser"),
       extraFileExtensions: [".vue"],
     },
 
