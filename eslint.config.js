@@ -72,6 +72,6 @@ export default defineConfig([{
   'src-cordova',
   '.quasar',
   'node_modules',
-  '**/.eslintrc.cjs',
+  '**/.eslint.config.js',
   'quasar.config.*.temporary.compiled*',
 ])]);
