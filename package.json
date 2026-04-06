@@ -5,7 +5,6 @@
   "productName": "What's your weather",
   "author": "johancberg <mail@johancberg.se>",
   "private": true,
-  "type": "module",
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
     "lint:fix": "eslint --fix --ext .js,.ts,.vue ./",
