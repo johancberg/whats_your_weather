@@ -14,12 +14,14 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova-android": "^14.0.1",
+    "cordova-ios": "^8.0.1",
     "cordova-plugin-geolocation": "^5.0.0",
     "cordova-plugin-proguard": "^2.2.0"
   },
   "cordova": {
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-proguard": {},
