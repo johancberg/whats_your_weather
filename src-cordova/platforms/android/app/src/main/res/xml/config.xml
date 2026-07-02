@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="se.johancberg.whatsyourweather" version="2.3.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <allow-navigation href="http://localhost/*" />
+    <allow-navigation href="https://localhost/*" />
+    <allow-navigation href="ionic://*" />
+    <feature name="IonicWebView">
+        <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
+    </feature>
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
@@ -8,15 +14,19 @@
     <author email="johan94berg@gmail.com" href="http://johancberg.se">
         Johan C Berg
     </author>
-    <content src="http://192.168.1.50:9400" />
-    <preference name="AndroidWindowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</preference>
+    <content src="http://192.168.1.178:9400" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-navigation href="about:*" />
-    <allow-navigation href="http://192.168.1.50:9400" />
+    <allow-navigation href="http://169.254.90.55:9400" />
+    <allow-navigation href="http://192.168.1.178:9400" />
+    <preference name="AndroidWindowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</preference>
     <preference name="loglevel" value="DEBUG" />
+    <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
     <preference name="AndroidWindowSplashScreenBackground" value="#00314a" />
     <preference name="android-minSdkVersion" value="24" />
-    <preference name="android-targetSdkVersion" value="35" />
-    <preference name="android-compileSdkVersion" value="35" />
+    <preference name="android-targetSdkVersion" value="36" />
+    <preference name="android-compileSdkVersion" value="36" />
+    <preference name="android-buildToolsVersion" value="36.1.0" />
+    <preference name="GradleVersion" value="9.6" />
 </widget>

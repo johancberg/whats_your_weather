@@ -6,12 +6,20 @@
         Johan C Berg
     </author>
     <content src="index.html" />
-    <preference name="AndroidWindowSplashScreenBackground" value="#00314a" />
-    <preference name="AndroidWindowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</preference>
-    <preference name="android-minSdkVersion" value="30" />
-    <preference name="android-targetSdkVersion" value="36" />
-    <preference name="android-compileSdkVersion" value="36" />
+    <platform name="android">
+        <preference name="AndroidWindowSplashScreenBackground" value="#00314a" />
+        <preference name="AndroidWindowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</preference>
+        <preference name="android-minSdkVersion" value="24" />
+        <preference name="android-targetSdkVersion" value="36" />
+        <preference name="android-compileSdkVersion" value="36" />
+        <preference name="android-buildToolsVersion" value="36.1.0" />
+        <preference name="GradleVersion" value="9.6" />
+    </platform>
+    <platform name="ios">
+        <preference name="ScrollEnabled" value="true" />
+    </platform>
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-navigation href="about:*" />
+    <allow-navigation href="http://169.254.90.55:9400" />
 </widget>
