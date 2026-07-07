@@ -12,7 +12,8 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build",
-    "build:pwa": "quasar build -m pwa"
+    "build:pwa": "quasar build -m pwa",
+    "build:android": "quasar build -m cordova -T android -- --buildConfig=./src-cordova/build.json"
   },
   "dependencies": {
     "@quasar/extras": "^1.17.0",

@@ -12,6 +12,7 @@ Complete versions
 /src-cordova/node_modules
 /src-cordova/plugins
 /src-cordova/www
+/src-cordova/build.json
 
 
 # BEX related directories and files
