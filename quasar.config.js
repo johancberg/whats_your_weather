@@ -53,7 +53,9 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        ...(process.env.OPENWEATHERMAP_API_KEY && { OPENWEATHERMAP_API_KEY: process.env.OPENWEATHERMAP_API_KEY }),
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,

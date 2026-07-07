@@ -296,7 +296,6 @@
 import VueHeader from 'components/VueHeader.vue';
 import { date } from 'quasar';
 import { mapActions, mapGetters } from 'vuex';
-import { returnApiKey } from './ApiKey';
 
 export default {
   name: 'WhatsYourWeather',
@@ -310,7 +309,7 @@ export default {
       time: null,
       apiUrl: 'https://api.openweathermap.org/data/3.0/onecall',
       cityUrl: 'https://api.openweathermap.org/geo/1.0/reverse',
-      apiKey: returnApiKey,
+      apiKey: process.env.OPENWEATHERMAP_API_KEY,
       visibleBar: true,
       thumbStyle: {
         right: '2px',

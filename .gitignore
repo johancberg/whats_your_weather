@@ -19,10 +19,6 @@ Complete versions
 /src-bex/www
 /src-bex/js/core
 
-# API-key related directories and files
-/src-bex/src/api-key.js
-/src/pages/ApiKey.js
-
 # Readme-files
 /howToSign.txt
 
@@ -40,3 +36,4 @@ yarn-error.log*
 
 # local .env files
 .env.local*
+.env
