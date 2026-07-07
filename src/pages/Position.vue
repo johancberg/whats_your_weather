@@ -541,6 +541,8 @@ export default {
     getLocation() {
       this.$q.loading?.show();
       this.cond = undefined; //this.$q.platform.is.electron
+      // TODO: The condition below will always be false becuase this.cond is set to undefined above.
+      // You may want to adjust the logic based on your requirements.
       if (this.cond === true || this.cond !== undefined) {
         this.$axios('https://freegeoip.app/json/').then((response) => {
           this.lat = response.data.latitude;
@@ -558,11 +560,26 @@ export default {
               this.getWeatherByCoords();
             },
             (error) => {
-              console.error('Error getting location:', error);
+              if (error.response.status === 403) {
+                this.$q.dialog({
+                  title: 'Error',
+                  message: 'The API limit has been reached. Please try again later.',
+                });
+              } else if (error.response.status === 500) {
+                this.$q.dialog({
+                  title: 'Error',
+                  message: 'There occured a server error getting the location.',
+                });
+              } else {
+                this.$q.dialog({
+                  title: 'Error',
+                  message: 'There occured an error getting the location.',
+                });
+              }
+              this.$q.loading?.hide();
+              console.error('Geolocation not available:', error);
             }
           );
-        } else {
-          console.error('Geolocation not available');
         }
       }
     },
@@ -585,8 +602,10 @@ export default {
         .catch((error) => {
           this.$q.dialog({
             title: 'Error',
-            message: 'The inserted location could not be found: ' + error,
+            message: 'The inserted location could not be found.',
           });
+          console.error('Error getting city data:', error);
+          this.$q.loading?.hide();
         });
     },
     getWeatherByCoords() {
@@ -602,8 +621,9 @@ export default {
         .catch((error) => {
           this.$q.dialog({
             title: 'Error',
-            message: 'Something unexpected happened: ' + error,
+            message: 'Something unexpected happened.',
           });
+          console.error('Something unexpected happened: ', error);
         });
       this.$q.loading?.hide();
     },
@@ -621,8 +641,9 @@ export default {
         .catch((error) => {
           this.$q.dialog({
             title: 'Error',
-            message: 'The inserted location could not be found: ' + error,
+            message: 'The inserted location could not be found.',
           });
+          console.error('Error getting inserted location: ', error);
         });
       this.$q.loading?.hide();
     },
