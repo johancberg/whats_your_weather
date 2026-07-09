@@ -297,6 +297,34 @@ import VueHeader from 'components/VueHeader.vue';
 import { date } from 'quasar';
 import { mapActions, mapGetters } from 'vuex';
 
+const TIMEZONE_NAMES = {
+  10: 'HST',
+  9: 'AKST',
+  8: 'PST',
+  7: 'PDT',
+  6: 'CST',
+  5: 'EST',
+  4: 'EDT',
+  3: 'ADT',
+  2: 'FNT',
+  1: 'WAT',
+  '-3': 'MSK',
+  '-5': 'PKT',
+  '-6': 'OMST',
+  '-7': 'KRAT',
+  '-8': 'CST',
+  '-9': 'JST',
+  '-9.5': 'ACST',
+  '-10': 'AEST',
+};
+
+const DST_TIMEZONE_NAMES = {
+  0: ['GMT', 'BST'],
+  '-1': ['CET', 'CEST'],
+  '-2': ['EET', 'EEST'],
+  '-12': ['NZST', 'NZDT'],
+};
+
 export default {
   name: 'WhatsYourWeather',
   data() {
@@ -454,68 +482,14 @@ export default {
         return '0' + str1.toString() + str2;
       }
     },
-    getTimezone(localTimezone) {
-      const isDST = this.getDST() ? 1 : 0;
-      const timezone = localTimezone + isDST;
-      if (timezone === 10) {
-        return 'HST';
-      } else if (timezone === 9) {
-        return 'AKST';
-      } else if (timezone === 8) {
-        return 'PST';
-      } else if (timezone === 7) {
-        return 'PDT';
-      } else if (timezone === 6) {
-        return 'CST';
-      } else if (timezone === 5) {
-        return 'EST';
-      } else if (timezone === 4) {
-        return 'EDT';
-      } else if (timezone === 3) {
-        return 'ADT';
-      } else if (timezone === 2) {
-        return 'AT';
-      } else if (timezone === 1) {
-        return 'WAT';
-      } else if (timezone === 0) {
-        if (isDST) {
-          return 'BST';
-        } else {
-          return 'GMT';
-        }
-      } else if (timezone === -1) {
-        if (isDST) {
-          return 'CEST';
-        } else {
-          return 'CET';
-        }
-      } else if (timezone === -2) {
-        if (isDST) {
-          return 'EEST';
-        } else {
-          return 'EET';
-        }
-      } else if (timezone === -3) {
-        return 'MSK';
-      } else if (timezone === -5) {
-        return 'PKT';
-      } else if (timezone === -6) {
-        return 'OMSK';
-      } else if (timezone === -7) {
-        return 'KRAT';
-      } else if (timezone === -8) {
-        return 'CST';
-      } else if (timezone === -9) {
-        return 'AWST';
-      } else if (timezone === -9.5) {
-        return 'ACST';
-      } else if (timezone === -10) {
-        return 'AEST';
-      } else if (timezone === -12) {
-        return 'NZST';
-      } else {
-        return '';
+    getTimezone(localTimezone, timeZoneName) {
+      const isDST = this.getDST(timeZoneName);
+      const timezone = localTimezone + (isDST ? 1 : 0);
+      const dstNames = DST_TIMEZONE_NAMES[timezone];
+      if (dstNames) {
+        return dstNames[isDST ? 1 : 0];
       }
+      return TIMEZONE_NAMES[timezone] ?? '';
     },
     exeWeather() {
       if (this.getWeather === undefined) {
