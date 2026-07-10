@@ -534,15 +534,15 @@ export default {
               this.getWeatherByCoords();
             },
             (error) => {
-              if (error.response.status === 403) {
+              if (error.code === 2) {
                 this.$q.dialog({
                   title: 'Error',
-                  message: 'The API limit has been reached. Please try again later.',
+                  message: 'Position update is unavailable. Please try again later.',
                 });
-              } else if (error.response.status === 500) {
+              } else if (error.code === 3) {
                 this.$q.dialog({
                   title: 'Error',
-                  message: 'There occured a server error getting the location.',
+                  message: 'Timeout. The location could not be received in time. Please try again later.',
                 });
               } else {
                 this.$q.dialog({
