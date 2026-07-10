@@ -568,17 +568,17 @@ export default {
               if (error.code === 2) {
                 this.$q.dialog({
                   title: 'Error',
-                  message: 'Position update is unavailable. Please try again later.',
+                  message: 'Position update is unavailable. Try to search your location for now.',
                 });
               } else if (error.code === 3) {
                 this.$q.dialog({
                   title: 'Error',
-                  message: 'Timeout. The location could not be received in time. Please try again later.',
+                  message: 'Timeout. The location could not be received in time. Try to search your location for now.',
                 });
               } else {
                 this.$q.dialog({
                   title: 'Error',
-                  message: 'There occured an error getting the location.',
+                  message: 'There occured an error getting the location. Try to search your location for now.',
                 });
               }
               this.$q.loading?.hide();
