@@ -47,8 +47,8 @@
             <div class="hour-time">
               <span>{{ setDestinedTimeFormat(i) }} </span>
               <span>
-                {{ getTimezone(0 - weatherData.timezone_offset / 3600) }}</span
-              >
+                {{ getTimezone(0 - weatherData.timezone_offset / 3600, weatherData.timezone) }}
+              </span>
             </div>
           </div>
         </div>
@@ -198,7 +198,9 @@
         <div>
           <span class="text-h5 text-weight-light">
             {{ setDestinedTimeFormat(0) }}
-            {{ getTimezone(0 - weatherData.timezone_offset / 3600) }}
+            {{
+              getTimezone(0 - weatherData.timezone_offset / 3600, weatherData.timezone)
+            }}
           </span>
         </div>
         <div>
@@ -509,8 +511,37 @@ export default {
       const jul = new Date(fullYear, 6, 1);
       return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
     },
-    getDST() {
-      return new Date().getTimezoneOffset() < this.stdTimeZoneOffset();
+    // UTC offset (in minutes, positive east) of an IANA zone at a given instant.
+    utcOffsetMinutes(timeZoneName, atDate) {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: timeZoneName,
+        timeZoneName: 'shortOffset',
+      }).formatToParts(atDate);
+      const raw = parts.find((part) => part.type === 'timeZoneName')?.value;
+      const match = raw?.match(/GMT([+-])(\d+)(?::(\d+))?/);
+      if (!match) {
+        return 0;
+      }
+      const sign = match[1] === '-' ? -1 : 1;
+      return sign * (parseInt(match[2], 10) * 60 + parseInt(match[3] ?? 0, 10));
+    },
+    // Without a timeZoneName, falls back to the browser's own DST status
+    // (used for displaying the device's local time zone).
+    getDST(timeZoneName) {
+      if (!timeZoneName) {
+        return new Date().getTimezoneOffset() < this.stdTimeZoneOffset();
+      }
+      const fullYear = new Date().getFullYear();
+      const janOffset = this.utcOffsetMinutes(
+        timeZoneName,
+        new Date(fullYear, 0, 1)
+      );
+      const julOffset = this.utcOffsetMinutes(
+        timeZoneName,
+        new Date(fullYear, 6, 1)
+      );
+      const standardOffset = Math.min(janOffset, julOffset);
+      return this.utcOffsetMinutes(timeZoneName, new Date()) > standardOffset;
     },
     getLocation() {
       this.$q.loading?.show();
