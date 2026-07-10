@@ -1,5 +1,5 @@
 <template>
-  <div class="col q-pt-lg q-px-md">
+  <div class="col q-pt-xl q-px-md">
     <q-input
       v-model="search"
       @keyup.enter="getWeatherBySearch"

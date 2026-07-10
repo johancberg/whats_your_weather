@@ -1,6 +1,6 @@
 <template>
   <q-page v-if="page.twentyfourHours" class="flex column" :class="bgClass">
-    <VueHeader
+    <Header
       :weatherData="weatherData"
       @getWeatherBySearch="getWeatherBySearch($event)"
       @getLocation="getLocation"
@@ -90,7 +90,7 @@
   </q-page>
 
   <q-page v-else-if="page.sevenDays" class="flex column" :class="bgClass">
-    <VueHeader
+    <Header
       :weatherData="weatherData"
       @getWeatherBySearch="getWeatherBySearch($event)"
       @getLocation="getLocation"
@@ -177,7 +177,7 @@
   </q-page>
 
   <q-page v-else class="flex column" :class="bgClass">
-    <VueHeader
+    <Header
       :weatherData="weatherData"
       @getWeatherBySearch="getWeatherBySearch($event)"
       @getLocation="getLocation"
@@ -295,7 +295,7 @@
 </template>
 
 <script>
-import VueHeader from 'components/VueHeader.vue';
+import Header from 'components/Header.vue';
 import { date } from 'quasar';
 import { mapActions, mapGetters } from 'vuex';
 
@@ -358,7 +358,7 @@ export default {
     };
   },
   components: {
-    VueHeader,
+    Header,
   },
   computed: {
     ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather']),
