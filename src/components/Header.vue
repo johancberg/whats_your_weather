@@ -1,5 +1,5 @@
 <template>
-  <div class="col q-pt-xl q-px-md">
+  <div class='col q-px-md' :class="this.checkDevice ? 'q-pt-xl' : 'q-pt-md'">
     <q-input
       v-model="search"
       @keyup.enter="getWeatherBySearch"
@@ -62,6 +62,9 @@ export default {
   computed: {
     checkRoute() {
       return this.route === 'index';
+    },
+    checkDevice() {
+      return this.$q.platform.is.mobile;
     },
   },
   methods: {
