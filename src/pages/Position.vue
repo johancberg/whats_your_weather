@@ -221,7 +221,7 @@
           </template>
           <div
             v-if="
-              new Date().getTimezoneOffset() / 60 !=
+              this.date.getTimezoneOffset() / 60 !=
                 0 - weatherData.timezone_offset / 3600 &&
               time &&
               viewLocalActive
@@ -229,7 +229,7 @@
           >
             <span class="text-h7 text-weight-light">
               {{ setTimeFormat }}
-              {{ getTimezone(new Date().getTimezoneOffset() / 60) }}
+              {{ getTimezone(this.date.getTimezoneOffset() / 60) }}
             </span>
           </div>
         </div>
@@ -332,6 +332,8 @@ export default {
   data() {
     return {
       page: { twentyfourHours: false, sevenDays: false },
+      date: new Date(),
+      timestamp: Date.now(),
       weatherData: this.exeWeather(),
       cityData: null,
       lat: null,
@@ -369,7 +371,7 @@ export default {
         const timezone = this.weatherData.timezone_offset / 3600;
         const sunsetTime = new Date(currentWeather.sunset * 1000);
         const sunriseTime = new Date(currentWeather.sunrise * 1000);
-        const currentTime = new Date();
+        const currentTime = this.date;
         const currentHour =
           (((currentTime.getUTCHours() + timezone) % 24) + 24) % 24;
         const sunsetHour =
@@ -399,11 +401,10 @@ export default {
       return className;
     },
     setTimeFormat() {
-      const timeStamp = Date.now();
       if (this.general?.GD1?.active) {
-        return date.formatDate(timeStamp, 'hh:00 A');
+        return date.formatDate(this.timestamp, 'hh:00 A');
       } else {
-        return date.formatDate(timeStamp, 'HH:00');
+        return date.formatDate(this.timestamp, 'HH:00');
       }
     },
     setUTCTimeFormat() {
@@ -411,9 +412,9 @@ export default {
       let str1 = str.slice(0, 2);
       const str2 = str.slice(2);
       if (this.general?.GD1?.active) {
-        str1 = (parseInt(str1) + new Date().getTimezoneOffset() / 60 + 12) % 12;
+        str1 = (parseInt(str1) + this.date.getTimezoneOffset() / 60 + 12) % 12;
       } else {
-        str1 = (parseInt(str1) + new Date().getTimezoneOffset() / 60 + 24) % 24;
+        str1 = (parseInt(str1) + this.date.getTimezoneOffset() / 60 + 24) % 24;
       }
       if (str1.toString().length > 1) {
         return str1.toString() + str2;
@@ -422,10 +423,10 @@ export default {
       }
     },
     getUTCTimeFormat() {
-      const str = date.formatDate(Date.now(), 'HH:00');
+      const str = date.formatDate(this.timestamp, 'HH:00');
       let str1 = str.slice(0, 2);
       const str2 = str.slice(2);
-      str1 = (parseInt(str1) + new Date().getTimezoneOffset() / 60 + 24) % 24;
+      str1 = (parseInt(str1) + this.date.getTimezoneOffset() / 60 + 24) % 24;
       if (str1.toString().length > 1) {
         return str1.toString() + str2;
       } else {
@@ -507,7 +508,7 @@ export default {
       return (str1 + hour + this.weatherData.timezone_offset / 3600) % 24 === 0;
     },
     stdTimeZoneOffset() {
-      const fullYear = new Date().getFullYear();
+      const fullYear = this.date.getFullYear();
       const jan = new Date(fullYear, 0, 1);
       const jul = new Date(fullYear, 6, 1);
       return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
@@ -530,9 +531,9 @@ export default {
     // (used for displaying the device's local time zone).
     getDST(timeZoneName) {
       if (!timeZoneName) {
-        return new Date().getTimezoneOffset() < this.stdTimeZoneOffset();
+        return this.date.getTimezoneOffset() < this.stdTimeZoneOffset();
       }
-      const fullYear = new Date().getFullYear();
+      const fullYear = this.date.getFullYear();
       const janOffset = this.utcOffsetMinutes(
         timeZoneName,
         new Date(fullYear, 0, 1)
@@ -542,7 +543,7 @@ export default {
         new Date(fullYear, 6, 1)
       );
       const standardOffset = Math.min(janOffset, julOffset);
-      return this.utcOffsetMinutes(timeZoneName, new Date()) > standardOffset;
+      return this.utcOffsetMinutes(timeZoneName, this.date) > standardOffset;
     },
     getLocation() {
       this.$q.loading?.show();
@@ -590,13 +591,13 @@ export default {
       }
     },
     getFullDateName(timeToAdd) {
-      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'dddd');
+      return date.formatDate(this.timestamp + 86400000 * timeToAdd, 'dddd');
     },
     getDateName(timeToAdd) {
-      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'ddd');
+      return date.formatDate(this.timestamp + 86400000 * timeToAdd, 'ddd');
     },
     getDateFormat(timeToAdd) {
-      return date.formatDate(Date.now() + 86400000 * timeToAdd, 'D MMM');
+      return date.formatDate(this.timestamp + 86400000 * timeToAdd, 'D MMM');
     },
     getCityData() {
       this.$axios(
