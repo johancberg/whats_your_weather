@@ -365,9 +365,10 @@ export default {
     bgClass() {
       let className = '';
       if (this.weatherData && this.graphics?.AN1?.active) {
+        const currentWeather = this.weatherData.current
         const timezone = this.weatherData.timezone_offset / 3600;
-        const sunsetTime = new Date(this.weatherData.current.sunset * 1000);
-        const sunriseTime = new Date(this.weatherData.current.sunrise * 1000);
+        const sunsetTime = new Date(currentWeather.sunset * 1000);
+        const sunriseTime = new Date(currentWeather.sunrise * 1000);
         const currentTime = new Date();
         const currentHour =
           (((currentTime.getUTCHours() + timezone) % 24) + 24) % 24;
@@ -379,9 +380,9 @@ export default {
           className += 'bg-sunset';
         } else if (Math.abs(sunriseHour - currentHour) <= 1) {
           className += 'bg-sunrise';
-        } else if (this.weatherData.current.weather[0].icon.endsWith('n')) {
+        } else if (currentWeather.weather[0].icon.endsWith('n')) {
           className += 'bg-night';
-        } else if (this.weatherData.current.weather[0].main === 'Rain') {
+        } else if (currentWeather.weather[0].main === 'Rain') {
           className += 'bg-rain';
         } else {
           className += 'bg-day';
@@ -622,6 +623,7 @@ export default {
         `${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`
       )
         .then((response) => {
+          console.log(response.data);
           this.weatherData = response.data;
           this.getCityData();
           this.switchWeather({ updates: { weatherStorage: this.weatherData } });
