@@ -197,7 +197,7 @@
         </div>
         <div>
           <span class="text-h5 text-weight-light">
-            {{ setDestinedTimeFormat(0) }}
+            {{ setDestinedTimeFormat(0, true) }}
             {{
               getTimezone(0 - weatherData.timezone_offset / 3600, weatherData.timezone)
             }}
@@ -206,7 +206,7 @@
         <div>
           <template v-if="weatherData.timezone_offset < 0 && viewUTCActive">
             <span class="text-h7 text-weight-light">
-              {{ setUTCTimeFormat }} GMT
+              {{ setUTCTimeFormatWithMinutes }} GMT
               {{ weatherData.timezone_offset / 3600 }}:00
             </span>
           </template>
@@ -214,7 +214,7 @@
             v-else-if="weatherData.timezone_offset > 0 && viewUTCActive"
           >
             <span class="text-h7 text-weight-light">
-              {{ setUTCTimeFormat }} GMT +{{
+              {{ setUTCTimeFormatWithMinutes }} GMT +{{
                 weatherData.timezone_offset / 3600
               }}:00
             </span>
@@ -407,31 +407,25 @@ export default {
         return date.formatDate(this.timestamp, 'HH:00');
       }
     },
+    utcHour24() {
+      const hour = this.date.getHours();
+      return (hour + this.date.getTimezoneOffset() / 60 + 24) % 24;
+    },
     setUTCTimeFormat() {
-      const str = this.setTimeFormat.toString();
-      let str1 = str.slice(0, 2);
-      const str2 = str.slice(2);
-      if (this.general?.GD1?.active) {
-        str1 = (parseInt(str1) + this.date.getTimezoneOffset() / 60 + 12) % 12;
-      } else {
-        str1 = (parseInt(str1) + this.date.getTimezoneOffset() / 60 + 24) % 24;
-      }
-      if (str1.toString().length > 1) {
-        return str1.toString() + str2;
-      } else {
-        return '0' + str1.toString() + str2;
-      }
+      const hour = this.general?.GD1?.active
+        ? this.utcHour24 % 12
+        : this.utcHour24;
+      return `${hour.toString().padStart(2, '0')}:00`;
+    },
+    setUTCTimeFormatWithMinutes() {
+      const hour = this.general?.GD1?.active
+        ? this.utcHour24 % 12
+        : this.utcHour24;
+      const minutes = this.date.getMinutes();
+      return `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     },
     getUTCTimeFormat() {
-      const str = date.formatDate(this.timestamp, 'HH:00');
-      let str1 = str.slice(0, 2);
-      const str2 = str.slice(2);
-      str1 = (parseInt(str1) + this.date.getTimezoneOffset() / 60 + 24) % 24;
-      if (str1.toString().length > 1) {
-        return str1.toString() + str2;
-      } else {
-        return '0' + str1.toString() + str2;
-      }
+      return `${this.utcHour24.toString().padStart(2, '0')}:00`;
     },
     getAMPM() {
       if (this.general?.GD1?.active) {
@@ -463,8 +457,8 @@ export default {
   },
   methods: {
     ...mapActions('data', ['switchWeather']),
-    setDestinedTimeFormat(hour) {
-      const str = this.getUTCTimeFormat;
+    setDestinedTimeFormat(hour, withMinutes = false) {
+      const str = withMinutes ? this.setUTCTimeFormatWithMinutes : this.setUTCTimeFormat;
       let str1 = parseInt(str.slice(0, 2));
       let str2 = str.slice(2);
       if (this.general?.GD1?.active) {
@@ -624,7 +618,6 @@ export default {
         `${this.apiUrl}?lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`
       )
         .then((response) => {
-          console.log(response.data);
           this.weatherData = response.data;
           this.getCityData();
           this.switchWeather({ updates: { weatherStorage: this.weatherData } });
