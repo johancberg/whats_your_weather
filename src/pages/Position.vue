@@ -672,6 +672,15 @@ export default {
       }
     },
   },
+  mounted() {
+    this.timer = setInterval(() => {
+      this.date = new Date();
+      this.timestamp = Date.now();
+    }, 1000 * 60);
+  },
+  beforeUnmount() {
+    clearInterval(this.timer);
+  },
 };
 </script>
 
