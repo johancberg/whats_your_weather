@@ -17,7 +17,7 @@ const state = {
     VW2: {
       name: 'UTC time',
       description: 'Always show the UTC time',
-      active: true,
+      active: false,
     },
     VW3: {
       name: 'Rain',
