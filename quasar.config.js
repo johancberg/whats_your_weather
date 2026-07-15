@@ -157,7 +157,7 @@ module.exports = configure(function (/* ctx */) {
     cordova: {
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
       hideSplashscreen: true,
-      version: '2.3.4',
+      version: '2.4',
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron
