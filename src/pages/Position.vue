@@ -344,7 +344,7 @@ export default {
       apiKey: process.env.OPENWEATHERMAP_API_KEY,
       visibleBar: true,
       thumbStyle: {
-        right: '2px',
+        marginRight: '3px',
         borderRadius: '4px',
         backgroundColor: 'rgb(20, 56, 156)',
         width: '5px',
