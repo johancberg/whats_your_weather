@@ -659,16 +659,13 @@ export default {
     },
     renderAlert() {
       for (const alert of this.weatherData.alerts) {
-        axios(`https://api.openweathermap.org/data/4.0/onecall/alert/${alert}?appid=${this.apiKey}`)
-          .then((response) => {
-            this.$q.dialog({
-              title: response.data.event,
-              message: response.data.description,
-            });
-          })
-          .catch((error) => {
-            console.error('Error fetching alert details:', error);
-          });
+        this.$q.dialog({
+          title: alert.event,
+          message: alert.description,
+        })
+        .catch((error) => {
+          console.error('Error fetching alert details:', error);
+        });
       }
     },
   },
