@@ -402,9 +402,9 @@ export default {
     },
     setTimeFormat() {
       if (this.general?.GD1?.active) {
-        return date.formatDate(this.timestamp, 'hh:00 A');
+        return date.formatDate(this.timestamp, 'hh:mm A');
       } else {
-        return date.formatDate(this.timestamp, 'HH:00');
+        return date.formatDate(this.timestamp, 'HH:mm');
       }
     },
     utcHour24() {
