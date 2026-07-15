@@ -401,11 +401,11 @@ export default {
       return className;
     },
     setTimeFormat() {
-      if (this.general?.GD1?.active) {
-        return date.formatDate(this.timestamp, 'hh:mm A');
-      } else {
-        return date.formatDate(this.timestamp, 'HH:mm');
-      }
+      const hour = this.general?.GD1?.active
+        ? this.date.getHours() % 12
+        : this.date.getHours();
+      const minutes = this.date.getMinutes();
+      return `${this.to2Digits(hour)}:${this.to2Digits(minutes)}`;
     },
     utcHour24() {
       const hour = this.date.getHours();
@@ -415,17 +415,17 @@ export default {
       const hour = this.general?.GD1?.active
         ? this.utcHour24 % 12
         : this.utcHour24;
-      return `${hour.toString().padStart(2, '0')}:00`;
+      return `${this.to2Digits(hour)}:00`;
     },
     setUTCTimeFormatWithMinutes() {
       const hour = this.general?.GD1?.active
         ? this.utcHour24 % 12
         : this.utcHour24;
       const minutes = this.date.getMinutes();
-      return `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      return `${this.to2Digits(hour)}:${this.to2Digits(minutes)}`;
     },
     getUTCTimeFormat() {
-      return `${this.utcHour24.toString().padStart(2, '0')}:00`;
+      return `${this.to2Digits(this.utcHour24)}:00`;
     },
     getAMPM() {
       if (this.general?.GD1?.active) {
@@ -457,6 +457,9 @@ export default {
   },
   methods: {
     ...mapActions('data', ['switchWeather']),
+    to2Digits(number) {
+      return number.toString().padStart(2, '0');
+    },
     setDestinedTimeFormat(hour, withMinutes = false) {
       const str = withMinutes ? this.setUTCTimeFormatWithMinutes : this.setUTCTimeFormat;
       let str1 = parseInt(str.slice(0, 2));
