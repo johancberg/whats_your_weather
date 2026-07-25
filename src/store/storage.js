@@ -83,7 +83,7 @@ const mutations = {
     }
     // TODO: If the stored weather is too old: One might want to erase it.
     //if (weatherStorage && weatherStorage.current.) {
-    if (Object.keys(state.weatherStorage).length === Object.keys(weatherStorage).length) {
+    if (state.weatherStorage !== {}) {
       state.weatherStorage = weatherStorage;
     }
     //} else {
