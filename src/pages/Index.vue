@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex column" :class="bgClass">
-    <Header
+    <VHeader
       :weatherData="weatherData"
       :route="route"
       @getLocation="getLocation"
@@ -20,7 +20,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import Header from 'components/Header.vue';
+import VHeader from 'components/VHeader.vue';
 export default {
   name: 'WhatsYourWeather',
   data() {
@@ -30,7 +30,7 @@ export default {
     };
   },
   components: {
-    Header,
+    VHeader,
   },
   computed: {
     ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather', 'lang']),
