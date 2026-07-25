@@ -623,7 +623,7 @@ export default {
         .then((response) => {
           this.weatherData = response.data;
           this.getCityData();
-          this.switchWeather({ updates: { weatherStorage: this.weatherData } });
+          this.switchWeather({ updates: this.weatherData });
         })
         .catch((error) => {
           this.$q.dialog({

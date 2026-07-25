@@ -70,7 +70,7 @@ const mutations = {
   mutateWeather(state, { updates }) {
     Object.assign(state.weatherStorage, updates);
   },
-  loadStorage(state, { general, view, graphics, lang }) {
+  loadStorage(state, { general, view, graphics, lang, weatherStorage }) {
     // Check if states/the app have been updted. If it has don't load from storage.
     if (Object.keys(state.general).length === Object.keys(general).length) {
       Object.assign(state.general, general);
@@ -81,6 +81,14 @@ const mutations = {
     if (Object.keys(state.graphics).length === Object.keys(graphics).length) {
       Object.assign(state.graphics, graphics);
     }
+    // TODO: If the stored weather is too old: One might want to erase it.
+    //if (weatherStorage && weatherStorage.current.) {
+    if (Object.keys(state.weatherStorage).length === Object.keys(weatherStorage).length) {
+      state.weatherStorage = weatherStorage;
+    }
+    //} else {
+    //  this.switchWeather({ updates: {} });
+    //}
     if (lang) {
       state.lang = lang;
     }
@@ -96,8 +104,9 @@ const actions = {
     commit('mutateActive', payload);
     dispatch('saveSettings');
   },
-  switchWeather({ commit }, payload) {
+  switchWeather({ commit, dispatch }, payload) {
     commit('mutateWeather', payload);
+    dispatch('saveSettings');
   },
   setLang({ commit, dispatch }, lang) {
     commit('setLang', lang);
