@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather', 'lang']),
-    ...mapActions('data', ['setLang, switchWeather']),
+    ...mapActions('data', ['setLang', 'switchWeather']),
     bgClass() {
       let className = '';
       if (this.graphics?.AN3?.active) {
