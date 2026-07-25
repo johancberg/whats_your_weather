@@ -202,7 +202,7 @@ android {
         compileSdkVersion cordovaConfig.COMPILE_SDK_VERSION
     }
 
-    lintOptions {
+    lint {
       abortOnError false
     }
 
