@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import useStorage from '../stores/storage'
+import useStorage from 'stores/storage'
 import VHeader from 'components/VHeader.vue';
 export default {
   name: 'WhatsYourWeather',

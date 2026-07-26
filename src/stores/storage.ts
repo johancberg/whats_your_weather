@@ -107,9 +107,7 @@ const actions = {
     }
     // TODO: If the stored weather is too old: One might want to erase it.
     //if (weatherStorage && weatherStorage.current.) {
-    if (this.weatherStorage != {}) {
-      this.weatherStorage = weatherStorage;
-    }
+    this.weatherStorage = weatherStorage;
     //} else {
     //  this.switchWeather({ updates: {} });
     //}

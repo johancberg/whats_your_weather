@@ -297,7 +297,7 @@
 <script>
 import VHeader from 'components/VHeader.vue';
 import { date } from 'quasar';
-import useStorage from '../stores/storage';
+import useStorage from 'stores/storage';
 
 const TIMEZONE_NAMES = {
   10: 'HST',

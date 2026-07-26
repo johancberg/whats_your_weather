@@ -1,6 +1,13 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "rootDir": "src",
+    "outDir": "dist",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
     "typeRoots": [
       "./node_modules/@types",
       "./node_modules/vue-tsc/node_modules/@types",

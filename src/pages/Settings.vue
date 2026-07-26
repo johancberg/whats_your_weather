@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import useStorage from '../stores/storage'
+import useStorage from 'stores/storage'
 import * as option from 'components/SettingsMap/Option.vue';
 
 export default {

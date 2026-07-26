@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import useStorage from './../../stores/storage'
+import useStorage from 'stores/storage';
 
 export default {
   data() {
