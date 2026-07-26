@@ -106,7 +106,7 @@ const actions = {
       Object.assign(this.graphics, graphics);
     }
 
-    if (weatherStorage && (Date.now() - (weatherStorage.current.dt * 100) < 3600000)) {
+    if (weatherStorage && (Date.now() - (weatherStorage?.current?.dt * 100) < 3600000)) {
       this.weatherStorage = weatherStorage;
     }
 
