@@ -105,12 +105,11 @@ const actions = {
     if (Object.keys(this.graphics).length === Object.keys(graphics).length) {
       Object.assign(this.graphics, graphics);
     }
-    // TODO: If the stored weather is too old: One might want to erase it.
-    //if (weatherStorage && weatherStorage.current.) {
-    this.weatherStorage = weatherStorage;
-    //} else {
-    //  this.switchWeather({ updates: {} });
-    //}
+
+    if (weatherStorage && (Date.now() - (weatherStorage.current.dt * 100) < 3600000)) {
+      this.weatherStorage = weatherStorage;
+    }
+
     if (lang) {
       this.lang = lang;
     }
