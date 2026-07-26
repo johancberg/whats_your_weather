@@ -1,7 +1,8 @@
 {
   "name": "whats_your_weather",
   "version": "2.3.3",
-  "description": "A weather app",
+  "description": "This is a simple and stylish application that helps you find out information about the current weather.",
+  "main": "src/router/index.ts",
   "productName": "What's your weather",
   "author": "johancberg <mail@johancberg.se>",
   "private": true,
