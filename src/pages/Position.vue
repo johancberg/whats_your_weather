@@ -334,7 +334,7 @@ export default {
       page: { twentyfourHours: false, sevenDays: false },
       date: new Date(),
       timestamp: Date.now(),
-      weatherData: this.exeWeather(),
+      weatherData: null,
       cityData: null,
       lat: null,
       lon: null,
@@ -493,10 +493,13 @@ export default {
       return TIMEZONE_NAMES[timezone] ?? '';
     },
     exeWeather() {
-      if (this.getWeather === undefined) {
+      if (!this.getWeather || Object.keys(this.getWeather).length === 0) {
         this.getLocation();
       } else {
         this.weatherData = this.getWeather;
+        this.lat = this.weatherData.lat;
+        this.lon = this.weatherData.lon;
+        this.getCityData();
       }
     },
     isMidnight(hour) {
@@ -643,7 +646,7 @@ export default {
           this.lat = response.data[0].lat;
           this.lon = response.data[0].lon;
           this.getWeatherByCoords();
-          this.switchWeather({ updates: { weatherStorage: this.weatherData } });
+          this.switchWeather({ updates: this.weatherData });
         })
         .catch((error) => {
           this.$q.dialog({
@@ -671,6 +674,9 @@ export default {
         });
       }
     },
+  },
+  created() {
+    this.exeWeather();
   },
   mounted() {
     this.timer = setInterval(() => {

@@ -9,7 +9,7 @@ defineOptions({
   methods: {
     ...mapActions('data', ['getSettings']),
   },
-  mounted() {
+  created() {
     this.getSettings();
   },
 });
