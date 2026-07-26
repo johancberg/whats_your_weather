@@ -26,20 +26,9 @@ export default {
 };
 </script>
 
-<style lang="sass">
-.q-page
-  &.blue
-    background: linear-gradient(to bottom, #2980b9, #2c3e50)
-  &.maroon
-    background: linear-gradient(to bottom, #b00a0a, #431f11)
-    &.bg-animation
-      animation: 20s ease animation-bg infinite alternate
+<style lang="sass" scoped>
+@import '../css/page-theme'
 
-@keyframes animation-bg
-  0%
-    background-position: left
-  50%
-    background-position: right
-  100%
-    background-position: left
+.q-page
+  @include page-theme
 </style>

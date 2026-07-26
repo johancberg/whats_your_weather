@@ -66,17 +66,14 @@ export default {
   },
 };
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
+@import '../css/page-theme'
+
 .q-page
   min-height: 100vh
   display: flex
   flex-direction: column
-  &.blue
-    background: linear-gradient(to bottom, #2980b9, #2c3e50)
-  &.maroon
-    background: linear-gradient(to bottom, #b00a0a, #431f11)
-.degree
-  top: -44px
+  @include page-theme
 .skyline
   flex: 0 0 80px
   background: url(../statics/skyline.png)
@@ -86,12 +83,4 @@ export default {
   margin-top: auto
 .settings-content
   background-color: white
-
-@keyframes animation-bg
-  0%
-    background-position: left
-  50%
-    background-position: right
-  100%
-    background-position: left
 </style>
