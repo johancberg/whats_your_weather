@@ -427,21 +427,6 @@ export default {
     getUTCTimeFormat() {
       return `${this.to2Digits(this.utcHour24)}:00`;
     },
-    getAMPM() {
-      if (this.storage.general?.GD1?.active) {
-        if (
-          (this.setDestinedTimeFormat(0) +
-            this.weatherData.timezone_offset / 3600) %
-            24 <
-          12
-        ) {
-          return 'AM';
-        } else {
-          return 'PM';
-        }
-      }
-      return '';
-    },
     viewLocalActive() {
       return this.storage.view?.VW1?.active;
     },
@@ -465,9 +450,9 @@ export default {
       let str2 = str.slice(2);
       if (this.storage.general?.GD1?.active) {
         if ((str1 + hour + this.weatherData.timezone_offset / 3600) % 24 < 12) {
-          str2 = str2.slice(0, 4) + ' AM';
-        } else {
           str2 = str2.slice(0, 4) + ' PM';
+        } else {
+          str2 = str2.slice(0, 4) + ' AM';
         }
         str1 = (str1 + hour + this.weatherData.timezone_offset / 3600) % 12;
         if (str1 === 0) {
