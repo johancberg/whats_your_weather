@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import useStorage from './../../stores/storage'
 
 export default {
   data() {
@@ -36,9 +36,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions('data', ['switchActive']),
     toggleActive(payload) {
-      this.$store.dispatch('data/switchActive', payload);
+      const storage = useStorage();
+      storage.switchActive(payload);
     },
   },
 };

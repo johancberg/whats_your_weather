@@ -3,14 +3,12 @@
 </template>
 
 <script setup lang="ts">
-import { mapActions } from 'vuex';
+import useStorage from './stores/storage'
 
 defineOptions({
-  methods: {
-    ...mapActions('data', ['getSettings']),
-  },
   created() {
-    this.getSettings();
+    const storage = useStorage()
+    storage.getSettings();
   },
 });
 </script>

@@ -297,7 +297,7 @@
 <script>
 import VHeader from 'components/VHeader.vue';
 import { date } from 'quasar';
-import { mapActions, mapGetters } from 'vuex';
+import useStorage from '../stores/storage';
 
 const TIMEZONE_NAMES = {
   10: 'HST',
@@ -333,6 +333,7 @@ export default {
     return {
       page: { twentyfourHours: false, sevenDays: false },
       date: new Date(),
+      storage: useStorage(),
       timestamp: Date.now(),
       weatherData: null,
       cityData: null,
@@ -363,10 +364,9 @@ export default {
     VHeader,
   },
   computed: {
-    ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather']),
     bgClass() {
       let className = '';
-      if (this.weatherData && this.graphics?.AN1?.active) {
+      if (this.weatherData && this.storage.graphics?.AN1?.active) {
         const currentWeather = this.weatherData.current
         const timezone = this.weatherData.timezone_offset / 3600;
         const sunsetTime = new Date(currentWeather.sunset * 1000);
@@ -389,11 +389,11 @@ export default {
         } else {
           className += 'bg-day';
         }
-        if (!this.graphics?.AN2?.active) {
+        if (!this.storage.graphics?.AN2?.active) {
           className += ' bg-animation';
         }
         return className;
-      } else if (this.graphics?.AN3?.active) {
+      } else if (this.storage.graphics?.AN3?.active) {
         className = 'maroon';
       } else {
         className = 'blue';
@@ -401,7 +401,7 @@ export default {
       return className;
     },
     setTimeFormat() {
-      const hour = this.general?.GD1?.active
+      const hour = this.storage.general?.GD1?.active
         ? this.date.getHours() % 12
         : this.date.getHours();
       const minutes = this.date.getMinutes();
@@ -412,13 +412,13 @@ export default {
       return (hour + this.date.getTimezoneOffset() / 60 + 24) % 24;
     },
     setUTCTimeFormat() {
-      const hour = this.general?.GD1?.active
+      const hour = this.storage.general?.GD1?.active
         ? this.utcHour24 % 12
         : this.utcHour24;
       return `${this.to2Digits(hour)}:00`;
     },
     setUTCTimeFormatWithMinutes() {
-      const hour = this.general?.GD1?.active
+      const hour = this.storage.general?.GD1?.active
         ? this.utcHour24 % 12
         : this.utcHour24;
       const minutes = this.date.getMinutes();
@@ -428,7 +428,7 @@ export default {
       return `${this.to2Digits(this.utcHour24)}:00`;
     },
     getAMPM() {
-      if (this.general?.GD1?.active) {
+      if (this.storage.general?.GD1?.active) {
         if (
           (this.setDestinedTimeFormat(0) +
             this.weatherData.timezone_offset / 3600) %
@@ -443,20 +443,19 @@ export default {
       return '';
     },
     viewLocalActive() {
-      return this.view?.VW1?.active;
+      return this.storage.view?.VW1?.active;
     },
     viewUTCActive() {
-      return this.view?.VW2?.active;
+      return this.storage.view?.VW2?.active;
     },
     viewRainActive() {
-      return this.view?.VW3?.active;
+      return this.storage.view?.VW3?.active;
     },
     viewWindActive() {
-      return this.view?.VW4?.active;
+      return this.storage.view?.VW4?.active;
     },
   },
   methods: {
-    ...mapActions('data', ['switchWeather']),
     to2Digits(number) {
       return number.toString().padStart(2, '0');
     },
@@ -464,7 +463,7 @@ export default {
       const str = withMinutes ? this.setUTCTimeFormatWithMinutes : this.setUTCTimeFormat;
       let str1 = parseInt(str.slice(0, 2));
       let str2 = str.slice(2);
-      if (this.general?.GD1?.active) {
+      if (this.storage.general?.GD1?.active) {
         if ((str1 + hour + this.weatherData.timezone_offset / 3600) % 24 < 12) {
           str2 = str2.slice(0, 4) + ' AM';
         } else {
@@ -493,10 +492,11 @@ export default {
       return TIMEZONE_NAMES[timezone] ?? '';
     },
     exeWeather() {
-      if (!this.getWeather || Object.keys(this.getWeather).length === 0) {
+      const getWeather = this.storage.getWeather
+      if (!getWeather || Object.keys(getWeather).length === 0) {
         this.getLocation();
       } else {
-        this.weatherData = this.getWeather;
+        this.weatherData = getWeather;
         this.lat = this.weatherData.lat;
         this.lon = this.weatherData.lon;
         this.getCityData();
@@ -626,7 +626,7 @@ export default {
         .then((response) => {
           this.weatherData = response.data;
           this.getCityData();
-          this.switchWeather({ updates: this.weatherData });
+          this.storage.switchWeather({ updates: this.weatherData });
         })
         .catch((error) => {
           this.$q.dialog({
@@ -646,7 +646,7 @@ export default {
           this.lat = response.data[0].lat;
           this.lon = response.data[0].lon;
           this.getWeatherByCoords();
-          this.switchWeather({ updates: this.weatherData });
+          this.storage.switchWeather({ updates: this.weatherData });
         })
         .catch((error) => {
           this.$q.dialog({

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import useStorage from '../stores/storage'
 import VHeader from 'components/VHeader.vue';
 export default {
   name: 'WhatsYourWeather',
@@ -27,17 +27,16 @@ export default {
     return {
       weatherData: null,
       route: 'index',
+      storage: useStorage()
     };
   },
   components: {
     VHeader,
   },
   computed: {
-    ...mapGetters('data', ['general', 'view', 'graphics', 'getWeather', 'lang']),
-    ...mapActions('data', ['setLang', 'switchWeather']),
     bgClass() {
       let className = '';
-      if (this.graphics?.AN3?.active) {
+      if (this.storage.graphics?.AN3?.active) {
         className = 'maroon';
       } else {
         className = 'blue';
@@ -70,7 +69,7 @@ export default {
           console.log(e);
         }
       }
-      this.$store.dispatch('data/setLang', detectedLang);
+      this.storage.setLang(detectedLang);
       return detectedLang;
     }
   },

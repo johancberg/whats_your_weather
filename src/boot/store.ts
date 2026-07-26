@@ -1,9 +1,9 @@
 import { boot } from 'quasar/wrappers';
-import createStore, { storeKey } from 'src/store';
+import { createPinia } from 'pinia'
 
 export default boot(({ app }) => {
-  const Store = createStore({});
-  app.use(Store, storeKey);
+  const pinia = createPinia();
+  app.use(pinia);
 
-  app.config.globalProperties.$store = Store;
+  app.config.globalProperties.$store = pinia;
 });

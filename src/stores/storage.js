@@ -1,4 +1,5 @@
 import { LocalStorage } from 'quasar';
+import { defineStore } from 'pinia'
 
 const state = {
   general: {
@@ -56,87 +57,81 @@ const state = {
   weatherStorage: {},
 };
 
-const mutations = {
-  mutateActive(state, { id, updates }) {
+const actions = {
+  switchActive(payload) {
+    this.mutateActive(payload);
+    this.saveSettings();
+  },
+  switchWeather(payload) {
+    this.mutateWeather(payload);
+    this.saveSettings();
+  },
+  saveSettings() {
+    LocalStorage.set('settings', {
+      general: this.general,
+      view: this.view,
+      graphics: this.graphics,
+      lang: this.lang,
+      weatherStorage: this.weatherStorage,
+    });
+  },
+  getSettings() {
+    const memory = LocalStorage.getItem('settings');
+    if (memory) {
+      this.loadStorage(memory);
+    }
+  },
+  mutateActive({ id, updates }) {
     if (id.slice(0, 2) === 'GD') {
-      Object.assign(state.general[id], updates);
+      Object.assign(this.general[id], updates);
     } else if (id.slice(0, 2) === 'VW') {
-      Object.assign(state.view[id], updates);
+      Object.assign(this.view[id], updates);
     } else if (id.slice(0, 2) === 'AN') {
-      Object.assign(state.graphics[id], updates);
+      Object.assign(this.graphics[id], updates);
     }
-    //state.settings[id].active = updates.active
+    //this.settings[id].active = updates.active
   },
-  mutateWeather(state, { updates }) {
-    Object.assign(state.weatherStorage, updates);
+  mutateWeather({ updates }) {
+    Object.assign(this.weatherStorage, updates);
   },
-  loadStorage(state, { general, view, graphics, lang, weatherStorage }) {
+  loadStorage({ general, view, graphics, lang, weatherStorage }) {
     // Check if states/the app have been updted. If it has don't load from storage.
-    if (Object.keys(state.general).length === Object.keys(general).length) {
-      Object.assign(state.general, general);
+    if (Object.keys(this.general).length === Object.keys(general).length) {
+      Object.assign(this.general, general);
     }
-    if (Object.keys(state.view).length === Object.keys(view).length) {
-      Object.assign(state.view, view);
+    if (Object.keys(this.view).length === Object.keys(view).length) {
+      Object.assign(this.view, view);
     }
-    if (Object.keys(state.graphics).length === Object.keys(graphics).length) {
-      Object.assign(state.graphics, graphics);
+    if (Object.keys(this.graphics).length === Object.keys(graphics).length) {
+      Object.assign(this.graphics, graphics);
     }
     // TODO: If the stored weather is too old: One might want to erase it.
     //if (weatherStorage && weatherStorage.current.) {
-    if (state.weatherStorage !== {}) {
-      state.weatherStorage = weatherStorage;
+    if (this.weatherStorage != {}) {
+      this.weatherStorage = weatherStorage;
     }
     //} else {
     //  this.switchWeather({ updates: {} });
     //}
     if (lang) {
-      state.lang = lang;
+      this.lang = lang;
     }
     // }
   },
-  setLang(state, lang) {
-    state.lang = lang;
-  },
-};
-
-const actions = {
-  switchActive({ commit, dispatch }, payload) {
-    commit('mutateActive', payload);
-    dispatch('saveSettings');
-  },
-  switchWeather({ commit, dispatch }, payload) {
-    commit('mutateWeather', payload);
-    dispatch('saveSettings');
-  },
-  setLang({ commit, dispatch }, lang) {
-    commit('setLang', lang);
-    dispatch('saveSettings');
-  },
-  saveSettings({ state }) {
-    LocalStorage.set('settings', state);
-  },
-  getSettings({ commit }) {
-    const memory = LocalStorage.getItem('settings');
-    if (memory) {
-      commit('loadStorage', memory);
-    }
+  setLang(lang) {
+    this.lang = lang;
+    this.saveSettings();
   },
 };
 
 const getters = {
-  general: (state) => state.general,
-  view: (state) => state.view,
-  graphics: (state) => state.graphics,
   getWeather: (state) => state.weatherStorage,
-  lang: (state) => state.lang,
 };
 
-const data = {
-  namespaced: true,
-  state,
-  mutations,
+const useStorage = defineStore('storage', {
+  state: () => state,
   actions,
   getters,
-};
+});
 
-export default data;
+export default useStorage;
