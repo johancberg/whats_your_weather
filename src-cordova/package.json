@@ -15,6 +15,7 @@
   "devDependencies": {
     "cordova-android": "^15.0.0",
     "cordova-ios": "^8.0.1",
+    "cordova-plugin-android-build-config": "file:local-plugins/cordova-plugin-android-build-config",
     "cordova-plugin-geolocation": "^5.0.0",
     "cordova-plugin-proguard": "^2.2.0"
   },
@@ -25,6 +26,7 @@
     ],
     "plugins": {
       "cordova-plugin-proguard": {},
+      "cordova-plugin-android-build-config": {},
       "cordova-plugin-geolocation": {
         "GPS_REQUIRED": "true"
       }

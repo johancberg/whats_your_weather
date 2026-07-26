@@ -1,0 +1,11 @@
+{
+  "name": "cordova-plugin-android-build-config",
+  "version": "1.0.0",
+  "description": "Project-specific Android Gradle release build settings",
+  "cordova": {
+    "id": "cordova-plugin-android-build-config",
+    "platforms": ["android"]
+  },
+  "keywords": ["cordova", "android"],
+  "license": "Apache-2.0"
+}
