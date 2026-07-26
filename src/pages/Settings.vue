@@ -12,7 +12,7 @@
       <q-item-label header>General</q-item-label>
 
       <setting
-        v-for="(setting, id) in general"
+        v-for="(setting, id) in storage.general"
         :key="id"
         :setting="setting"
         :id="id"
@@ -21,7 +21,7 @@
 
       <q-item-label header>View</q-item-label>
       <setting
-        v-for="(setting, id) in view"
+        v-for="(setting, id) in storage.view"
         :key="id"
         :setting="setting"
         :id="id"
@@ -30,7 +30,7 @@
 
       <q-item-label header>Graphics</q-item-label>
       <setting
-        v-for="(setting, id) in graphics"
+        v-for="(setting, id) in storage.graphics"
         :key="id"
         :setting="setting"
         :id="id"
@@ -42,18 +42,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import useStorage from 'stores/storage'
 import * as option from 'components/SettingsMap/Option.vue';
 
 export default {
   name: 'WhatsYourWeather',
   data() {
-    return {};
+    return {
+      storage: useStorage()
+    };
   },
   computed: {
-    ...mapGetters('data', ['general', 'view', 'graphics']),
     bgTheme() {
-      if (this.graphics?.AN3?.active) {
+      if (this.storage.graphics?.AN3?.active) {
         return 'maroon';
       } else {
         return 'blue';
